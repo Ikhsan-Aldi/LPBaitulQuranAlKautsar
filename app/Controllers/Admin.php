@@ -6,6 +6,7 @@ use App\Models\PendaftaranModel;
 use App\Models\EkstrakurikulerModel;
 use App\Models\PengajarModel;
 use App\Models\SantriModel;
+use App\Models\KegiatanModel;
 
 
 class Admin extends BaseController
@@ -223,18 +224,40 @@ class Admin extends BaseController
     public function santri_simpan()
     {
         $santriModel = new SantriModel();
-        $santriModel->save([
-            'id_pendaftaran' => $this->request->getPost('id_pendaftaran'),
-            'nis' => $this->request->getPost('nis'),
-            'nama' => $this->request->getPost('nama'),
-            'jenjang' => $this->request->getPost('jenjang'),
-            'asal_sekolah' => $this->request->getPost('asal_sekolah'),
-            'alamat' => $this->request->getPost('alamat'),
-            'no_hp' => $this->request->getPost('no_hp'),
-            'status' => $this->request->getPost('status')
-        ]);
-        return redirect()->to(base_url('admin/santri'))->with('success', 'Santri berhasil ditambahkan');
+
+        $id_pendaftaran = $this->request->getPost('id_pendaftaran');
+
+        if (empty($id_pendaftaran)) {
+            $data = [
+                'id_pendaftaran' => null,
+                'nis' => $this->request->getPost('nis'),
+                'nama' => $this->request->getPost('nama'),
+                'jenjang' => $this->request->getPost('jenjang'),
+                'asal_sekolah' => $this->request->getPost('asal_sekolah'),
+                'alamat' => $this->request->getPost('alamat'),
+                'no_hp' => $this->request->getPost('no_hp'),
+                'status' => $this->request->getPost('status'),
+            ];
+        } else {
+            $pendaftaranModel = new PendaftaranModel();
+            $p = $pendaftaranModel->find($id_pendaftaran);
+
+            $data = [
+                'id_pendaftaran' => $id_pendaftaran,
+                'nis' => $this->request->getPost('nis'),
+                'nama' => $p['nama_lengkap'],
+                'jenjang' => $p['jenjang'],
+                'asal_sekolah' => $p['asal_sekolah'] ?? '',
+                'alamat' => $p['alamat'] ?? '',
+                'no_hp' => $p['no_hp'] ?? '',
+                'status' => $this->request->getPost('status'),
+            ];
+        }
+
+        $santriModel->insert($data);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil disimpan');
     }
+
 
     public function santri_edit($id)
     {
@@ -264,6 +287,86 @@ class Admin extends BaseController
         $santriModel = new SantriModel();
         $santriModel->delete($id);
         return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil dihapus');
+    }
+
+    //Kegiatan
+    public function kegiatan()
+    {
+        $model = new KegiatanModel();
+        $data['kegiatan'] = $model->findAll();
+        $data['title'] = 'Data Kegiatan';
+        return view('admin/kegiatan/index', $data);
+    }
+
+    public function kegiatan_tambah()
+    {
+        $data['title'] = 'Tambah Kegiatan';
+        return view('admin/kegiatan/tambah', $data);
+    }
+
+    public function kegiatan_simpan()
+    {
+        $model = new KegiatanModel();
+        $file = $this->request->getFile('foto');
+
+        $fotoName = null;
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $fotoName = $file->getRandomName();
+            $file->move('uploads/kegiatan', $fotoName);
+        }
+
+        $model->save([
+            'judul' => $this->request->getPost('judul'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'tanggal' => $this->request->getPost('tanggal'),
+            'lokasi' => $this->request->getPost('lokasi'),
+            'foto' => $fotoName
+        ]);
+
+        return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil ditambahkan');
+    }
+
+    public function kegiatan_edit($id)
+    {
+        $model = new KegiatanModel();
+        $data['kegiatan'] = $model->find($id);
+        $data['title'] = 'Edit Kegiatan';
+        return view('admin/kegiatan/edit', $data);
+    }
+
+    public function kegiatan_update($id)
+    {
+        $model = new KegiatanModel();
+        $file = $this->request->getFile('foto');
+
+        $data = [
+            'judul' => $this->request->getPost('judul'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'tanggal' => $this->request->getPost('tanggal'),
+            'lokasi' => $this->request->getPost('lokasi'),
+        ];
+
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $fotoName = $file->getRandomName();
+            $file->move('uploads/kegiatan', $fotoName);
+            $data['foto'] = $fotoName;
+        }
+
+        $model->update($id, $data);
+        return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil diperbarui');
+    }
+
+    public function kegiatan_hapus($id)
+    {
+        $model = new KegiatanModel();
+        $kegiatan = $model->find($id);
+
+        if ($kegiatan && $kegiatan['foto'] && file_exists('uploads/kegiatan/' . $kegiatan['foto'])) {
+            unlink('uploads/kegiatan/' . $kegiatan['foto']);
+        }
+
+        $model->delete($id);
+        return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil dihapus');
     }
 
 }
