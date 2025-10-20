@@ -52,7 +52,7 @@
         <a href="<?= base_url('admin/dashboard'); ?>" class="<?= uri_string() == 'admin/dashboard' ? 'active' : '' ?>">🏠 Dashboard</a>
         <a href="<?= base_url('admin/pendaftaran'); ?>" class="<?= uri_string() == 'admin/pendaftaran' ? 'active' : '' ?>">🧾 Pendaftaran</a>
         <a href="<?= base_url('admin/ekstrakurikuler'); ?>" class="<?= uri_string() == 'admin/ekstrakurikuler' ? 'active' : '' ?>">🎯 Ekstrakurikuler</a>
-        <a href="<?= base_url('logout'); ?>" class="mt-auto text-center py-3 text-light bg-danger">🚪 Logout</a>
+        <a href="<?= base_url('b0/logout'); ?>" class="mt-auto text-center py-3 text-light bg-danger">🚪 Logout</a>
     </div>
 
     <!-- Main Content -->
