@@ -224,18 +224,40 @@ class Admin extends BaseController
     public function santri_simpan()
     {
         $santriModel = new SantriModel();
-        $santriModel->save([
-            'id_pendaftaran' => $this->request->getPost('id_pendaftaran'),
-            'nis' => $this->request->getPost('nis'),
-            'nama' => $this->request->getPost('nama'),
-            'jenjang' => $this->request->getPost('jenjang'),
-            'asal_sekolah' => $this->request->getPost('asal_sekolah'),
-            'alamat' => $this->request->getPost('alamat'),
-            'no_hp' => $this->request->getPost('no_hp'),
-            'status' => $this->request->getPost('status')
-        ]);
-        return redirect()->to(base_url('admin/santri'))->with('success', 'Santri berhasil ditambahkan');
+
+        $id_pendaftaran = $this->request->getPost('id_pendaftaran');
+
+        if (empty($id_pendaftaran)) {
+            $data = [
+                'id_pendaftaran' => null,
+                'nis' => $this->request->getPost('nis'),
+                'nama' => $this->request->getPost('nama'),
+                'jenjang' => $this->request->getPost('jenjang'),
+                'asal_sekolah' => $this->request->getPost('asal_sekolah'),
+                'alamat' => $this->request->getPost('alamat'),
+                'no_hp' => $this->request->getPost('no_hp'),
+                'status' => $this->request->getPost('status'),
+            ];
+        } else {
+            $pendaftaranModel = new PendaftaranModel();
+            $p = $pendaftaranModel->find($id_pendaftaran);
+
+            $data = [
+                'id_pendaftaran' => $id_pendaftaran,
+                'nis' => $this->request->getPost('nis'),
+                'nama' => $p['nama_lengkap'],
+                'jenjang' => $p['jenjang'],
+                'asal_sekolah' => $p['asal_sekolah'] ?? '',
+                'alamat' => $p['alamat'] ?? '',
+                'no_hp' => $p['no_hp'] ?? '',
+                'status' => $this->request->getPost('status'),
+            ];
+        }
+
+        $santriModel->insert($data);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil disimpan');
     }
+
 
     public function santri_edit($id)
     {

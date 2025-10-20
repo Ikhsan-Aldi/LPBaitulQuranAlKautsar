@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 20, 2025 at 09:14 AM
+-- Generation Time: Oct 20, 2025 at 09:34 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.3.19
 
@@ -142,6 +142,13 @@ CREATE TABLE `pengajar` (
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Dumping data for table `pengajar`
+--
+
+INSERT INTO `pengajar` (`id`, `nama_lengkap`, `nip`, `jabatan`, `no_hp`, `alamat`, `foto`, `created_at`, `updated_at`) VALUES
+(1, 'Petugas1', '123456789', 'Guru 2', '05678998765', 'Madiun1', '1760952738_7b014b8dde60fb7eec1d.png', '2025-10-20 16:31:45', '2025-10-20 16:32:18');
+
 -- --------------------------------------------------------
 
 --
@@ -150,7 +157,7 @@ CREATE TABLE `pengajar` (
 
 CREATE TABLE `santri` (
   `id` int NOT NULL,
-  `id_pendaftaran` int NOT NULL,
+  `id_pendaftaran` int DEFAULT NULL,
   `nis` varchar(20) DEFAULT NULL,
   `nama` varchar(100) DEFAULT NULL,
   `jenjang` enum('SMP','SMA') DEFAULT NULL,
@@ -167,7 +174,8 @@ CREATE TABLE `santri` (
 --
 
 INSERT INTO `santri` (`id`, `id_pendaftaran`, `nis`, `nama`, `jenjang`, `asal_sekolah`, `alamat`, `no_hp`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '3456788871', NULL, NULL, NULL, NULL, NULL, 'Lulus', '2025-10-20 16:04:42', '2025-10-20 16:04:42');
+(1, 1, '3456788871', NULL, NULL, NULL, NULL, NULL, 'Lulus', '2025-10-20 16:04:42', '2025-10-20 16:04:42'),
+(5, NULL, '987654', 'Kopi Hitam', 'SMP', 'mts', 'madiun', '009876', 'Aktif', '2025-10-20 16:30:22', '2025-10-20 16:30:22');
 
 --
 -- Indexes for dumped tables
@@ -243,13 +251,13 @@ ALTER TABLE `pendaftaran`
 -- AUTO_INCREMENT for table `pengajar`
 --
 ALTER TABLE `pengajar`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `santri`
 --
 ALTER TABLE `santri`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
