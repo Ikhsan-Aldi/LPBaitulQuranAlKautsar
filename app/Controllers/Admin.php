@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PendaftaranModel;
+use App\Models\EkstrakurikulerModel;
 
 class Admin extends BaseController
 {
@@ -13,9 +14,7 @@ class Admin extends BaseController
         $this->pendaftaranModel = new PendaftaranModel();
     }
 
-    // ===============================
-    // 🏠 DASHBOARD
-    // ===============================
+    // Dashboard
     public function dashboard()
     {
         $totalPendaftar = $this->pendaftaranModel->countAllResults();
@@ -32,9 +31,7 @@ class Admin extends BaseController
         return view('admin/v_dashboard', $data);
     }
 
-    // ===============================
-    // 📋 PENDAFTARAN
-    // ===============================
+    // Pendaftaran
     public function pendaftaran()
     {
         $data = [
@@ -57,5 +54,58 @@ class Admin extends BaseController
     {
         $this->pendaftaranModel->update($id, ['status' => $status]);
         return redirect()->to('/admin/pendaftaran')->with('success', "Status pendaftar #$id berhasil diubah menjadi $status");
+    }
+
+    // Ekstrakurikuler
+    public function ekstrakurikuler()
+    {
+        $model = new EkstrakurikulerModel();
+        $data['title'] = 'Data Ekstrakurikuler';
+        $data['ekstrakurikuler'] = $model->findAll();
+        return view('admin/ekstrakurikuler/index', $data);
+    }
+
+    public function tambah_ekstrakurikuler()
+    {
+        return view('admin/ekstrakurikuler/tambah', ['title' => 'Tambah Ekstrakurikuler']);
+    }
+
+    public function simpan_ekstrakurikuler()
+    {
+        $model = new EkstrakurikulerModel();
+        $model->save([
+            'nama_ekstrakurikuler' => $this->request->getPost('nama_ekstrakurikuler'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'pembimbing' => $this->request->getPost('pembimbing'),
+            'jadwal' => $this->request->getPost('jadwal'),
+        ]);
+        return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function edit_ekstrakurikuler($id)
+    {
+        $model = new EkstrakurikulerModel();
+        $data['ekstra'] = $model->find($id);
+        $data['title'] = 'Edit Ekstrakurikuler';
+        return view('admin/ekstrakurikuler/edit', $data);
+    }
+
+    public function update_ekstrakurikuler($id)
+    {
+        $model = new EkstrakurikulerModel();
+        $model->update($id, [
+            'nama_ekstrakurikuler' => $this->request->getPost('nama_ekstrakurikuler'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'pembimbing' => $this->request->getPost('pembimbing'),
+            'jadwal' => $this->request->getPost('jadwal'),
+        ]);
+        return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil diupdate');
+    }
+
+    public function hapus_ekstrakurikuler($id)
+    {
+        $model = new EkstrakurikulerModel();
+        $model->delete($id);
+        return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil dihapus');
     }
 }
