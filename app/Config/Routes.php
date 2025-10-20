@@ -38,4 +38,13 @@ $routes->get('admin/ekstrakurikuler/edit/(:num)', 'Admin::edit_ekstrakurikuler/$
 $routes->post('admin/ekstrakurikuler/update/(:num)', 'Admin::update_ekstrakurikuler/$1');
 $routes->get('admin/ekstrakurikuler/hapus/(:num)', 'Admin::hapus_ekstrakurikuler/$1');
 
+// Pengajar
+$routes->get('admin/pengajar', 'Admin::pengajar');
+$routes->get('admin/pengajar/tambah', 'Admin::tambah_pengajar');
+$routes->post('admin/pengajar/simpan', 'Admin::simpan_pengajar');
+$routes->get('admin/pengajar/edit/(:num)', 'Admin::edit_pengajar/$1');
+$routes->post('admin/pengajar/update/(:num)', 'Admin::update_pengajar/$1');
+$routes->get('admin/pengajar/hapus/(:num)', 'Admin::hapus_pengajar/$1');
+
+
 
