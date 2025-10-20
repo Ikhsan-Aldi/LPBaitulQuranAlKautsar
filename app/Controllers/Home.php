@@ -19,7 +19,32 @@ class Home extends BaseController
         ];
         return view('lp/tentang', $data);
     }
-
+    public function tentangindex()
+    {
+        $data = [
+            'title' => 'Tentang Kami - Baitul Quran Al-Kautsar',
+            'activeTab' => 'tentang'
+        ];
+        return view('tentang', $data);
+    }
+    
+    public function visiMisi()
+    {
+        $data = [
+            'title' => 'Visi & Misi - Baitul Quran Al-Kautsar',
+            'activeTab' => 'visi-misi'
+        ];
+        return view('tentang', $data);
+    }
+    
+    public function sejarah()
+    {
+        $data = [
+            'title' => 'Sejarah - Baitul Quran Al-Kautsar',
+            'activeTab' => 'sejarah'
+        ];
+        return view('tentang', $data);
+    }
     public function profil()
     {
         $data = [

@@ -37,7 +37,7 @@
         background: linear-gradient(
             to bottom,
             rgba(1, 112, 119, 0.8) 0%,
-            rgba(1, 112, 119, 0.0) 70%
+            rgba(1, 112, 119, 0.0) 80%
         );
         }  
         .section-pattern {
@@ -174,6 +174,16 @@
         .nav-link.active { color: inherit !important; }
 
         /* If somewhere JS adds hover:text-teal-* forcibly, these inheritance rules above win because of !important */
+        /* --- Prevent navbar flicker --- */
+        #navbar {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        #navbar.nav-ready {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
     </style>
 </head>
@@ -185,14 +195,26 @@
                 <div class="flex justify-between items-center py-4">
                     <!-- Logo -->
                     <div class="flex items-center">
-                        <a href="<?= base_url() ?>" class="text-white hover:text-teal-50 flex items-center transition-colors duration-300" id="logo-link">
-                            <img src="<?= base_url('assets/img/logo.png') ?>" alt="Baitul Quran Al-Kautsar" class="h-10 w-10 mr-3">
-                            <div class="flex flex-col">
-                                <span class="text-base font-semibold leading-tight opacity-90">Baitul Quran</span>
-                                <span class="text-lg font-bold arabic-font leading-tight">Al-Kautsar</span>
+                        <a href="<?= base_url() ?>" 
+                        class="flex items-center transition-colors duration-300 group" 
+                        id="logo-link">
+                            <img src="<?= base_url('assets/img/logo.png') ?>" 
+                                alt="Baitul Quran Al-Kautsar" 
+                                class="h-12 w-12 mr-3">
+
+                            <div class="flex flex-col leading-tight">
+                                <!-- Baitul Quran -->
+                                <span id="baitulText" class="text-sm font-semibold tracking-wide text-white group-hover:text-[#164c3e] transition-colors duration-300 ease-in-out">
+                                    Baitul Qur'an
+                                </span>
+                                <!-- Al-Kautsar -->
+                                <span class="text-xl font-extrabold text-[#164c3e] group-hover:text-[#258659] transition-colors arabic-font">
+                                    Al-Kautsar
+                                </span>
                             </div>
                         </a>
                     </div>
+
                     
                     <!-- Desktop Navigation Menu -->
                     <div class="hidden md:flex space-x-8 items-center">
@@ -202,12 +224,30 @@
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= base_url('tentang') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('tentang')) ? 'text-teal-200' : '' ?>">
-                            Tentang Kami
-                            <?php if (current_url() == base_url('tentang')): ?>
-                                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
-                            <?php endif; ?>
-                        </a>
+                        <!-- Tentang Kami dengan Subnav -->
+                        <div class="relative dropdown-group">
+                            <a href="<?= base_url('tentang') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 flex items-center py-2 nav-link <?= (strpos(current_url(), 'tentang') !== false) ? 'text-teal-200' : '' ?>">
+                                Tentang Kami
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                            </a>
+                            <!-- Subnav Menu -->
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-xl dropdown-menu z-50 border border-teal-100">
+                                <div class="py-2">
+                                    <a href="<?= base_url('tentang') ?>#tentang" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
+                                        <i class="fas fa-info-circle mr-2 text-teal-600"></i>Tentang
+                                    </a>
+                                    <a href="<?= base_url('tentang') ?>#visi-misi" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
+                                        <i class="fas fa-bullseye mr-2 text-teal-600"></i>Visi & Misi
+                                    </a>
+                                    <a href="<?= base_url('tentang') ?>#sejarah" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
+                                        <i class="fas fa-history mr-2 text-teal-600"></i>Sejarah
+                                    </a>
+                                    <a href="<?= base_url('tentang') ?>#struktur" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
+                                        <i class="fas fa-sitemap mr-2 text-teal-600"></i>Struktur
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <a href="<?= base_url('profil') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('profil')) ? 'text-teal-200' : '' ?>">
                             Program
                             <?php if (current_url() == base_url('profil')): ?>
@@ -264,9 +304,26 @@
                     <a href="<?= base_url() ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url()) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-home mr-3 text-teal-600"></i>Beranda
                     </a>
-                    <a href="<?= base_url('tentang') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('tentang')) ? 'text-teal-700 bg-teal-50' : '' ?>">
-                        <i class="fas fa-info-circle mr-3 text-teal-600"></i>Tentang Kami
-                    </a>
+                    <!-- Tentang Kami dengan Subnav Mobile -->
+                    <div class="space-y-2">
+                        <div class="text-teal-700 font-medium py-2 px-3">
+                            <i class="fas fa-info-circle mr-3 text-teal-600"></i>Tentang Kami
+                        </div>
+                        <div class="ml-6 space-y-2 border-l-2 border-teal-100 pl-4">
+                            <a href="<?= base_url('tentang') ?>#tentang" class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Tentang
+                            </a>
+                            <a href="<?= base_url('tentang') ?>#visi-misi" class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Visi & Misi
+                            </a>
+                            <a href="<?= base_url('tentang') ?>#sejarah" class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Sejarah
+                            </a>
+                            <a href="<?= base_url('tentang') ?>#struktur" class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Struktur
+                            </a>
+                        </div>
+                    </div>
                     <a href="<?= base_url('profil') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('profil')) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-book-open mr-3 text-teal-600"></i>Program
                     </a>
@@ -449,6 +506,22 @@
 
     <!-- JavaScript untuk interaksi -->
     <script>
+/* --- FUNGSI AUTO TAB SWITCHING UNTUK TENTANG KAMI BERDASARKAN HASH --- */
+function setupTentangTabsFromHash() {
+    // Cek jika berada di halaman tentang
+    if (window.location.pathname.includes('tentang')) {
+        const hash = window.location.hash.replace('#', '');
+        const validTabs = ['tentang', 'visi-misi', 'sejarah'];
+        
+        if (validTabs.includes(hash)) {
+            // Trigger tab switch setelah halaman load
+            setTimeout(() => {
+                const event = new CustomEvent('hashchange');
+                window.dispatchEvent(event);
+            }, 100);
+        }
+    }
+}
 /* --- FUNGSI DETEKSI HALAMAN --- */
 function isHomePage() {
     const path = window.location.pathname.replace(/\/+$/, ''); // hapus trailing slash
@@ -487,6 +560,7 @@ function setupNavbar() {
     const navLinks = document.querySelectorAll('.nav-link');
     const navButtons = document.querySelectorAll('.nav-button');
     const mainContent = document.getElementById('main-content');
+    const baitulText = document.getElementById('baitulText');
 
     if (!navbar || !nav || !ctaButton || !mainContent) return;
 
@@ -502,6 +576,10 @@ function setupNavbar() {
         // Logo styling (we keep classes for logo)
         logoLink.classList.add('text-white', 'hover:text-teal-50');
         logoLink.classList.remove('text-gray-700', 'hover:text-teal-600');
+        if (baitulText) {
+            baitulText.classList.remove('text-[#258659]', 'text-gray-700');
+            baitulText.classList.add('text-white');
+        }
 
         // For each link: if active -> DO NOT apply color utility classes that can override our CSS;
         // only apply hover utilities for non-active links (but color will be controlled by CSS rules above).
@@ -531,6 +609,11 @@ function setupNavbar() {
 
         logoLink.classList.remove('text-white', 'hover:text-teal-50');
         logoLink.classList.add('text-gray-700', 'hover:text-teal-600');
+
+        if (baitulText) {
+            baitulText.classList.remove('text-white', 'text-gray-700');
+            baitulText.classList.add('text-[#258659]');
+        }
 
         navLinks.forEach(link => {
             if (link.classList.contains('active')) {
@@ -563,12 +646,19 @@ function handleScroll() {
     const logoLink = document.getElementById('logo-link');
     const navLinks = document.querySelectorAll('.nav-link');
     const navButtons = document.querySelectorAll('.nav-button');
+    const baitulText = document.getElementById('baitulText');
+
 
     if (window.scrollY > 100) {
         // switch to white background
         nav.classList.remove('bg-transparent');
         nav.classList.add('bg-white', 'shadow-md');
 
+        // Tambahan: ubah warna baitulText ke hijau
+        if (baitulText) {
+            baitulText.classList.remove('text-white');
+            baitulText.classList.add('text-[#258659]');
+        }
         // logo gray
         logoLink.classList.remove('text-white', 'hover:text-teal-50');
         logoLink.classList.add('text-gray-700', 'hover:text-gray-900');
@@ -591,6 +681,11 @@ function handleScroll() {
         nav.classList.remove('bg-white', 'shadow-md');
         nav.classList.add('bg-transparent');
 
+        // Tambahan: ubah warna baitulText ke putih
+        if (baitulText) {
+            baitulText.classList.remove('text-[#258659]');
+            baitulText.classList.add('text-white');
+        }
         // logo white
         logoLink.classList.add('text-white', 'hover:text-teal-50');
         logoLink.classList.remove('text-gray-700', 'hover:text-gray-900');
@@ -653,7 +748,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // INIT: tandai link aktif lalu setup navbar (penting urutannya)
     markActiveNavLink();
     setupNavbar();
-
+    setupTentangTabsFromHash();
+    // --- Tambahkan efek anti-flicker ---
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+        // Delay sedikit agar transisi smooth dan tidak flick
+        requestAnimationFrame(() => {
+            navbar.classList.add('nav-ready');
+        });
+    }
     // Scroll hanya diperlukan untuk halaman home
     if (isHomePage()) window.addEventListener('scroll', handleScroll);
 });
