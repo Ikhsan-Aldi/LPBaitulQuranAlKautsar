@@ -23,7 +23,7 @@
             <?php endif; ?>
 
 
-            <form method="post" action="<?= base_url('login/submit') ?>">
+            <form method="post" action="<?= base_url('b0/login/submit') ?>">
               <div class="mb-3">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control" required autofocus>

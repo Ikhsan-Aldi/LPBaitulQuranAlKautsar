@@ -1,24 +1,6 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title) ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+<?= $this->extend('admin/layout/admin_layout') ?>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">🏫 Pondok Al-Kautsar</a>
-            <div>
-                <a href="<?= base_url('logout'); ?>" class="btn btn-danger btn-sm" 
-                onclick="return confirm('Yakin ingin logout?')">Logout</a>            
-            </div>
-        </div>
-    </nav>
-
+<?= $this->section('content') ?>
     <!-- Main Content -->
     <div class="container py-5">
         <h2 class="mb-4 text-success fw-bold">Dashboard Admin</h2>
@@ -61,6 +43,4 @@
             </div>
         </div>
     </div>
-
-</body>
-</html>
+<?= $this->endSection() ?>
