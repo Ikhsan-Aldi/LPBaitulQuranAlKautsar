@@ -56,5 +56,15 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('santri/hapus/(:num)', 'Admin::santri_hapus/$1');
 });
 
+$routes->group('admin', ['filter' => 'auth'], function($routes) {
+    $routes->get('kegiatan', 'Admin::kegiatan');
+    $routes->get('kegiatan/tambah', 'Admin::kegiatan_tambah');
+    $routes->post('kegiatan/simpan', 'Admin::kegiatan_simpan');
+    $routes->get('kegiatan/edit/(:num)', 'Admin::kegiatan_edit/$1');
+    $routes->post('kegiatan/update/(:num)', 'Admin::kegiatan_update/$1');
+    $routes->get('kegiatan/hapus/(:num)', 'Admin::kegiatan_hapus/$1');
+});
+
+
 
 

@@ -9,7 +9,7 @@
         <select name="id_pendaftaran" class="form-control" required>
             <option value="">-- Pilih --</option>
             <?php foreach ($pendaftaran as $p): ?>
-                <option value="<?= $p['id']; ?>"><?= $p['nama']; ?> (<?= $p['jenjang']; ?>)</option>
+                <option value="<?= $p['id_pendaftaran']; ?>"><?= $p['nama_lengkap']; ?> (<?= $p['jenjang']; ?>)</option>
             <?php endforeach; ?>
         </select>
     </div>

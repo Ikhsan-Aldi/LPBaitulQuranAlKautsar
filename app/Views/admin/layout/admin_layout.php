@@ -85,6 +85,10 @@
             <i class="fa fa-futbol me-2"></i> Ekstrakurikuler
         </a>
 
+        <a href="<?= base_url('admin/kegiatan') ?>" class="<?= service('uri')->getSegment(2) == 'kegiatan' ? 'active' : '' ?>">
+            <i class="fa fa-calendar-alt me-2"></i> Kegiatan
+        </a>
+
         <a href="<?= base_url('admin/pendaftaran') ?>" class="<?= service('uri')->getSegment(2) == 'pendaftaran' ? 'active' : '' ?>">
             <i class="fa fa-file-alt me-2"></i> Pendaftaran
         </a>
