@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesantren Baitul Qur'an Al-Kautsar - Penerimaan Santri Baru 2026/2027</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,11 +13,23 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
         }
 
         .container {
@@ -27,20 +40,25 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, #2c5aa0, #1e3a8a);
-            color: white;
-            padding: 1rem 0;
+            background: var(--white);
+            box-shadow: var(--shadow);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem 0;
         }
 
         .logo {
@@ -50,44 +68,98 @@
         }
 
         .logo-icon {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--secondary-color), #059669);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
         }
 
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #0d9488, #0f766e);
+            border-radius: 8px;
+        }
+
+        .logo-icon::after {
+            content: '📖';
+            position: absolute;
+            font-size: 18px;
+            z-index: 1;
+        }
+
         .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 2px;
         }
 
         .logo-text p {
-            font-size: 0.9rem;
-            opacity: 0.9;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 500;
         }
 
         .nav {
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         .nav a {
-            color: white;
+            color: var(--text-dark);
             text-decoration: none;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: color 0.3s;
+            position: relative;
         }
 
         .nav a:hover {
-            color: #10b981;
+            color: var(--secondary-color);
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary-color);
+            transition: width 0.3s;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .cta-nav {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .cta-nav:hover {
+            background: #059669;
+            transform: translateY(-1px);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #0f766e, #0d9488, #10b981);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: var(--white);
             padding: 120px 0 80px;
-            text-align: center;
             position: relative;
             overflow: hidden;
         }
@@ -99,341 +171,375 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.1"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.05"><path d="M0,50 Q250,0 500,50 T1000,50 L1000,100 L0,100 Z"/></svg>') repeat-x;
             background-size: 1000px 100px;
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
+            font-weight: 800;
             margin-bottom: 1rem;
-            font-weight: bold;
+            line-height: 1.2;
         }
 
         .hero h2 {
             font-size: 1.5rem;
+            font-weight: 400;
             margin-bottom: 2rem;
             opacity: 0.9;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 2rem;
             opacity: 0.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .cta-button {
-            display: inline-block;
-            background: #f59e0b;
-            color: white;
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: var(--white);
             padding: 15px 30px;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 600;
+            font-size: 1rem;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            box-shadow: var(--shadow);
         }
 
-        .cta-button:hover {
+        .btn-primary:hover {
             background: #d97706;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
         }
 
         /* Main Content */
         .main-content {
-            padding: 60px 0;
+            padding: 80px 0;
         }
 
         .section {
-            margin-bottom: 60px;
-            background: white;
-            border-radius: 15px;
-            padding: 40px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
 
         .section-title {
-            font-size: 2rem;
-            color: #1e3a8a;
-            margin-bottom: 30px;
-            text-align: center;
-            position: relative;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 15px;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(135deg, #10b981, #059669);
-            border-radius: 2px;
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
 
-        /* Registration Time */
-        .registration-waves {
+        /* Program Cards */
+        .program-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-bottom: 30px;
+            margin-top: 50px;
+        }
+
+        .program-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border: 1px solid #e5e7eb;
+        }
+
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .program-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--secondary-color), #059669);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            color: var(--white);
+        }
+
+        .program-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        .program-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Registration Section */
+        .registration-section {
+            background: var(--white);
+            padding: 80px 0;
+            border-radius: 30px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .registration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
         }
 
         .wave-card {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
+            background: linear-gradient(135deg, var(--primary-color), #3b82f6);
+            color: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .wave-card-content {
+            position: relative;
+            z-index: 1;
         }
 
         .wave-title {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 15px;
         }
 
         .wave-period {
             font-size: 1.1rem;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             opacity: 0.9;
         }
 
         .selection-info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
         }
 
         .selection-info h4 {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             font-size: 1.1rem;
+            font-weight: 600;
         }
 
         .selection-info p {
-            font-size: 0.9rem;
-            opacity: 0.8;
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
         }
 
-        /* Requirements */
-        .requirements-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        /* Stats Section */
+        .stats-section {
+            background: linear-gradient(135deg, var(--secondary-color), #059669);
+            color: var(--white);
+            padding: 80px 0;
+            border-radius: 30px;
+            margin: 80px 0;
         }
 
-        .requirement-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #10b981;
-        }
-
-        .requirement-item i {
-            color: #10b981;
-            font-size: 1.2rem;
-        }
-
-        /* Advantages */
-        .advantages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .advantage-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 20px;
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            border-radius: 15px;
-            border: 1px solid #0ea5e9;
-        }
-
-        .advantage-item i {
-            color: #0ea5e9;
-            font-size: 1.5rem;
-            margin-top: 5px;
-        }
-
-        /* Scholarship */
-        .scholarship-info {
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #f59e0b;
-            margin-bottom: 30px;
-        }
-
-        .scholarship-quota {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-
-        /* Structure */
-        .structure-grid {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-        }
-
-        .staff-card {
+            gap: 40px;
             text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 15px;
-            border: 2px solid #e5e7eb;
         }
 
-        .staff-photo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2rem;
-        }
-
-        .staff-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #1e3a8a;
-        }
-
-        .staff-position {
-            font-size: 0.9rem;
-            color: #6b7280;
-        }
-
-        /* Daily Activities */
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .schedule-table th {
-            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-            color: white;
-            padding: 15px;
-            text-align: left;
-        }
-
-        .schedule-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .schedule-table tr:hover {
-            background: #f8f9fa;
-        }
-
-        /* Extracurricular */
-        .extracurricular-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .extracurricular-item {
-            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            border: 2px solid #0ea5e9;
-            transition: transform 0.3s;
-        }
-
-        .extracurricular-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .extracurricular-item i {
-            font-size: 2rem;
-            color: #0ea5e9;
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 800;
             margin-bottom: 10px;
         }
 
-        /* Cost */
-        .cost-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
         }
 
-        .cost-table th {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 15px;
-            text-align: left;
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            align-items: center;
+            margin-top: 50px;
         }
 
-        .cost-table td {
-            padding: 15px;
-            border-bottom: 1px solid #e5e7eb;
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
         }
 
-        .cost-table tr:hover {
-            background: #f0fdf4;
+        .vision-mission {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
         }
 
-        .cost-amount {
-            font-weight: bold;
-            color: #059669;
+        .vision-mission h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .vision-mission p {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .mission-list {
+            list-style: none;
+        }
+
+        .mission-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .mission-list i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
         }
 
         /* Footer */
         .footer {
-            background: linear-gradient(135deg, #1e3a8a, #1e40af);
-            color: white;
-            padding: 40px 0;
-            text-align: center;
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
         }
 
-        .contact-info {
+        .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--white);
         }
 
-        .contact-item i {
-            font-size: 1.5rem;
-            color: #10b981;
+        .footer-section p, .footer-section li {
+            color: #9ca3af;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 30px;
+            text-align: center;
+            color: #9ca3af;
         }
 
         /* Responsive */
@@ -448,68 +554,64 @@
             }
 
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
             .hero h2 {
                 font-size: 1.2rem;
             }
 
-            .section {
-                padding: 20px;
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
             }
 
             .section-title {
-                font-size: 1.5rem;
+                font-size: 2rem;
+            }
+
+            .registration-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" id="header">
         <div class="container">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">
-                        <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Arches/Mosque elements -->
-                            <path d="M15 20 L20 10 L25 20 Z" fill="#10b981"/>
-                            <path d="M25 20 L30 10 L35 20 Z" fill="#10b981"/>
-                            <path d="M35 20 L40 10 L45 20 Z" fill="#10b981"/>
-                            
-                            <!-- Book -->
-                            <ellipse cx="30" cy="35" rx="12" ry="8" fill="#0d9488"/>
-                            <ellipse cx="30" cy="35" rx="8" ry="6" fill="#10b981"/>
-                            
-                            <!-- Flame/Sprout -->
-                            <path d="M30 25 L28 35 L32 35 Z" fill="#f59e0b"/>
-                        </svg>
-                    </div>
+                    <div class="logo-icon"></div>
                     <div class="logo-text">
                         <h1>Baitul Qur'an</h1>
                         <p>Al-Kautsar</p>
                     </div>
                 </div>
                 <nav class="nav">
-                    <a href="#pendaftaran">Pendaftaran</a>
+                    <a href="#beranda">Beranda</a>
                     <a href="#tentang">Tentang Kami</a>
                     <a href="#program">Program</a>
+                    <a href="#pendaftaran">Pendaftaran</a>
                     <a href="#kontak">Kontak</a>
+                    <a href="#pendaftaran" class="cta-nav">Daftar Sekarang</a>
                 </nav>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section id="beranda" class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1>PENERIMAAN SANTRI BARU</h1>
-                <h2>TAHUN AJARAN 2026/2027</h2>
-                <p>Pesantren Baitul Qur'an "Al-Kautsar" - Kota Madiun, Jawa Timur</p>
-                <p>SMP - SMA</p>
-                <a href="#pendaftaran" class="cta-button">Daftar Sekarang</a>
+                <div class="hero-badge">PSB 2026/2027</div>
+                <h1>BeQi Al-Kautsar, Mencetak Generasi Qur'ani.Mandiri.Berprestasi.</h1>
+                <h2>Penerimaan Santri Baru Tahun Ajaran 2026/2027</h2>
+                <p>Pesantren Baitul Qur'an "Al-Kautsar" - Kota Madiun, Jawa Timur<br>SMP - SMA</p>
+                <div class="hero-buttons">
+                    <a href="#pendaftaran" class="btn-primary">Daftar Sekarang</a>
+                    <a href="#tentang" class="btn-secondary">Selayang Pandang</a>
+                </div>
             </div>
         </div>
     </section>
@@ -517,316 +619,123 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Registration Time -->
-            <section id="pendaftaran" class="section">
-                <h2 class="section-title">Waktu Pendaftaran</h2>
-                <div class="registration-waves">
+            <!-- Program Unggulan -->
+            <section id="program" class="section">
+                <div class="section-header">
+                    <div class="section-badge">Program Unggulan</div>
+                    <h2 class="section-title">Program Pesantren</h2>
+                    <p class="section-subtitle">Pesantren Baitul Qur'an Al-Kautsar memiliki 4 program unggulan yang terintegrasi</p>
+                </div>
+                <div class="program-grid">
+                    <div class="program-card">
+                        <div class="program-icon">📖</div>
+                        <h3>Tahfidz</h3>
+                        <p>Program menghafal Al-Qur'an 30 juz dengan metode yang terstruktur dan mutqin, dibimbing oleh ustadz berkompeten.</p>
+                    </div>
+                    <div class="program-card">
+                        <div class="program-icon">🎓</div>
+                        <h3>Akademik</h3>
+                        <p>Kurikulum terpadu antara pendidikan formal (SMP-SMA) dengan pendidikan pesantren untuk menghasilkan lulusan berkualitas.</p>
+                    </div>
+                    <div class="program-card">
+                        <div class="program-icon">🌍</div>
+                        <h3>Bilingual</h3>
+                        <p>Pengembangan kemampuan bahasa Arab dan Inggris untuk mempersiapkan santri menjadi generasi global yang kompetitif.</p>
+                    </div>
+                    <div class="program-card">
+                        <div class="program-icon">💼</div>
+                        <h3>Entrepreneurship</h3>
+                        <p>Pembekalan ilmu kewirausahaan dan lifeskill untuk membentuk santri yang mandiri dan berdaya saing tinggi.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registration Section -->
+            <section id="pendaftaran" class="registration-section">
+                <div class="section-header">
+                    <div class="section-badge">Penerimaan Santri BeQi</div>
+                    <h2 class="section-title">PSB 2026/2027</h2>
+                    <p class="section-subtitle">PSB 2026/2027 merupakan seleksi yang dilakukan oleh Pesantren Baitul Qur'an Al-Kautsar secara mandiri untuk menjaring calon santri</p>
+                </div>
+                <div class="registration-grid">
                     <div class="wave-card">
-                        <h3 class="wave-title">GELOMBANG 1</h3>
-                        <p class="wave-period">1 OKTOBER - 31 DESEMBER 2025</p>
-                        <div class="selection-info">
-                            <h4>Seleksi Pendaftaran:</h4>
-                            <p><strong>Akademik:</strong> 7 Januari 2026 (Online)</p>
-                            <p><strong>Tilawah & Wawancara:</strong> 11 Januari 2026 (Offline)</p>
+                        <div class="wave-card-content">
+                            <h3 class="wave-title">GELOMBANG 1</h3>
+                            <p class="wave-period">1 OKTOBER - 31 DESEMBER 2025</p>
+                            <div class="selection-info">
+                                <h4>Seleksi Pendaftaran:</h4>
+                                <p><strong>Akademik:</strong> 7 Januari 2026 (Online)</p>
+                                <p><strong>Tilawah & Wawancara:</strong> 11 Januari 2026 (Offline)</p>
+                            </div>
+                            <p><em>Gelombang 2 akan dibuka jika gelombang 1 belum terpenuhi</em></p>
                         </div>
-                        <p><em>Gelombang 2 akan dibuka jika gelombang 1 belum terpenuhi</em></p>
                     </div>
                     <div class="wave-card">
-                        <h3 class="wave-title">GELOMBANG 2</h3>
-                        <p class="wave-period">1 JANUARI - 30 MEI 2026</p>
-                        <div class="selection-info">
-                            <h4>Seleksi Pendaftaran:</h4>
-                            <p><strong>Akademik:</strong> Informasi lanjutan (Online)</p>
-                            <p><strong>Tilawah & Wawancara:</strong> Informasi lanjutan (Offline)</p>
-                        </div>
-                        <p><em>Gelombang 2 akan ditutup sewaktu-waktu jika kuota sudah terpenuhi</em></p>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <h3 style="color: #1e3a8a; font-size: 1.5rem;">KUOTA TERSEDIA: 25 SANTRI</h3>
-                </div>
-            </section>
-
-            <!-- Requirements -->
-            <section class="section">
-                <h2 class="section-title">Syarat Pendaftaran</h2>
-                <div class="requirements-grid">
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Mengisi formulir pendaftaran</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Mengisi data dengan lengkap</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Fotocopy KTP orangtua</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Fotocopy Akta Lahir & KK</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>NISN (National Student Identification Number)</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Surat Keterangan Lulus</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Fotocopy Ijazah Terakhir</span>
-                    </div>
-                    <div class="requirement-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Pas Foto (3x4) dengan background merah</span>
-                    </div>
-                </div>
-                <p style="text-align: center; margin-top: 20px; color: #6b7280;">
-                    <em>*Masing-masing berkas sebanyak 4 lembar</em>
-                </p>
-            </section>
-
-            <!-- Advantages -->
-            <section class="section">
-                <h2 class="section-title">Kenapa Harus Mondok di BQ-Alkautsar?</h2>
-                <div class="advantages-grid">
-                    <div class="advantage-item">
-                        <i class="fas fa-quran"></i>
-                        <div>
-                            <h4>Target Hafalan Qur'an 30 Juz Mutqin</h4>
-                            <p>Program tahfidz yang terstruktur untuk mencapai hafalan Al-Qur'an 30 juz dengan mutqin (mantap)</p>
-                        </div>
-                    </div>
-                    <div class="advantage-item">
-                        <i class="fas fa-certificate"></i>
-                        <div>
-                            <h4>Sanad Qira'ah Bersambung</h4>
-                            <p>Berpeluang meraih Sanad Qira'ah yang bersambung kepada Rasulullah SAW</p>
-                        </div>
-                    </div>
-                    <div class="advantage-item">
-                        <i class="fas fa-chalkboard-teacher"></i>
-                        <div>
-                            <h4>Ustadz/Guru Berkompeten</h4>
-                            <p>Dibimbing para Ustadz/Guru yang berkompeten di bidangnya</p>
-                        </div>
-                    </div>
-                    <div class="advantage-item">
-                        <i class="fas fa-graduation-cap"></i>
-                        <div>
-                            <h4>Kurikulum Terpadu</h4>
-                            <p>Menerapkan kurikulum Pesantren (Dirosah Islamiyah) & Diknas</p>
-                        </div>
-                    </div>
-                    <div class="advantage-item">
-                        <i class="fas fa-star"></i>
-                        <div>
-                            <h4>Pengembangan Bakat Optimal</h4>
-                            <p>Memfasilitasi setiap bakat dan keunggulan santri secara optimal</p>
-                        </div>
-                    </div>
-                    <div class="advantage-item">
-                        <i class="fas fa-award"></i>
-                        <div>
-                            <h4>Sertifikat Lengkap</h4>
-                            <p>Mendapatkan Ijazah Nasional, Pesantren, Syahadah Tahfidz & Sanad</p>
+                        <div class="wave-card-content">
+                            <h3 class="wave-title">GELOMBANG 2</h3>
+                            <p class="wave-period">1 JANUARI - 30 MEI 2026</p>
+                            <div class="selection-info">
+                                <h4>Seleksi Pendaftaran:</h4>
+                                <p><strong>Akademik:</strong> Informasi lanjutan (Online)</p>
+                                <p><strong>Tilawah & Wawancara:</strong> Informasi lanjutan (Offline)</p>
+                            </div>
+                            <p><em>Gelombang 2 akan ditutup sewaktu-waktu jika kuota sudah terpenuhi</em></p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Scholarship -->
-            <section class="section">
-                <h2 class="section-title">Tentang Beasiswa</h2>
-                <div class="scholarship-info">
-                    <p style="font-size: 1.1rem; margin-bottom: 20px;">
-                        <strong>Beasiswa Santri Pesantren Baitul Qur'an Alkautsar 2026</strong> adalah program bantuan pendidikan bagi santri baru dengan ketentuan berikut:
-                    </p>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: #059669; margin-right: 10px;"></i>Santri berprestasi di pendidikan sebelumnya</li>
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: #059669; margin-right: 10px;"></i>Santri kurang mampu secara ekonomi</li>
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: #059669; margin-right: 10px;"></i>Santri wajib mengikuti pendidikan sampai tuntas di Pesantren</li>
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check" style="color: #059669; margin-right: 10px;"></i>Beasiswa hanya mencakup biaya Pendidikan, asrama dan makan</li>
-                    </ul>
-                </div>
-                <div class="scholarship-quota">
-                    KUOTA BEASISWA UNTUK 11 SANTRI
+            <!-- Stats Section -->
+            <section class="stats-section">
+                <div class="container">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>99%</h3>
+                            <p>Hafal 30 Juz</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>25</h3>
+                            <p>Kuota Santri</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>11</h3>
+                            <p>Beasiswa Tersedia</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>24/7</h3>
+                            <p>Pembinaan</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- About Us -->
+            <!-- About Section -->
             <section id="tentang" class="section">
-                <h2 class="section-title">Tentang Kami</h2>
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <p style="font-size: 1.1rem; line-height: 1.8; color: #4b5563;">
-                        Pesantren Baitul Qur'an Alkautsar merupakan lembaga pendidikan dibawah naungan yayasan Alkautsar Madiun, 
-                        yang memadukan pendidikan formal dalam bentuk SMP dan SMA dengan non formal dalam bentuk Dirosah Islamiyah. 
-                        Pembinaan 24 jam yang dikemas dalam sistem Islamic Boarding School (Pesantren Modern).
-                    </p>
+                <div class="section-header">
+                    <div class="section-badge">Tentang Kami</div>
+                    <h2 class="section-title">Profil Pesantren</h2>
+                    <p class="section-subtitle">Membentuk Generasi Cerdas yang Mandiri dan Berkarakter dengan Al-Qur'an</p>
                 </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px;">
-                    <div style="text-align: center;">
-                        <h3 style="color: #1e3a8a; margin-bottom: 20px;">Visi</h3>
-                        <p style="font-size: 1.1rem; font-style: italic; color: #4b5563;">
-                            "Membentuk Generasi Cerdas yang Mandiri dan berkarakter dengan Al-Qur'an"
-                        </p>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>Pesantren Baitul Qur'an Al-Kautsar merupakan lembaga pendidikan dibawah naungan yayasan Al-Kautsar Madiun, yang memadukan pendidikan formal dalam bentuk SMP dan SMA dengan non formal dalam bentuk Dirosah Islamiyah. Pembinaan 24 jam yang dikemas dalam sistem Islamic Boarding School (Pesantren Modern).</p>
+                        <br>
+                        <p>Dengan komitmen untuk mencetak generasi Qur'ani yang mandiri dan berprestasi, kami menyediakan lingkungan belajar yang kondusif dengan fasilitas modern dan tenaga pendidik yang berkompeten di bidangnya.</p>
                     </div>
-                    <div>
-                        <h3 style="color: #1e3a8a; margin-bottom: 20px; text-align: center;">Misi</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>Menjadikan Al-Qur'an dan Sunnah sebagai landasan hidup</li>
-                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>Membentuk santri beraqidah ahlussunnah wal jama'ah</li>
-                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>Membentuk santri berakhlak Mulia dalam kehidupan sehari-hari</li>
-                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>Membentuk lifeskill kemandirian dan kemasyarakatan santri</li>
-                            <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>Membekali santri ilmu entrepreneur</li>
+                    <div class="vision-mission">
+                        <h3>Visi</h3>
+                        <p>"Membentuk Generasi Cerdas yang Mandiri dan berkarakter dengan Al-Qur'an"</p>
+                        
+                        <h3>Misi</h3>
+                        <ul class="mission-list">
+                            <li><i class="fas fa-check-circle"></i>Menjadikan Al-Qur'an dan Sunnah sebagai landasan hidup</li>
+                            <li><i class="fas fa-check-circle"></i>Membentuk santri beraqidah ahlussunnah wal jama'ah</li>
+                            <li><i class="fas fa-check-circle"></i>Membentuk santri berakhlak Mulia dalam kehidupan sehari-hari</li>
+                            <li><i class="fas fa-check-circle"></i>Membentuk lifeskill kemandirian dan kemasyarakatan santri</li>
+                            <li><i class="fas fa-check-circle"></i>Membekali santri ilmu entrepreneur</li>
                         </ul>
                     </div>
                 </div>
-            </section>
-
-            <!-- Structure -->
-            <section class="section">
-                <h2 class="section-title">Struktur Pesantren</h2>
-                <div class="structure-grid">
-                    <div class="staff-card">
-                        <div class="staff-photo">👨‍💼</div>
-                        <div class="staff-name">H. AGUS SUPRIYANTO, SE</div>
-                        <div class="staff-position">Pembina II Baitul Qur'an Alkautsar</div>
-                    </div>
-                    <div class="staff-card">
-                        <div class="staff-photo">👨‍🏫</div>
-                        <div class="staff-name">LUKMAN HAKIM, S.Pd.I</div>
-                        <div class="staff-position">Direktur Baitul Qur'an Alkautsar</div>
-                    </div>
-                    <div class="staff-card">
-                        <div class="staff-photo">📖</div>
-                        <div class="staff-name">RIDWAN AMRULLAH Al-Hafidz</div>
-                        <div class="staff-position">Manager Tahfidz BQ Alkautsar</div>
-                    </div>
-                    <div class="staff-card">
-                        <div class="staff-photo">🏫</div>
-                        <div class="staff-name">MATRASIF, S.Pd., S.QI., C.MQ</div>
-                        <div class="staff-position">Manager Kesantrian BQ Alkautsar</div>
-                    </div>
-                    <div class="staff-card">
-                        <div class="staff-photo">📚</div>
-                        <div class="staff-name">FAIZ SAWA EL GANI, S.M, M.M</div>
-                        <div class="staff-position">Manager Pendidikan BQ Alkautsar</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Daily Activities -->
-            <section class="section">
-                <h2 class="section-title">Kegiatan Harian</h2>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Kegiatan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>03.00-03.30</td><td>Bangun tidur & persiapan tahajjud</td></tr>
-                        <tr><td>03.30-04.30</td><td>Tahajjud, Sholat Shubuh berjama'ah</td></tr>
-                        <tr><td>04.30-06.00</td><td>Halaqah Tahfidz I</td></tr>
-                        <tr><td>06.00-07.30</td><td>Kebersihan, Sarapan, Persiapan KBM</td></tr>
-                        <tr><td>07.30-08.00</td><td>Apel pagi, Kuliah Tasyji'</td></tr>
-                        <tr><td>08.00-11.30</td><td>Kegiatan Belajar Mengajar</td></tr>
-                        <tr><td>11.30-13.00</td><td>Sholat Dhuhur, Muroja'ah Tahfidz</td></tr>
-                        <tr><td>13.00-14.45</td><td>Makan siang, Istirahat Siang</td></tr>
-                        <tr><td>14.45-15.30</td><td>Persiapan Sholat Ashar</td></tr>
-                        <tr><td>15.30-17.00</td><td>Halaqoh Tahfidz II/Ekstra Kurikuler</td></tr>
-                        <tr><td>17.00-17.30</td><td>Kebersihan, Persiapan Sholat Maghrib</td></tr>
-                        <tr><td>17.30-18.45</td><td>Sholat Maghrib, Kajian Kitab</td></tr>
-                        <tr><td>18.45-20.00</td><td>Sholat Isya', Makan malam</td></tr>
-                        <tr><td>20.00-21.30</td><td>Belajar malam/Halaqah Tahfidz</td></tr>
-                        <tr><td>21.30-03.00</td><td>Istirahat malam (tidur malam)</td></tr>
-                    </tbody>
-                </table>
-            </section>
-
-            <!-- Extracurricular -->
-            <section id="program" class="section">
-                <h2 class="section-title">Ekstrakurikuler</h2>
-                <div class="extracurricular-grid">
-                    <div class="extracurricular-item">
-                        <i class="fas fa-swimming-pool"></i>
-                        <h4>Berenang</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-bullseye"></i>
-                        <h4>Memanah</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-horse"></i>
-                        <h4>Berkuda</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-trophy"></i>
-                        <h4>Olimpiade</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-briefcase"></i>
-                        <h4>Entrepreneur Muslim</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-fist-raised"></i>
-                        <h4>Beladiri</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-microphone"></i>
-                        <h4>Pidato 3 Bahasa</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-newspaper"></i>
-                        <h4>Jurnalistik</h4>
-                    </div>
-                    <div class="extracurricular-item">
-                        <i class="fas fa-mountain"></i>
-                        <h4>SAPALA</h4>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Cost -->
-            <section class="section">
-                <h2 class="section-title">Biaya-Biaya</h2>
-                <table class="cost-table">
-                    <thead>
-                        <tr>
-                            <th>Uraian Biaya</th>
-                            <th>Jumlah</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Pendaftaran</td>
-                            <td class="cost-amount">Rp. -</td>
-                            <td>Gratis</td>
-                        </tr>
-                        <tr>
-                            <td>Uang SPP</td>
-                            <td class="cost-amount">Rp. 700.000</td>
-                            <td>Setiap bulan</td>
-                        </tr>
-                        <tr>
-                            <td>Buku Pelajaran</td>
-                            <td class="cost-amount">Rp. -</td>
-                            <td>Mandiri</td>
-                        </tr>
-                        <tr>
-                            <td>Seragam</td>
-                            <td class="cost-amount">Rp. -</td>
-                            <td>Mandiri</td>
-                        </tr>
-                    </tbody>
-                </table>
             </section>
         </div>
     </main>
@@ -834,38 +743,51 @@
     <!-- Footer -->
     <footer id="kontak" class="footer">
         <div class="container">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <h4>Alamat Lengkap</h4>
-                        <p>Jln. Ring Road Barat - Kel. Manguharjo<br>
-                        Kec. Manguharjo Kota Madiun<br>
-                        Jawa Timur</p>
-                    </div>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Jam Kantor</h4>
+                    <p>Senin s/d Jum'at:<br>08.00 s/d 14.30</p>
+                    <p>Sabtu:<br>08:00 s/d 12:00</p>
                 </div>
-                <div class="contact-item">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <h4>Telepon</h4>
-                        <p>081234002350</p>
-                    </div>
+                <div class="footer-section">
+                    <h4>Tentang</h4>
+                    <ul>
+                        <li><a href="#tentang">Profil Pesantren</a></li>
+                        <li><a href="#tentang">Visi Misi</a></li>
+                    </ul>
                 </div>
-                <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
-                    <div>
-                        <h4>Email</h4>
-                        <p>info@baitulquranalkautsar.ac.id</p>
-                    </div>
+                <div class="footer-section">
+                    <h4>Pendidikan</h4>
+                    <ul>
+                        <li><a href="#program">SMP</a></li>
+                        <li><a href="#program">SMA</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <p><i class="fas fa-phone"></i> 081234002350</p>
+                    <p><i class="fas fa-envelope"></i> info@baitulquranalkautsar.ac.id</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Jln. Ring Road Barat - Kel. Manguharjo<br>Kec. Manguharjo Kota Madiun<br>Jawa Timur</p>
                 </div>
             </div>
-            <div style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px; margin-top: 30px;">
+            <div class="footer-bottom">
                 <p>&copy; 2025 Pesantren Baitul Qur'an Al-Kautsar. All rights reserved.</p>
+                <p>Qur'ani - Mandiri - Berprestasi</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -880,16 +802,27 @@
             });
         });
 
-        // Add scroll effect to header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'linear-gradient(135deg, rgba(44, 90, 160, 0.95), rgba(30, 58, 138, 0.95))';
-                header.style.backdropFilter = 'blur(10px)';
-            } else {
-                header.style.background = 'linear-gradient(135deg, #2c5aa0, #1e3a8a)';
-                header.style.backdropFilter = 'none';
-            }
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
         });
     </script>
 </body>
