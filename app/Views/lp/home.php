@@ -9,29 +9,40 @@
         <div class="absolute inset-0 hero-overlay"></div>
     </div>
     
-    <!-- Hero Content -->
-    <div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
-        <div class="flex flex-col md:flex-row items-center justify-between">
-            <div class="md:w-1/2 text-center md:text-left">
-            <span class="block text-white/90 text-2xl md:text-3xl lg:text-4xl font-semibold mt-2">Baitul Quran</span>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                    Al-Kautsar
-                    
-                </h1>
-                <p class="text-xl text-white mb-8 max-w-2xl">
-                    Pusat pendidikan Islam terpadu yang membina generasi Qur'ani berakhlak mulia, berilmu, dan bermanfaat bagi umat.
-                </p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
-                    <a href="<?= base_url('profil') ?>" class="bg-[#017077] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
-                        <i class="fas fa-book-open mr-2"></i>Program Kami
-                    </a>
-                    <a href="<?= base_url('tentang') ?>" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 text-center">
-                        <i class="fas fa-info-circle mr-2"></i>Tentang Kami
-                    </a>
-                </div>
+<!-- Hero Content -->
+<div class="max-w-7xl mx-auto px-6 relative z-10 w-full">
+    <div class="flex flex-col md:flex-row items-center justify-between">
+        <div class="md:w-1/2 text-center md:text-left group">
+            <!-- Baitul Qur'an -->
+            <span class="block text-[1.05rem] md:text-[1.15rem] lg:text-[1.25rem] font-semibold tracking-wide text-white transition-colors duration-300 ease-in-out">
+                Baitul Qur'an
+            </span>
+
+            <!-- Al-Kautsar -->
+            <h1 class="text-[2.2rem] md:text-[3rem] lg:text-[3.3rem] font-extrabold text-white leading-tight group-hover:text-white transition-colors duration-300 arabic-font">
+                Al-Kautsar
+            </h1>
+
+            <!-- Deskripsi -->
+            <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mt-5 leading-relaxed">
+                Pusat pendidikan Islam terpadu yang membina generasi Qur'ani berakhlak mulia, berilmu, dan bermanfaat bagi umat.
+            </p>
+
+            <!-- Tombol CTA -->
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+                <a href="<?= base_url('profil') ?>" 
+                   class="bg-[#017077] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
+                    <i class="fas fa-book-open mr-2"></i>Program Kami
+                </a>
+                <a href="<?= base_url('tentang') ?>" 
+                   class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 text-center">
+                    <i class="fas fa-info-circle mr-2"></i>Tentang Kami
+                </a>
             </div>
         </div>
     </div>
+</div>
+
 </section>
 
 <!-- Features Section -->
