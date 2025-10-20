@@ -4,7 +4,13 @@
 <div class="max-w-7xl mx-auto px-6 py-12">
     <h1 class="text-4xl font-bold text-center mb-8">Tentang Kami</h1>
     <p class="text-lg text-gray-600 text-center max-w-3xl mx-auto mb-12">
-        Kami adalah tim profesional yang berdedikasi untuk memberikan solusi digital terbaik bagi bisnis Anda.
+            Pesantren Baitul Qur'an Al-Kautsar merupakan
+            lembaga pendidikan dibawah naungan yayasan
+            Al-Kautsar Madiun, yang memadukan pendidikan
+            formal dalam bentuk SMP dan SMA dengan non
+            formal dalam bentuk Dirosah Islamiyah.
+            Pembinaan 24 jam yang dikemas dalam sistem
+            Islamic Boarding School (Pesantren Modern).
     </p>
     
     <!-- Konten tentang perusahaan di sini -->
@@ -18,18 +24,19 @@
             <div class="bg-emerald-50 p-6 rounded-lg">
                 <h3 class="text-xl font-bold text-emerald-800 mb-3">Visi Kami</h3>
                 <p class="text-gray-700">
-                    Menjadi lembaga pendidikan Islam terdepan yang mencetak generasi Qur'ani 
-                    yang berakhlak mulia, berilmu, dan bermanfaat bagi umat.
+                Membentuk Generasi Cerdas yang Mandiri
+                dan berkarakter dengan Al-Qur'an
                 </p>
             </div>
             
             <div class="bg-emerald-50 p-6 rounded-lg">
                 <h3 class="text-xl font-bold text-emerald-800 mb-3">Misi Kami</h3>
                 <ul class="text-gray-700 list-disc list-inside space-y-2">
-                    <li>Menyelenggarakan pendidikan Al-Qur'an yang berkualitas</li>
-                    <li>Membentuk karakter Islami yang kuat</li>
-                    <li>Mengembangkan potensi peserta didik secara optimal</li>
-                    <li>Memberikan kontribusi positif bagi masyarakat</li>
+                    <li>Menjadikan Al-Qur'an dan Sunnah sebagai landasan hidup</li>
+                    <li>Membentuk santri beraqidah ahlussunnah wal jama'ah</li>
+                    <li>Membentuk santri berakhlak Mulia dalam kehidupan sehari-hari</li>
+                    <li>Membentuk lifeskill kemandirian dan kemasyarakatan santri</li>
+                    <li>Membekali santri ilmu entrepreneur</li>
                 </ul>
             </div>
         </div>
