@@ -39,6 +39,18 @@
           <label>Tanggal Lahir</label>
           <input type="date" name="tanggal_lahir" class="form-control">
         </div>
+        <div class="mb-3">
+            <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
+            <input type="text" class="form-control" name="asal_sekolah" id="asal_sekolah" placeholder="Contoh: SMPN 1 Madiun" required>
+        </div>
+        <div class="mb-3">
+          <label for="jenjang" class="form-label">Jenjang Pendidikan</label>
+          <select name="jenjang" id="jenjang" class="form-control" required>
+              <option value="">-- Pilih Jenjang --</option>
+              <option value="SMP">SMP</option>
+              <option value="SMA">SMA</option>
+          </select>
+      </div>
         <div class="col-md-4">
           <label>NISN</label>
           <input type="text" name="nisn" class="form-control">

@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\PendaftaranModel;
 use App\Models\EkstrakurikulerModel;
+use App\Models\PengajarModel;
+use App\Models\SantriModel;
+
 
 class Admin extends BaseController
 {
@@ -108,4 +111,159 @@ class Admin extends BaseController
         $model->delete($id);
         return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil dihapus');
     }
+
+    //Pengajar
+    public function pengajar()
+    {
+        $model = new PengajarModel();
+        $data = [
+            'title' => 'Data Pengajar',
+            'pengajar' => $model->findAll()
+        ];
+        return view('admin/pengajar/index', $data);
+    }
+
+    public function tambah_pengajar()
+    {
+        $data['title'] = 'Tambah Data Pengajar';
+        return view('admin/pengajar/tambah', $data);
+    }
+
+    public function simpan_pengajar()
+    {
+        $model = new PengajarModel();
+        $file = $this->request->getFile('foto');
+
+        $namaFile = null;
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $namaFile = $file->getRandomName();
+            $file->move('uploads/pengajar', $namaFile);
+        }
+
+        $model->save([
+            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
+            'nip' => $this->request->getPost('nip'),
+            'jabatan' => $this->request->getPost('jabatan'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'alamat' => $this->request->getPost('alamat'),
+            'foto' => $namaFile,
+        ]);
+
+        return redirect()->to('/admin/pengajar')->with('success', 'Data pengajar berhasil ditambahkan.');
+    }
+
+    public function edit_pengajar($id)
+    {
+        $model = new PengajarModel();
+        $data = [
+            'title' => 'Edit Data Pengajar',
+            'pengajar' => $model->find($id)
+        ];
+        return view('admin/pengajar/edit', $data);
+    }
+
+    public function update_pengajar($id)
+    {
+        $model = new PengajarModel();
+        $pengajar = $model->find($id);
+
+        $file = $this->request->getFile('foto');
+        $namaFile = $pengajar['foto'];
+
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            if ($namaFile && file_exists('uploads/pengajar/' . $namaFile)) {
+                unlink('uploads/pengajar/' . $namaFile);
+            }
+            $namaFile = $file->getRandomName();
+            $file->move('uploads/pengajar', $namaFile);
+        }
+
+        $model->update($id, [
+            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
+            'nip' => $this->request->getPost('nip'),
+            'jabatan' => $this->request->getPost('jabatan'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'alamat' => $this->request->getPost('alamat'),
+            'foto' => $namaFile,
+        ]);
+
+        return redirect()->to('/admin/pengajar')->with('success', 'Data pengajar berhasil diperbarui.');
+    }
+
+    public function hapus_pengajar($id)
+    {
+        $model = new PengajarModel();
+        $pengajar = $model->find($id);
+
+        if ($pengajar && $pengajar['foto'] && file_exists('uploads/pengajar/' . $pengajar['foto'])) {
+            unlink('uploads/pengajar/' . $pengajar['foto']);
+        }
+
+        $model->delete($id);
+        return redirect()->to('/admin/pengajar')->with('success', 'Data pengajar berhasil dihapus.');
+    }
+
+    //Santri
+    public function santri()
+    {
+        $santriModel = new SantriModel();
+        $data['santri'] = $santriModel->findAll();
+        $data['title'] = 'Data Santri';
+        return view('admin/santri/index', $data);
+    }
+
+    public function santri_tambah()
+    {
+        $pendaftaranModel = new PendaftaranModel();
+        $data['pendaftaran'] = $pendaftaranModel->findAll();
+        $data['title'] = 'Tambah Santri';
+        return view('admin/santri/tambah', $data);
+    }
+
+    public function santri_simpan()
+    {
+        $santriModel = new SantriModel();
+        $santriModel->save([
+            'id_pendaftaran' => $this->request->getPost('id_pendaftaran'),
+            'nis' => $this->request->getPost('nis'),
+            'nama' => $this->request->getPost('nama'),
+            'jenjang' => $this->request->getPost('jenjang'),
+            'asal_sekolah' => $this->request->getPost('asal_sekolah'),
+            'alamat' => $this->request->getPost('alamat'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'status' => $this->request->getPost('status')
+        ]);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Santri berhasil ditambahkan');
+    }
+
+    public function santri_edit($id)
+    {
+        $santriModel = new SantriModel();
+        $data['santri'] = $santriModel->find($id);
+        $data['title'] = 'Edit Santri';
+        return view('admin/santri/edit', $data);
+    }
+
+    public function santri_update($id)
+    {
+        $santriModel = new SantriModel();
+        $santriModel->update($id, [
+            'nis' => $this->request->getPost('nis'),
+            'nama' => $this->request->getPost('nama'),
+            'jenjang' => $this->request->getPost('jenjang'),
+            'asal_sekolah' => $this->request->getPost('asal_sekolah'),
+            'alamat' => $this->request->getPost('alamat'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'status' => $this->request->getPost('status')
+        ]);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil diperbarui');
+    }
+
+    public function santri_hapus($id)
+    {
+        $santriModel = new SantriModel();
+        $santriModel->delete($id);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil dihapus');
+    }
+
 }

@@ -14,6 +14,7 @@
           <th>No</th>
           <th>Nama Lengkap</th>
           <th>Jenis Kelamin</th>
+          <th>Asal Sekolah</th>
           <th>NISN</th>
           <th>Status</th>
           <th>Tanggal Daftar</th>
@@ -27,6 +28,7 @@
               <td class="text-center"><?= $no++ ?></td>
               <td><?= esc($p['nama_lengkap']) ?></td>
               <td><?= esc($p['jenis_kelamin']) ?></td>
+              <td><?= esc($p['asal_sekolah']) ?></td>
               <td><?= esc($p['nisn']) ?></td>
               <td class="text-center">
                 <?php if ($p['status'] == 'Menunggu Verifikasi'): ?>

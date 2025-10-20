@@ -42,6 +42,7 @@ class Pendaftaran extends BaseController
             'jenis_kelamin'   => $this->request->getPost('jenis_kelamin'),
             'tempat_lahir'    => $this->request->getPost('tempat_lahir'),
             'tanggal_lahir'   => $this->request->getPost('tanggal_lahir'),
+            'asal_sekolah'  => $this->request->getPost('asal_sekolah'),
             'nisn'            => $this->request->getPost('nisn'),
             'alamat'          => $this->request->getPost('alamat'),
             'nama_ayah'       => $this->request->getPost('nama_ayah'),
