@@ -46,5 +46,15 @@ $routes->get('admin/pengajar/edit/(:num)', 'Admin::edit_pengajar/$1');
 $routes->post('admin/pengajar/update/(:num)', 'Admin::update_pengajar/$1');
 $routes->get('admin/pengajar/hapus/(:num)', 'Admin::hapus_pengajar/$1');
 
+//Santri
+$routes->group('admin', ['filter' => 'auth'], function($routes) {
+    $routes->get('santri', 'Admin::santri');
+    $routes->get('santri/tambah', 'Admin::santri_tambah');
+    $routes->post('santri/simpan', 'Admin::santri_simpan');
+    $routes->get('santri/edit/(:num)', 'Admin::santri_edit/$1');
+    $routes->post('santri/update/(:num)', 'Admin::santri_update/$1');
+    $routes->get('santri/hapus/(:num)', 'Admin::santri_hapus/$1');
+});
+
 
 

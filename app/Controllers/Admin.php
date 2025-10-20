@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\PendaftaranModel;
 use App\Models\EkstrakurikulerModel;
 use App\Models\PengajarModel;
+use App\Models\SantriModel;
 
 
 class Admin extends BaseController
@@ -200,6 +201,69 @@ class Admin extends BaseController
 
         $model->delete($id);
         return redirect()->to('/admin/pengajar')->with('success', 'Data pengajar berhasil dihapus.');
+    }
+
+    //Santri
+    public function santri()
+    {
+        $santriModel = new SantriModel();
+        $data['santri'] = $santriModel->findAll();
+        $data['title'] = 'Data Santri';
+        return view('admin/santri/index', $data);
+    }
+
+    public function santri_tambah()
+    {
+        $pendaftaranModel = new PendaftaranModel();
+        $data['pendaftaran'] = $pendaftaranModel->findAll();
+        $data['title'] = 'Tambah Santri';
+        return view('admin/santri/tambah', $data);
+    }
+
+    public function santri_simpan()
+    {
+        $santriModel = new SantriModel();
+        $santriModel->save([
+            'id_pendaftaran' => $this->request->getPost('id_pendaftaran'),
+            'nis' => $this->request->getPost('nis'),
+            'nama' => $this->request->getPost('nama'),
+            'jenjang' => $this->request->getPost('jenjang'),
+            'asal_sekolah' => $this->request->getPost('asal_sekolah'),
+            'alamat' => $this->request->getPost('alamat'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'status' => $this->request->getPost('status')
+        ]);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Santri berhasil ditambahkan');
+    }
+
+    public function santri_edit($id)
+    {
+        $santriModel = new SantriModel();
+        $data['santri'] = $santriModel->find($id);
+        $data['title'] = 'Edit Santri';
+        return view('admin/santri/edit', $data);
+    }
+
+    public function santri_update($id)
+    {
+        $santriModel = new SantriModel();
+        $santriModel->update($id, [
+            'nis' => $this->request->getPost('nis'),
+            'nama' => $this->request->getPost('nama'),
+            'jenjang' => $this->request->getPost('jenjang'),
+            'asal_sekolah' => $this->request->getPost('asal_sekolah'),
+            'alamat' => $this->request->getPost('alamat'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'status' => $this->request->getPost('status')
+        ]);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil diperbarui');
+    }
+
+    public function santri_hapus($id)
+    {
+        $santriModel = new SantriModel();
+        $santriModel->delete($id);
+        return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil dihapus');
     }
 
 }
