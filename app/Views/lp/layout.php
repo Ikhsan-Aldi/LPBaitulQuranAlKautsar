@@ -53,16 +53,17 @@
             transform: translateY(-10px);
             transition: all 0.3s ease;
         }
+        
         /* Update style untuk CTA button */
         .cta-button-normal {
-            background-color: rgba(255, 255, 255, 0.9); /* Sedikit transparan */
-            color: #047857; /* emerald-700 */
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #047857;
             border: 2px solid rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(4px);
         }
 
         .cta-button-scrolled {
-            background-color: #059669; /* emerald-500 - lebih soft dari emerald-700 */
+            background-color: #059669;
             color: white;
             border: 2px solid #059669;
         }
@@ -73,21 +74,54 @@
         }
 
         .cta-button-scrolled:hover {
-            background-color: #047857; /* emerald-700 */
+            background-color: #047857;
             border-color: #047857;
             transform: translateY(-1px);
+        }
+        
+        /* Style untuk navbar di halaman non-home */
+        .navbar-non-home {
+            background-color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .navbar-non-home a:not(#cta-button),
+        .navbar-non-home button {
+            color: #374151;
+        }
+        
+        .navbar-non-home a:not(#cta-button):hover,
+        .navbar-non-home button:hover {
+            color: #059669;
+        }
+        
+        /* Style untuk konten halaman non-home - FIXED */
+        .content-non-home {
+            padding-top: 5.5rem; /* Memberi jarak untuk navbar fixed yang lebih besar */
+            min-height: 100vh;
+        }
+
+        /* Pastikan header memiliki z-index yang cukup tinggi */
+        header {
+            z-index: 1000;
+        }
+
+        /* Pastikan konten utama berada di bawah navbar */
+        main {
+            position: relative;
+            z-index: 1;
         }
     </style>
 </head>
 <body class="bg-white text-gray-800">
     <!-- Header Section -->
     <header class="fixed w-full z-50 navbar-transition" id="navbar">
-        <nav class="bg-transparent navbar-transition">
+        <nav class="bg-transparent navbar-transition" id="nav">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex justify-between items-center py-4">
                     <!-- Logo -->
                     <div class="flex items-center">
-                        <a href="<?= base_url() ?>" class="text-white hover:text-emerald-50 flex items-center transition-colors duration-300">
+                        <a href="<?= base_url() ?>" class="text-white hover:text-emerald-50 flex items-center transition-colors duration-300" id="logo-link">
                             <img src="<?= base_url('assets/img/logo.png') ?>" alt="Baitul Quran Al-Kautsar" class="h-10 w-10 mr-3">
                             <div class="flex flex-col">
                                 <span class="text-xl font-bold leading-tight">Baitul Quran</span>
@@ -98,32 +132,32 @@
                     
                     <!-- Desktop Navigation Menu -->
                     <div class="hidden md:flex space-x-8 items-center">
-                        <a href="<?= base_url() ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 <?= (current_url() == base_url()) ? 'text-emerald-200' : '' ?>">
+                        <a href="<?= base_url() ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url()) ? 'text-emerald-200' : '' ?>">
                             Beranda
                             <?php if (current_url() == base_url()): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-emerald-200"></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= base_url('tentang') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 <?= (current_url() == base_url('tentang')) ? 'text-emerald-200' : '' ?>">
+                        <a href="<?= base_url('tentang') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('tentang')) ? 'text-emerald-200' : '' ?>">
                             Tentang Kami
                             <?php if (current_url() == base_url('tentang')): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-emerald-200"></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= base_url('profil') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 <?= (current_url() == base_url('profil')) ? 'text-emerald-200' : '' ?>">
+                        <a href="<?= base_url('profil') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('profil')) ? 'text-emerald-200' : '' ?>">
                             Program
                             <?php if (current_url() == base_url('profil')): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-emerald-200"></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= base_url('kontak') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 <?= (current_url() == base_url('kontak')) ? 'text-emerald-200' : '' ?>">
+                        <a href="<?= base_url('kontak') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('kontak')) ? 'text-emerald-200' : '' ?>">
                             Kontak
                             <?php if (current_url() == base_url('kontak')): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-emerald-200"></span>
                             <?php endif; ?>
                         </a>
                         <div class="relative dropdown-group">
-                            <a href="<?= base_url('lainnya') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 flex items-center py-2 <?= (current_url() == base_url('lainnya')) ? 'text-emerald-200' : '' ?>">
+                            <a href="<?= base_url('lainnya') ?>" class="text-white hover:text-emerald-200 font-medium transition-colors duration-300 flex items-center py-2 nav-link <?= (current_url() == base_url('lainnya')) ? 'text-emerald-200' : '' ?>">
                                 Lainnya
                                 <i class="fas fa-chevron-down ml-1 text-xs"></i>
                             </a>
@@ -153,7 +187,7 @@
                     
                     <!-- Mobile Menu Button -->
                     <div class="md:hidden">
-                        <button id="mobile-menu-button" class="text-white hover:text-emerald-200 focus:outline-none z-50 relative">
+                        <button id="mobile-menu-button" class="text-white hover:text-emerald-200 focus:outline-none z-50 relative nav-button">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
                     </div>
@@ -189,7 +223,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="mx-auto">
+    <main class="mx-auto" id="main-content">
         <?= $this->renderSection('content') ?>
     </main>
 
@@ -351,81 +385,150 @@
 
     <!-- JavaScript untuk interaksi -->
     <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-            
-            // Ganti ikon menu
-            const icon = this.querySelector('i');
-            if (mobileMenu.classList.contains('hidden')) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            }
-        });
-        
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    const nav = navbar.querySelector('nav');
-    const ctaButton = document.getElementById('cta-button');
-    
-    if (window.scrollY > 100) {
-        nav.classList.remove('bg-transparent');
-        nav.classList.add('bg-white', 'shadow-md');
-        // Ubah warna teks pada navbar setelah scroll
-        navbar.querySelectorAll('a, button').forEach(element => {
-            if (!element.closest('.dropdown-menu') && element.id !== 'cta-button') {
-                element.classList.remove('text-white', 'hover:text-emerald-200');
-                element.classList.add('text-gray-700', 'hover:text-emerald-600');
-            }
-        });
-        
-        // Update CTA button untuk state scrolled
-        ctaButton.classList.remove('cta-button-normal');
-        ctaButton.classList.add('cta-button-scrolled');
-        
-    } else {
-        nav.classList.add('bg-transparent');
-        nav.classList.remove('bg-white', 'shadow-md');
-        // Kembalikan warna teks pada navbar
-        navbar.querySelectorAll('a, button').forEach(element => {
-            if (!element.closest('.dropdown-menu') && element.id !== 'cta-button') {
-                element.classList.add('text-white', 'hover:text-emerald-200');
-                element.classList.remove('text-gray-700', 'hover:text-emerald-600');
-            }
-        });
-        
-        // Update CTA button untuk state normal
-        ctaButton.classList.remove('cta-button-scrolled');
-        ctaButton.classList.add('cta-button-normal');
+    // --- FUNGSI DETEKSI HALAMAN ---
+    function isHomePage() {
+        const path = window.location.pathname.replace(/\/+$/, ''); // hapus trailing slash
+        const base = "<?= rtrim(parse_url(base_url(), PHP_URL_PATH), '/') ?>";
+        return path === base || path === base + "/home" || path === "";
     }
-});
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('mobile-menu').classList.add('hidden');
-                document.getElementById('mobile-menu-button').querySelector('i').classList.remove('fa-times');
-                document.getElementById('mobile-menu-button').querySelector('i').classList.add('fa-bars');
+
+    // --- FUNGSI SETUP NAVBAR ---
+    function setupNavbar() {
+        const navbar = document.getElementById('navbar');
+        const nav = document.getElementById('nav');
+        const ctaButton = document.getElementById('cta-button');
+        const logoLink = document.getElementById('logo-link');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navButtons = document.querySelectorAll('.nav-button');
+        const mainContent = document.getElementById('main-content');
+
+        if (!navbar || !nav || !ctaButton || !mainContent) return;
+
+        if (isHomePage()) {
+            // HOME: transparan + tanpa padding
+            nav.classList.remove('navbar-non-home', 'bg-white', 'shadow-md');
+            nav.classList.add('bg-transparent');
+            mainContent.classList.remove('content-non-home');
+
+            logoLink.classList.add('text-white', 'hover:text-emerald-50');
+            logoLink.classList.remove('text-gray-700', 'hover:text-emerald-600');
+
+            navLinks.forEach(link => {
+                link.classList.add('text-white', 'hover:text-emerald-200');
+                link.classList.remove('text-gray-700', 'hover:text-emerald-600');
             });
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
+
+            navButtons.forEach(btn => {
+                btn.classList.add('text-white', 'hover:text-emerald-200');
+                btn.classList.remove('text-gray-700', 'hover:text-emerald-600');
+            });
+
+            ctaButton.classList.remove('cta-button-scrolled');
+            ctaButton.classList.add('cta-button-normal');
+        } else {
+            // NON-HOME: putih + shadow + padding
+            nav.classList.add('navbar-non-home', 'bg-white', 'shadow-md');
+            nav.classList.remove('bg-transparent');
+            mainContent.classList.add('content-non-home');
+
+            logoLink.classList.remove('text-white', 'hover:text-emerald-50');
+            logoLink.classList.add('text-gray-700', 'hover:text-emerald-600');
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-white', 'hover:text-emerald-200');
+                link.classList.add('text-gray-700', 'hover:text-emerald-600');
+            });
+
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-white', 'hover:text-emerald-200');
+                btn.classList.add('text-gray-700', 'hover:text-emerald-600');
+            });
+
+            ctaButton.classList.remove('cta-button-normal');
+            ctaButton.classList.add('cta-button-scrolled');
+        }
+    }
+
+    // --- SCROLL EFFECT (hanya halaman HOME) ---
+    function handleScroll() {
+        if (!isHomePage()) return;
+        const nav = document.getElementById('nav');
+        const ctaButton = document.getElementById('cta-button');
+        const logoLink = document.getElementById('logo-link');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navButtons = document.querySelectorAll('.nav-button');
+
+        if (window.scrollY > 100) {
+            nav.classList.remove('bg-transparent');
+            nav.classList.add('bg-white', 'shadow-md');
+
+            logoLink.classList.remove('text-white', 'hover:text-emerald-50');
+            logoLink.classList.add('text-gray-700', 'hover:text-emerald-600');
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-white', 'hover:text-emerald-200');
+                link.classList.add('text-gray-700', 'hover:text-emerald-600');
+            });
+
+            navButtons.forEach(btn => {
+                btn.classList.remove('text-white', 'hover:text-emerald-200');
+                btn.classList.add('text-gray-700', 'hover:text-emerald-600');
+            });
+
+            ctaButton.classList.remove('cta-button-normal');
+            ctaButton.classList.add('cta-button-scrolled');
+        } else {
+            setupNavbar(); // kembalikan ke gaya awal home
+        }
+    }
+
+    // --- MOBILE MENU TOGGLE ---
+    document.addEventListener('DOMContentLoaded', function () {
+        const mobileMenuBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            });
+
+            // Tutup menu saat link diklik
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', function () {
+                    mobileMenu.classList.add('hidden');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
+                });
+            });
+        }
+
+        // Tutup dropdown jika klik di luar
+        document.addEventListener('click', function (event) {
             const dropdowns = document.querySelectorAll('.dropdown-group');
             dropdowns.forEach(dropdown => {
                 if (!dropdown.contains(event.target)) {
                     const menu = dropdown.querySelector('.dropdown-menu');
-                    menu.style.opacity = '0';
-                    menu.style.visibility = 'hidden';
-                    menu.style.transform = 'translateY(-10px)';
+                    if (menu) {
+                        menu.style.opacity = '0';
+                        menu.style.visibility = 'hidden';
+                        menu.style.transform = 'translateY(-10px)';
+                    }
                 }
             });
         });
-    </script>
+
+        // --- INIT ---
+        setupNavbar(); // pasang state awal
+        if (isHomePage()) window.addEventListener('scroll', handleScroll);
+    });
+
+    // --- REINIT saat kembali/back/forward (bfcache) ---
+    window.addEventListener('pageshow', setupNavbar);
+    document.addEventListener('htmx:afterSwap', setupNavbar);
+</script>
 </body>
 </html>
