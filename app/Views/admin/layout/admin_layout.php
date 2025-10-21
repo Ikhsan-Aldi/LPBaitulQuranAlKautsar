@@ -119,7 +119,11 @@
             &copy; <?= date('Y') ?> Pondok Pesantren Al-Kautsar. All rights reserved.
         </footer>
     </div>
-
+    
+    <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Section untuk script custom dari view -->
+    <?= $this->renderSection('scripts') ?>
 </body>
 </html>

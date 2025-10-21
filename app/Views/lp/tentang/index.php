@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
     <!-- Tab Navigation -->
-    <div class="flex flex-wrap justify-center gap-2 mb-12 border-b border-gray-200 pb-4">
+    <div class="flex flex-wrap justify-center gap-2 border-b border-gray-200">
         <button class="tab-button w-32 px-4 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="tentang">
             <i class="fas fa-info-circle mr-2"></i>Tentang
         </button>
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Tab Content Container -->
-    <div class="bg-white rounded-b-2xl rounded-tr-2xl shadow-2xl border border-gray-200" style="min-height: 600px;">
+    <div class="bg-white rounded-2xl shadow-2xl outline-none" style="min-height: 600px;">
         
         <!-- Tentang Kami Tab -->
         <div class="tab-content p-8 md:p-12" id="tentang-tab">
