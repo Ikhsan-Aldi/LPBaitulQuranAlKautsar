@@ -149,6 +149,12 @@
             </footer>
         </div>
     </div>
+    
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Section untuk script custom dari view -->
+    <?= $this->renderSection('scripts') ?>
 
     <!-- Mobile Menu Button (Hidden by default) -->
     <button id="mobileMenuButton" class="lg:hidden fixed top-4 left-4 z-50 bg-primary p-3 rounded-lg text-white shadow-lg">

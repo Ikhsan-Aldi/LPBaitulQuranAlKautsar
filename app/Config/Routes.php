@@ -12,9 +12,13 @@ $routes->get('profil', 'Home::profil');
 $routes->get('program', 'Home::program');
 $routes->get('kontak', 'Home::kontak');
 $routes->get('lainnya', 'Home::lainnya');
+$routes->get('pendaftaran', 'Home::pendaftaran');
+$routes->get('pendaftaran/form', 'Home::formPendaftaran');
+$routes->post('pendaftaran/simpan', 'Home::simpanPendaftaran');
+$routes->get('pendaftaran/success', 'Home::successPendaftaran');
 
-$routes->get('pendaftaran', 'Pendaftaran::index');
-$routes->post('pendaftaran/simpan', 'Pendaftaran::simpan');
+// $routes->get('pendaftaran', 'Pendaftaran::index');
+// $routes->post('pendaftaran/simpan', 'Pendaftaran::simpan');
 
 
 
@@ -50,6 +54,14 @@ $routes->post('admin/pengajar/simpan', 'Admin::simpan_pengajar');
 $routes->get('admin/pengajar/edit/(:num)', 'Admin::edit_pengajar/$1');
 $routes->post('admin/pengajar/update/(:num)', 'Admin::update_pengajar/$1');
 $routes->get('admin/pengajar/hapus/(:num)', 'Admin::hapus_pengajar/$1');
+
+// Gelombang Pendaftaran Routes
+$routes->get('admin/gelombang', 'Admin::gelombang');
+$routes->get('admin/gelombang/tambah', 'Admin::tambahGelombang');
+$routes->post('admin/gelombang/simpan', 'Admin::simpanGelombang');
+$routes->get('admin/gelombang/edit/(:num)', 'Admin::editGelombang/$1');
+$routes->post('admin/gelombang/update/(:num)', 'Admin::updateGelombang/$1');
+$routes->get('admin/gelombang/hapus/(:num)', 'Admin::hapusGelombang/$1');
 
 //Santri
 $routes->group('admin', ['filter' => 'auth'], function($routes) {

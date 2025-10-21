@@ -260,6 +260,12 @@
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
                             <?php endif; ?>
                         </a>
+                        <a href="<?= base_url('pendaftaran') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('kontak')) ? 'text-teal-200' : '' ?>">
+                            Pendaftaran
+                            <?php if (current_url() == base_url('pendaftaran')): ?>
+                                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
+                            <?php endif; ?>
+                        </a>
                         <div class="relative dropdown-group">
                             <a href="<?= base_url('lainnya') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 flex items-center py-2 nav-link <?= (current_url() == base_url('lainnya')) ? 'text-teal-200' : '' ?>">
                                 Lainnya
@@ -351,25 +357,22 @@
     <!-- Footer Section -->
     <footer class="bg-teal-900 text-white section-pattern">
         <!-- CTA Section -->
-        <div class="bg-teal-800 py-16 relative overflow-hidden">
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute inset-0" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\" fill=\"%23ffffff\"><text x=\"50\" y=\"50\" font-size=\"80\" text-anchor=\"middle\" dominant-baseline=\"middle\" font-family=\"serif\">ﷲ</text></svg>'); background-repeat: repeat;"></div>
-            </div>
-            <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
-                <h2 class="text-3xl font-bold mb-4">Mari Bergabung dengan Kami</h2>
-                <p class="text-teal-100 text-xl max-w-2xl mx-auto mb-8">
-                    Jadilah bagian dari komunitas Baitul Quran Al-Kautsar untuk memperdalam ilmu agama dan membangun ukhuwah islamiyah.
+        <section class="py-16 bg-gradient-to-r from-[#017077] to-[#005359]">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Tertarik Bergabung?</h2>
+                <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+                    Jangan lewatkan kesempatan untuk menjadi bagian dari keluarga besar Baitul Quran Al-Kautsar
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="<?= base_url('kontak') ?>" class="bg-white text-teal-700 font-bold px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
+                    <a href="<?= base_url('pendaftaran') ?>" class="bg-white text-teal-700 font-bold px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
                         <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
                     </a>
-                    <a href="#" class="border-2 border-white text-white font-bold px-8 py-3 rounded-lg hover:bg-white hover:text-teal-700 transition-colors duration-300 inline-flex items-center justify-center">
-                        <i class="fas fa-heart mr-2"></i>Donasi
+                    <a href="<?= base_url('program') ?>" class="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 inline-flex items-center justify-center">
+                        <i class="fas fa-book-open mr-2"></i>Lihat Program
                     </a>
                 </div>
             </div>
-        </div>
+        </section>
         
         <!-- Footer Links -->
         <div class="max-w-7xl mx-auto px-6 py-16">

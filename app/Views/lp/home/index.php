@@ -106,22 +106,4 @@
         </div>
     </div>
 </section>
-
-<!-- CTA Section -->
-<section class="py-16 bg-[#017077]/5">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold text-[#017077] mb-4">Bergabunglah dengan Komunitas Kami</h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Mari bersama-sama membangun generasi Qur'ani yang akan membawa kemaslahatan bagi umat.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a href="<?= base_url('kontak') ?>" class="bg-[#017077] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
-                <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
-            </a>
-            <a href="#" class="border-2 border-[#017077] text-[#017077] font-bold px-8 py-3 rounded-lg hover:bg-[#017077] hover:text-white transition-colors duration-300 inline-flex items-center justify-center">
-                <i class="fas fa-calendar-alt mr-2"></i>Jadwal Kajian
-            </a>
-        </div>
-    </div>
-</section>
 <?= $this->endSection() ?>

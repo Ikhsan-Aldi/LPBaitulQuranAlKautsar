@@ -7,15 +7,18 @@ use App\Models\EkstrakurikulerModel;
 use App\Models\PengajarModel;
 use App\Models\SantriModel;
 use App\Models\KegiatanModel;
+use App\Models\GelombangModel;
 
 
 class Admin extends BaseController
 {
     protected $pendaftaranModel;
+    protected $gelombangModel;
 
     public function __construct()
     {
         $this->pendaftaranModel = new PendaftaranModel();
+        $this->gelombangModel = new GelombangModel();
     }
 
     // Dashboard
@@ -410,4 +413,213 @@ class Admin extends BaseController
         return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil dihapus');
     }
 
+    //===========================
+    //CRUD GELOMBANG PENDAFTARAN
+    //===========================
+    public function gelombang()
+    {
+        $gelombang = $this->gelombangModel->findAll();
+    
+        $data = [
+            'title' => 'Manajemen Gelombang Pendaftaran',
+            'gelombang' => $gelombang
+        ];
+    
+        return view('admin/gelombang/index', $data);
+    }
+
+    /**
+     * Menampilkan form tambah gelombang
+     */
+    public function tambahGelombang()
+    {
+        $data = [
+            'title' => 'Tambah Gelombang Pendaftaran',
+            'validation' => \Config\Services::validation()
+        ];
+
+        return view('admin/gelombang/form', $data);
+    }
+
+    /**
+     * Menyimpan data gelombang baru
+     */
+    public function simpanGelombang()
+    {
+        // Validasi input
+        if (!$this->validate([
+            'nama' => 'required|min_length[3]|max_length[100]',
+            'tanggal_mulai' => 'required|valid_date',
+            'tanggal_selesai' => 'required|valid_date',
+            'status' => 'required|in_list[dibuka,ditutup,berakhir]'
+        ])) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Ambil data dari form
+        $nama = $this->request->getPost('nama');
+        $tanggal_mulai = $this->request->getPost('tanggal_mulai');
+        $tanggal_selesai = $this->request->getPost('tanggal_selesai');
+        $status = $this->request->getPost('status');
+
+        // Proses data seleksi (array)
+        $seleksi = $this->request->getPost('seleksi');
+        $jadwal_seleksi = $this->request->getPost('jadwal_seleksi');
+        $metode = $this->request->getPost('metode');
+
+        // Validasi tambahan untuk seleksi
+        if (empty($seleksi) || !is_array($seleksi)) {
+            return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi harus diisi');
+        }
+
+        // Filter data yang kosong
+        $seleksi_data = [];
+        $jadwal_data = [];
+        $metode_data = [];
+
+        foreach ($seleksi as $index => $nama_seleksi) {
+            if (!empty($nama_seleksi) && !empty($jadwal_seleksi[$index]) && !empty($metode[$index])) {
+                $seleksi_data[] = $nama_seleksi;
+                $jadwal_data[] = $jadwal_seleksi[$index];
+                $metode_data[] = $metode[$index];
+            }
+        }
+
+        if (empty($seleksi_data)) {
+            return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi yang valid harus diisi');
+        }
+
+        // Simpan ke database
+        $data = [
+            'nama' => $nama,
+            'tanggal_mulai' => $tanggal_mulai,
+            'tanggal_selesai' => $tanggal_selesai,
+            'seleksi' => json_encode($seleksi_data),
+            'jadwal_seleksi' => json_encode($jadwal_data),
+            'metode' => json_encode($metode_data),
+            'status' => $status
+        ];
+
+        if ($this->gelombangModel->save($data)) {
+            return redirect()->to('/admin/gelombang')->with('success', 'Gelombang pendaftaran berhasil ditambahkan');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan gelombang pendaftaran');
+        }
+    }
+
+    /**
+     * Menampilkan form edit gelombang
+     */
+    public function editGelombang($id)
+    {
+        $gelombang = $this->gelombangModel->find($id);
+
+        if (!$gelombang) {
+            return redirect()->to('/admin/gelombang')->with('error', 'Data gelombang tidak ditemukan');
+        }
+
+        // Decode data JSON
+        $gelombang['seleksi_array'] = json_decode($gelombang['seleksi'], true) ?? [];
+        $gelombang['jadwal_seleksi_array'] = json_decode($gelombang['jadwal_seleksi'], true) ?? [];
+        $gelombang['metode_array'] = json_decode($gelombang['metode'], true) ?? [];
+
+        $data = [
+            'title' => 'Edit Gelombang Pendaftaran',
+            'gelombang' => $gelombang,
+            'validation' => \Config\Services::validation()
+        ];
+
+        return view('admin/gelombang/form', $data);
+    }
+
+    /**
+     * Menyimpan hasil edit gelombang
+     */
+    public function updateGelombang($id)
+    {
+        // Cek apakah data exists
+        $gelombang = $this->gelombangModel->find($id);
+        if (!$gelombang) {
+            return redirect()->to('/admin/gelombang')->with('error', 'Data gelombang tidak ditemukan');
+        }
+
+        // Validasi input
+        if (!$this->validate([
+            'nama' => 'required|min_length[3]|max_length[100]',
+            'tanggal_mulai' => 'required|valid_date',
+            'tanggal_selesai' => 'required|valid_date',
+            'status' => 'required|in_list[dibuka,ditutup,berakhir]'
+        ])) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Ambil data dari form
+        $nama = $this->request->getPost('nama');
+        $tanggal_mulai = $this->request->getPost('tanggal_mulai');
+        $tanggal_selesai = $this->request->getPost('tanggal_selesai');
+        $status = $this->request->getPost('status');
+
+        // Proses data seleksi (array)
+        $seleksi = $this->request->getPost('seleksi');
+        $jadwal_seleksi = $this->request->getPost('jadwal_seleksi');
+        $metode = $this->request->getPost('metode');
+
+        // Validasi tambahan untuk seleksi
+        if (empty($seleksi) || !is_array($seleksi)) {
+            return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi harus diisi');
+        }
+
+        // Filter data yang kosong
+        $seleksi_data = [];
+        $jadwal_data = [];
+        $metode_data = [];
+
+        foreach ($seleksi as $index => $nama_seleksi) {
+            if (!empty($nama_seleksi) && !empty($jadwal_seleksi[$index]) && !empty($metode[$index])) {
+                $seleksi_data[] = $nama_seleksi;
+                $jadwal_data[] = $jadwal_seleksi[$index];
+                $metode_data[] = $metode[$index];
+            }
+        }
+
+        if (empty($seleksi_data)) {
+            return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi yang valid harus diisi');
+        }
+
+        // Update data
+        $data = [
+            'id' => $id,
+            'nama' => $nama,
+            'tanggal_mulai' => $tanggal_mulai,
+            'tanggal_selesai' => $tanggal_selesai,
+            'seleksi' => json_encode($seleksi_data),
+            'jadwal_seleksi' => json_encode($jadwal_data),
+            'metode' => json_encode($metode_data),
+            'status' => $status
+        ];
+
+        if ($this->gelombangModel->save($data)) {
+            return redirect()->to('/admin/gelombang')->with('success', 'Gelombang pendaftaran berhasil diupdate');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Gagal mengupdate gelombang pendaftaran');
+        }
+    }
+
+    /**
+     * Menghapus data gelombang
+     */
+    public function hapusGelombang($id)
+    {
+        $gelombang = $this->gelombangModel->find($id);
+
+        if (!$gelombang) {
+            return redirect()->to('/admin/gelombang')->with('error', 'Data gelombang tidak ditemukan');
+        }
+
+        if ($this->gelombangModel->delete($id)) {
+            return redirect()->to('/admin/gelombang')->with('success', 'Gelombang pendaftaran berhasil dihapus');
+        } else {
+            return redirect()->to('/admin/gelombang')->with('error', 'Gagal menghapus gelombang pendaftaran');
+        }
+    }
 }
