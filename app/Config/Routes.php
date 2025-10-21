@@ -54,6 +54,8 @@ $routes->post('admin/pengajar/simpan', 'Admin::simpan_pengajar');
 $routes->get('admin/pengajar/edit/(:num)', 'Admin::edit_pengajar/$1');
 $routes->post('admin/pengajar/update/(:num)', 'Admin::update_pengajar/$1');
 $routes->get('admin/pengajar/hapus/(:num)', 'Admin::hapus_pengajar/$1');
+$routes->get('admin/pengajar/detail/(:num)', 'Admin::pengajarDetail/$1');
+
 
 // Gelombang Pendaftaran Routes
 $routes->get('admin/gelombang', 'Admin::gelombang');
@@ -71,6 +73,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('santri/edit/(:num)', 'Admin::santri_edit/$1');
     $routes->post('santri/update/(:num)', 'Admin::santri_update/$1');
     $routes->get('santri/hapus/(:num)', 'Admin::santri_hapus/$1');
+    $routes->get('santri/detail/(:num)', 'Admin::santriDetail/$1');
+
 });
 
 $routes->group('admin', ['filter' => 'auth'], function($routes) {

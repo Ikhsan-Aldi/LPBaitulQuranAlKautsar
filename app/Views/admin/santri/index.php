@@ -326,47 +326,57 @@ function showDetail(id) {
             <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <i class="fa fa-user-graduate text-3xl text-primary"></i>
             </div>
-            <h4 class="text-lg font-semibold text-gray-800">Loading...</h4>
+            <h4 class="text-lg font-semibold text-gray-800">Memuat data...</h4>
         </div>
     `;
     
     document.getElementById('detailModal').classList.remove('hidden');
     
     // Simulate API call
-    setTimeout(() => {
-        modalContent.innerHTML = `
-            <div class="space-y-4">
-                <div class="text-center mb-6">
-                    <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa fa-user-graduate text-3xl text-primary"></i>
+    fetch(`<?= base_url('admin/santri/detail/') ?>${id}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success') {
+                const d = result.data;
+                modalContent.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="text-center mb-6">
+                            <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fa fa-user-graduate text-3xl text-primary"></i>
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-800">${d.nama || '-'}</h4>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="text-gray-600">NIS:</div>
+                            <div class="font-medium">${d.nis || '-'}</div>
+                            
+                            <div class="text-gray-600">Jenjang:</div>
+                            <div class="font-medium">${d.jenjang || '-'}</div>
+
+                            <div class="text-gray-600">Alamat:</div>
+                            <div class="font-medium">${d.alamat || '-'}</div>
+                            
+                            <div class="text-gray-600">Status:</div>
+                            <div class="font-medium">${d.status || 'Aktif'}</div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-gray-200">
+                            <p class="text-sm text-gray-500 text-center">
+                                Data diambil langsung dari database
+                            </p>
+                        </div>
                     </div>
-                    <h4 class="text-lg font-semibold text-gray-800">Data Santri #${id}</h4>
-                    <p class="text-gray-600">Informasi detail santri</p>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div class="text-gray-600">NIS:</div>
-                    <div class="font-medium">Loading...</div>
-                    
-                    <div class="text-gray-600">Nama:</div>
-                    <div class="font-medium">Loading...</div>
-                    
-                    <div class="text-gray-600">Jenjang:</div>
-                    <div class="font-medium">Loading...</div>
-                    
-                    <div class="text-gray-600">Status:</div>
-                    <div class="font-medium">Loading...</div>
-                </div>
-                
-                <div class="pt-4 border-t border-gray-200">
-                    <p class="text-sm text-gray-500 text-center">
-                        Fitur detail lengkap akan tersedia di versi selanjutnya
-                    </p>
-                </div>
-            </div>
-        `;
-    }, 500);
-}
+                `;
+            } else {
+                modalContent.innerHTML = `<p class="text-center text-red-500">${result.message}</p>`;
+            }
+        })
+        .catch(error => {
+            modalContent.innerHTML = `<p class="text-center text-red-500">Terjadi kesalahan saat mengambil data.</p>`;
+            console.error(error);
+        });
+    }
 
 function closeDetail() {
     document.getElementById('detailModal').classList.add('hidden');

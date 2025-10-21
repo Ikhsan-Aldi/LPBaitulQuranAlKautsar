@@ -243,69 +243,66 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Detail modal functions
 function showDetail(id) {
-    // In real application, you would fetch data from API
-    // For demo, we'll show static content
     const modalContent = document.getElementById('modalContent');
+    document.getElementById('detailModal').classList.remove('hidden');
+
+    // Placeholder loading
     modalContent.innerHTML = `
         <div class="text-center mb-6">
             <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fa fa-user-tie text-3xl text-primary"></i>
+                <i class="fa fa-spinner fa-spin text-3xl text-primary"></i>
             </div>
-            <h4 class="text-lg font-semibold text-gray-800">Loading...</h4>
+            <h4 class="text-lg font-semibold text-gray-800">Memuat data...</h4>
         </div>
     `;
-    
-    document.getElementById('detailModal').classList.remove('hidden');
-    
-    // Simulate API call
-    setTimeout(() => {
-        // This would be replaced with actual data from your backend
-        modalContent.innerHTML = `
-            <div class="space-y-4">
-                <div class="text-center mb-6">
-                    <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa fa-user-tie text-3xl text-primary"></i>
-                    </div>
-                    <h4 class="text-lg font-semibold text-gray-800">Data Pengajar #${id}</h4>
-                    <p class="text-gray-600">Informasi detail pengajar</p>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4 text-sm">
-                    <div class="text-gray-600">Nama Lengkap:</div>
-                    <div class="font-medium">Loading...</div>
-                    
-                    <div class="text-gray-600">NIP:</div>
-                    <div class="font-medium">Loading...</div>
-                    
-                    <div class="text-gray-600">Jabatan:</div>
-                    <div class="font-medium">Loading...</div>
-                    
-                    <div class="text-gray-600">No HP:</div>
-                    <div class="font-medium">Loading...</div>
-                </div>
-                
-                <div class="pt-4 border-t border-gray-200">
-                    <p class="text-sm text-gray-500 text-center">
-                        Fitur detail lengkap akan tersedia di versi selanjutnya
-                    </p>
-                </div>
-            </div>
-        `;
-    }, 500);
-}
 
+    // Ambil data dari server
+    fetch(`<?= base_url('admin/pengajar/detail/') ?>${id}`)
+        .then(response => response.json())
+        .then(result => {
+            if (result.status === 'success') {
+                const d = result.data;
+                modalContent.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="text-center mb-6">
+                            <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <img src="${d.foto ? '<?= base_url('uploads/pengajar/') ?>' + d.foto : ''}" alt="${d.nama_lengkap}" class="w-24 h-24 rounded-full object-cover shadow-sm border-2 border-white">
+                            </div>
+                            <h4 class="text-lg font-semibold text-gray-800">${d.nama_lengkap}</h4>
+                            <p class="text-gray-600">${d.jabatan || '-'}</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div class="text-gray-600">NIP:</div>
+                            <div class="font-medium">${d.nip || '-'}</div>
+                            
+                            <div class="text-gray-600">No HP:</div>
+                            <div class="font-medium">${d.no_hp || '-'}</div>
+                            
+                            <div class="text-gray-600">Status:</div>
+                            <div class="font-medium">${d.status || 'Aktif'}</div>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-gray-200">
+                            <p class="text-sm text-gray-500 text-center">
+                                Data diambil langsung dari database
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                modalContent.innerHTML = `<p class="text-center text-red-500">${result.message}</p>`;
+            }
+        })
+        .catch(error => {
+            modalContent.innerHTML = `<p class="text-center text-red-500">Terjadi kesalahan saat mengambil data.</p>`;
+            console.error(error);
+        });
+    }
 function closeDetail() {
     document.getElementById('detailModal').classList.add('hidden');
 }
-
-// Close modal when clicking outside
-document.getElementById('detailModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeDetail();
-    }
-});
 </script>
 
 <style>
