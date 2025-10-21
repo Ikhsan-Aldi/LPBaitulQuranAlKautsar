@@ -175,7 +175,7 @@
                        class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
                         <div class="flex items-center space-x-3">
                             <div class="p-2 bg-purple-100 rounded-lg">
-                                <i class="fa fa-file-certificate text-purple-600 text-sm"></i>
+                                <i class="fa-solid fa-file-lines text-purple-600 text-sm"></i>
                             </div>
                             <span class="text-gray-700 group-hover:text-primary">Surat Keterangan Lulus</span>
                         </div>
