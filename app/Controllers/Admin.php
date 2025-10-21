@@ -206,7 +206,7 @@ class Admin extends BaseController
         ];
         return view('admin/pengajar/edit', $data);
     }
-
+ 
     public function update_pengajar($id)
     {
         $model = new PengajarModel();
@@ -321,7 +321,6 @@ class Admin extends BaseController
         return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil disimpan');
     }
 
-
     public function santri_edit($id)
     {
         $santriModel = new SantriModel();
@@ -350,6 +349,24 @@ class Admin extends BaseController
         $santriModel = new SantriModel();
         $santriModel->delete($id);
         return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil dihapus');
+    }
+
+    public function santriDetail($id)
+    {
+        $model = new \App\Models\SantriModel();
+        $santri = $model->find($id);
+
+        if ($santri) {
+            return $this->response->setJSON([
+                'status' => 'success',
+                'data' => $santri
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
     }
 
     //Kegiatan

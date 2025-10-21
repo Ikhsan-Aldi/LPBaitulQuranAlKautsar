@@ -267,7 +267,7 @@ function showDetail(id) {
                     <div class="space-y-4">
                         <div class="text-center mb-6">
                             <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <i class="fa fa-user-tie text-3xl text-primary"></i>
+                                <img src="${d.foto ? '<?= base_url('uploads/pengajar/') ?>' + d.foto : ''}" alt="${d.nama_lengkap}" class="w-24 h-24 rounded-full object-cover shadow-sm border-2 border-white">
                             </div>
                             <h4 class="text-lg font-semibold text-gray-800">${d.nama_lengkap}</h4>
                             <p class="text-gray-600">${d.jabatan || '-'}</p>
@@ -299,7 +299,7 @@ function showDetail(id) {
             modalContent.innerHTML = `<p class="text-center text-red-500">Terjadi kesalahan saat mengambil data.</p>`;
             console.error(error);
         });
-}
+    }
 function closeDetail() {
     document.getElementById('detailModal').classList.add('hidden');
 }
