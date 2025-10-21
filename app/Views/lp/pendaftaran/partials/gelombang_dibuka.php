@@ -30,92 +30,114 @@
     <?php else: ?>
         <div class="space-y-6">
             <?php foreach ($gelombang_dibuka as $item): ?>
-            <div class="border-2 border-teal-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
-                <!-- Header -->
-                <div class="bg-gradient-to-r from-[#017077] to-[#005359] p-6 text-white">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-2xl font-bold mb-2"><?= esc($item['nama']) ?></h3>
-                            <div class="flex items-center space-x-2">
-                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">
-                                    <?= count($item['seleksi_array']) ?> Tahap Seleksi
-                                </span>
-                                <span class="bg-white/20 px-3 py-1 rounded-full text-sm">
-                                    <i class="fas fa-users mr-1"></i>Kuota Terbatas
-                                </span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="bg-white/20 rounded-lg p-2">
-                                <i class="fas fa-calendar-alt text-2xl"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                    $tanggal_mulai   = strtotime($item['tanggal_mulai']);
+                    $tanggal_selesai = strtotime($item['tanggal_selesai']);
+                    $today           = strtotime(date('Y-m-d'));
 
-                <!-- Content -->
-                <div class="p-6">
-                    <!-- Rentang Waktu -->
-                    <div class="mb-6 p-4 bg-teal-50 rounded-lg border border-teal-200">
-                        <div class="flex items-center justify-between">
-                            <div class="text-center">
-                                <div class="text-sm text-teal-700 font-medium">Mulai Pendaftaran</div>
-                                <div class="font-bold text-teal-900 text-lg"><?= date('d M Y', strtotime($item['tanggal_mulai'])) ?></div>
-                            </div>
-                            <div class="flex-1 mx-4 relative">
-                                <div class="h-0.5 bg-teal-300"></div>
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <i class="fas fa-arrow-right text-teal-600 text-sm"></i>
+                    // Cek apakah hari ini berada di luar periode pendaftaran
+                    $belum_periode = $today < $tanggal_mulai;
+                    $sudah_berakhir = $today > $tanggal_selesai;
+                    $dalam_periode = !$belum_periode && !$sudah_berakhir;
+                ?>
+            
+                <div class="border-2 border-teal-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <!-- Header -->
+                    <div class="bg-gradient-to-r from-[#017077] to-[#005359] p-6 text-white">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2"><?= esc($item['nama']) ?></h3>
+                                <div class="flex items-center space-x-2">
+                                    <span class="bg-white/20 px-3 py-1 rounded-full text-sm">
+                                        <?= count($item['seleksi_array']) ?> Tahap Seleksi
+                                    </span>
+                                    <span class="bg-white/20 px-3 py-1 rounded-full text-sm">
+                                        <i class="fas fa-users mr-1"></i>Kuota Terbatas
+                                    </span>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-sm text-teal-700 font-medium">Akhir Pendaftaran</div>
-                                <div class="font-bold text-teal-900 text-lg"><?= date('d M Y', strtotime($item['tanggal_selesai'])) ?></div>
+                            <div class="text-right">
+                                <div class="bg-white/20 rounded-lg p-2">
+                                    <i class="fas fa-calendar-alt text-2xl"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Jadwal Seleksi -->
-                    <h4 class="font-bold text-lg text-gray-800 mb-4 flex items-center">
-                        <i class="fas fa-list-ol mr-2 text-[#017077]"></i>Jadwal Tahap Seleksi
-                    </h4>
-                    <div class="space-y-3">
-                        <?php foreach ($item['seleksi_array'] as $index => $seleksi): ?>
-                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200">
-                            <div class="flex items-center space-x-4">
-                                <div class="bg-[#017077] text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold">
-                                    <?= $index + 1 ?>
+                    <!-- Content -->
+                    <div class="p-6">
+                        <!-- Rentang Waktu -->
+                        <div class="mb-6 p-4 bg-teal-50 rounded-lg border border-teal-200">
+                            <div class="flex items-center justify-between">
+                                <div class="text-center">
+                                    <div class="text-sm text-teal-700 font-medium">Mulai Pendaftaran</div>
+                                    <div class="font-bold text-teal-900 text-lg"><?= date('d M Y', $tanggal_mulai) ?></div>
                                 </div>
-                                <div>
-                                    <div class="font-semibold text-gray-800"><?= esc($seleksi) ?></div>
-                                    <div class="text-sm text-gray-600 flex items-center">
-                                        <i class="far fa-calendar mr-2"></i>
-                                        <?= date('d M Y', strtotime($item['jadwal_seleksi_array'][$index] ?? '')) ?>
+                                <div class="flex-1 mx-4 relative">
+                                    <div class="h-0.5 bg-teal-300"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <i class="fas fa-arrow-right text-teal-600 text-sm"></i>
                                     </div>
                                 </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-teal-700 font-medium">Akhir Pendaftaran</div>
+                                    <div class="font-bold text-teal-900 text-lg"><?= date('d M Y', $tanggal_selesai) ?></div>
+                                </div>
                             </div>
-                            <span class="bg-[#017077]/10 text-[#017077] px-3 py-1 rounded-full text-sm font-medium">
-                                <?= esc($item['metode_array'][$index] ?? '') ?>
-                            </span>
                         </div>
-                        <?php endforeach; ?>
-                    </div>
 
-                    <!-- Tombol Aksi -->
-                    <div class="mt-6 pt-6 border-t border-gray-200">
-                        <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
-                            <a href="<?= base_url('pendaftaran/form') ?>" 
-                               class="flex-1 bg-[#017077] text-white font-bold py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
-                                <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
-                            </a>
-                            <a href="<?= base_url('kontak') ?>" 
-                               class="flex-1 border border-[#017077] text-[#017077] font-bold py-3 rounded-lg hover:bg-[#017077] hover:text-white transition-colors duration-300 text-center">
-                                <i class="fas fa-question-circle mr-2"></i>Tanya Informasi
-                            </a>
+                        <!-- Jadwal Seleksi -->
+                        <h4 class="font-bold text-lg text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-list-ol mr-2 text-[#017077]"></i>Jadwal Tahap Seleksi
+                        </h4>
+                        <div class="space-y-3">
+                            <?php foreach ($item['seleksi_array'] as $index => $seleksi): ?>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors border border-gray-200">
+                                <div class="flex items-center space-x-4">
+                                    <div class="bg-[#017077] text-white rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold">
+                                        <?= $index + 1 ?>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-gray-800"><?= esc($seleksi) ?></div>
+                                        <div class="text-sm text-gray-600 flex items-center">
+                                            <i class="far fa-calendar mr-2"></i>
+                                            <?= date('d M Y', strtotime($item['jadwal_seleksi_array'][$index] ?? '')) ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="bg-[#017077]/10 text-[#017077] px-3 py-1 rounded-full text-sm font-medium">
+                                    <?= esc($item['metode_array'][$index] ?? '') ?>
+                                </span>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+
+                        <!-- Tombol Aksi -->
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                                <?php if ($belum_periode): ?>
+                                    <button disabled class="flex-1 bg-gray-300 text-gray-600 font-bold py-3 rounded-lg cursor-not-allowed text-center">
+                                        <i class="fas fa-clock mr-2"></i>Tunggu Periode Pendaftaran
+                                    </button>
+                                <?php elseif ($sudah_berakhir): ?>
+                                    <button disabled class="flex-1 bg-red-300 text-white font-bold py-3 rounded-lg cursor-not-allowed text-center">
+                                        <i class="fas fa-times-circle mr-2"></i>Periode Telah Berakhir
+                                    </button>
+                                <?php else: ?>
+                                    <a href="<?= base_url('pendaftaran/form') ?>" 
+                                       class="flex-1 bg-[#017077] text-white font-bold py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
+                                        <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
+                                    </a>
+                                <?php endif; ?>
+
+                                <a href="<?= base_url('kontak') ?>" 
+                                   class="flex-1 border border-[#017077] text-[#017077] font-bold py-3 rounded-lg hover:bg-[#017077] hover:text-white transition-colors duration-300 text-center">
+                                    <i class="fas fa-question-circle mr-2"></i>Tanya Informasi
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
