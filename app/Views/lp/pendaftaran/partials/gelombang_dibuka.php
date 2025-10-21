@@ -3,7 +3,7 @@
         <h2 class="text-2xl md:text-3xl font-bold text-[#017077] flex items-center">
             <i class="fas fa-door-open mr-3"></i>Gelombang Pendaftaran Dibuka
         </h2>
-        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+        <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-medium">
             <i class="fas fa-check-circle mr-1"></i>Aktif
         </span>
     </div>
@@ -30,9 +30,9 @@
     <?php else: ?>
         <div class="space-y-6">
             <?php foreach ($gelombang_dibuka as $item): ?>
-            <div class="border-2 border-green-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="border-2 border-teal-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300">
                 <!-- Header -->
-                <div class="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
+                <div class="bg-gradient-to-r from-[#017077] to-[#005359] p-6 text-white">
                     <div class="flex justify-between items-start">
                         <div>
                             <h3 class="text-2xl font-bold mb-2"><?= esc($item['nama']) ?></h3>
@@ -56,21 +56,21 @@
                 <!-- Content -->
                 <div class="p-6">
                     <!-- Rentang Waktu -->
-                    <div class="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                    <div class="mb-6 p-4 bg-teal-50 rounded-lg border border-teal-200">
                         <div class="flex items-center justify-between">
                             <div class="text-center">
-                                <div class="text-sm text-green-600 font-medium">Mulai Pendaftaran</div>
-                                <div class="font-bold text-green-800 text-lg"><?= date('d M Y', strtotime($item['tanggal_mulai'])) ?></div>
+                                <div class="text-sm text-teal-700 font-medium">Mulai Pendaftaran</div>
+                                <div class="font-bold text-teal-900 text-lg"><?= date('d M Y', strtotime($item['tanggal_mulai'])) ?></div>
                             </div>
                             <div class="flex-1 mx-4 relative">
-                                <div class="h-0.5 bg-green-300"></div>
+                                <div class="h-0.5 bg-teal-300"></div>
                                 <div class="absolute inset-0 flex items-center justify-center">
-                                    <i class="fas fa-arrow-right text-green-600 text-sm"></i>
+                                    <i class="fas fa-arrow-right text-teal-600 text-sm"></i>
                                 </div>
                             </div>
                             <div class="text-center">
-                                <div class="text-sm text-green-600 font-medium">Akhir Pendaftaran</div>
-                                <div class="font-bold text-green-800 text-lg"><?= date('d M Y', strtotime($item['tanggal_selesai'])) ?></div>
+                                <div class="text-sm text-teal-700 font-medium">Akhir Pendaftaran</div>
+                                <div class="font-bold text-teal-900 text-lg"><?= date('d M Y', strtotime($item['tanggal_selesai'])) ?></div>
                             </div>
                         </div>
                     </div>

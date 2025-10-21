@@ -18,11 +18,11 @@
             </p>
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                 <a href="#gelombang-dibuka" 
-                   class="bg-white text-[#017077] font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
+                class="bg-white text-[#017077] font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
                     <i class="fas fa-door-open mr-2"></i>Gelombang Dibuka
                 </a>
                 <a href="<?= base_url('pendaftaran/form') ?>" 
-                   class="bg-green-600 text-white font-bold px-8 py-4 rounded-lg hover:bg-green-700 transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
+                class="bg-[#017077] text-white font-bold px-8 py-4 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
                     <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
                 </a>
             </div>
