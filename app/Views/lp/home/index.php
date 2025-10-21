@@ -61,9 +61,9 @@
                 <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                     <i class="fas fa-quran text-[#017077] text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Tahfizh Quran</h3>
+                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Tahfizh Qur’an</h3>
                 <p class="text-gray-600 text-center">
-                    Program menghafal Al-Quran dengan metode yang mudah dan menyenangkan untuk semua usia.
+                    Program unggulan hafalan Al-Qur’an dengan bimbingan intensif dan metode yang efektif.
                 </p>
                 <div class="mt-6 text-center">
                     <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
@@ -71,15 +71,15 @@
                     </a>
                 </div>
             </div>
-            
+
             <!-- Program 2 -->
             <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
                 <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                     <i class="fas fa-graduation-cap text-[#017077] text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Kajian Islam</h3>
+                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Pendidikan Formal & Non Formal</h3>
                 <p class="text-gray-600 text-center">
-                    Kajian rutin kitab-kitab ulama dengan pemateri yang kompeten di bidangnya.
+                    Pendidikan formal SMP–SMA dan non formal Dirosah Islamiyah dalam sistem pesantren terpadu.
                 </p>
                 <div class="mt-6 text-center">
                     <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
@@ -87,15 +87,15 @@
                     </a>
                 </div>
             </div>
-            
+
             <!-- Program 3 -->
             <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
                 <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                    <i class="fas fa-child text-[#017077] text-2xl"></i>
+                    <i class="fas fa-book-reader text-[#017077] text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Pendidikan Anak</h3>
+                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Kajian & Pembinaan</h3>
                 <p class="text-gray-600 text-center">
-                    Pembinaan karakter Islami sejak dini dengan metode yang sesuai perkembangan anak.
+                    Kajian kitab dan pembinaan karakter santri untuk membentuk pribadi Qur’ani dan mandiri.
                 </p>
                 <div class="mt-6 text-center">
                     <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">

@@ -208,7 +208,7 @@
                                     Baitul Qur'an
                                 </span>
                                 <!-- Al-Kautsar -->
-                                <span class="text-xl font-extrabold text-[#164c3e] group-hover:text-[#258659] transition-colors arabic-font">
+                                <span id="alkautsarText" class="text-xl font-extrabold text-white group-hover:text-[#258659] transition-colors arabic-font">
                                     Al-Kautsar
                                 </span>
                             </div>
@@ -452,13 +452,13 @@
                         <li>
                             <a href="#" class="text-teal-200 hover:text-white transition-colors duration-300 flex items-center">
                                 <i class="fas fa-star text-xs mr-2 text-teal-400"></i>
-                                Pendidikan Anak
+                                Pendidikan Formal
                             </a>
                         </li>
                         <li>
                             <a href="#" class="text-teal-200 hover:text-white transition-colors duration-300 flex items-center">
                                 <i class="fas fa-star text-xs mr-2 text-teal-400"></i>
-                                Kursus Bahasa Arab
+                                Pendidikan Dirosah Islamiyah
                             </a>
                         </li>
                     </ul>
@@ -470,20 +470,20 @@
                     <ul class="space-y-4">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
-                            <span class="text-teal-200">Jl. Pendidikan Islam No. 123, Jakarta, Indonesia</span>
+                            <span class="text-teal-200">Jl. Ring Road Barat - Kel.Manguharjo Kec.Manguharjo, Kota Madiun, Jawa Timur</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone text-teal-400 mr-3"></i>
-                            <span class="text-teal-200">+62 812 3456 7890</span>
+                            <span class="text-teal-200">+62 812 3400 2350</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-envelope text-teal-400 mr-3"></i>
                             <span class="text-teal-200">info@baitulquran-alkautsar.org</span>
                         </li>
-                        <li class="flex items-center">
+                        <!-- <li class="flex items-center">
                             <i class="fas fa-clock text-teal-400 mr-3"></i>
                             <span class="text-teal-200">Senin - Jumat: 08:00 - 17:00</span>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -564,6 +564,7 @@ function setupNavbar() {
     const navButtons = document.querySelectorAll('.nav-button');
     const mainContent = document.getElementById('main-content');
     const baitulText = document.getElementById('baitulText');
+    const alkautsarText = document.getElementById('alkautsarText');
 
     if (!navbar || !nav || !ctaButton || !mainContent) return;
 
@@ -582,6 +583,10 @@ function setupNavbar() {
         if (baitulText) {
             baitulText.classList.remove('text-[#258659]', 'text-gray-700');
             baitulText.classList.add('text-white');
+        }
+        if (alkautsarText) {
+            alkautsarText.classList.remove('text-[#164c3e]', 'text-gray-700');
+            alkautsarText.classList.add('text-white');
         }
 
         // For each link: if active -> DO NOT apply color utility classes that can override our CSS;
@@ -617,6 +622,10 @@ function setupNavbar() {
             baitulText.classList.remove('text-white', 'text-gray-700');
             baitulText.classList.add('text-[#258659]');
         }
+        if (alkautsarText) {
+            alkautsarText.classList.remove('text-white', 'text-gray-700');
+            alkautsarText.classList.add('text-[#164c3e]');
+        }
 
         navLinks.forEach(link => {
             if (link.classList.contains('active')) {
@@ -650,6 +659,7 @@ function handleScroll() {
     const navLinks = document.querySelectorAll('.nav-link');
     const navButtons = document.querySelectorAll('.nav-button');
     const baitulText = document.getElementById('baitulText');
+    const alkautsarText = document.getElementById('alkautsarText');
 
 
     if (window.scrollY > 100) {
@@ -661,6 +671,10 @@ function handleScroll() {
         if (baitulText) {
             baitulText.classList.remove('text-white');
             baitulText.classList.add('text-[#258659]');
+        }
+        if (alkautsarText) {
+            alkautsarText.classList.remove('text-white');
+            alkautsarText.classList.add('text-[#164c3e]');
         }
         // logo gray
         logoLink.classList.remove('text-white', 'hover:text-teal-50');
@@ -688,6 +702,10 @@ function handleScroll() {
         if (baitulText) {
             baitulText.classList.remove('text-[#258659]');
             baitulText.classList.add('text-white');
+        }
+        if (alkautsarText) {
+            alkautsarText.classList.remove('text-[#164c3e]');
+            alkautsarText.classList.add('text-white');
         }
         // logo white
         logoLink.classList.add('text-white', 'hover:text-teal-50');

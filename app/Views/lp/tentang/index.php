@@ -1,7 +1,15 @@
 <?= $this->extend('lp/layout') ?>
 
 <?= $this->section('content') ?>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+<!-- Loading Screen -->
+<div id="loadingScreen" class="fixed inset-0 bg-white z-50 flex items-center justify-center transition-opacity duration-500">
+    <div class="text-center">
+        <div class="w-20 h-20 border-4 border-[#017077] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-gray-600 font-medium">Memuat Halaman...</p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-12" style="display: none;" id="mainContent">
     <!-- Tab Navigation -->
     <div class="flex flex-wrap justify-center gap-2 border-b border-gray-200">
         <button class="tab-button w-32 px-4 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="tentang">
@@ -272,6 +280,14 @@
 </div>
 
 <script>
+// Fungsi untuk hide semua tab content
+function hideAllTabs() {
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => {
+        content.classList.add('hidden');
+    });
+}
+
 // Fungsi untuk switch tab
 function switchTab(targetTab) {
     const tabButtons = document.querySelectorAll('.tab-button');
@@ -283,10 +299,10 @@ function switchTab(targetTab) {
     // Update active tab button
     tabButtons.forEach(btn => {
         if (btn.getAttribute('data-tab') === targetTab) {
-            btn.classList.add('active', 'bg-[#017077]', 'text-white', 'shadow-md');
+            btn.classList.add('bg-[#017077]', 'text-white', 'shadow-md');
             btn.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
         } else {
-            btn.classList.remove('active', 'bg-[#017077]', 'text-white', 'shadow-md');
+            btn.classList.remove('bg-[#017077]', 'text-white', 'shadow-md');
             btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
         }
     });
@@ -294,10 +310,13 @@ function switchTab(targetTab) {
     // Update active tab content
     tabContents.forEach(content => {
         if (content.id === `${targetTab}-tab`) {
-            content.classList.add('active');
             content.classList.remove('hidden');
+            // Trigger animation
+            content.style.animation = 'none';
+            setTimeout(() => {
+                content.style.animation = 'fadeIn 0.3s ease-in-out';
+            }, 10);
         } else {
-            content.classList.remove('active');
             content.classList.add('hidden');
         }
     });
@@ -317,8 +336,11 @@ function handleHashChange() {
 }
 
 // Initialize tab system
-document.addEventListener('DOMContentLoaded', function() {
+function initializeTabs() {
     const tabButtons = document.querySelectorAll('.tab-button');
+    
+    // Pertama, hide semua tab
+    hideAllTabs();
     
     // Setup tab click handlers
     tabButtons.forEach(button => {
@@ -333,32 +355,101 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle hash changes from browser navigation
     window.addEventListener('hashchange', handleHashChange);
+}
+
+// Fungsi untuk hide loading screen dan show content
+function showContent() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    const mainContent = document.getElementById('mainContent');
+    
+    // Hide loading screen dengan animasi
+    loadingScreen.style.opacity = '0';
+    
+    setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        // Show main content
+        mainContent.style.display = 'block';
+        
+        // Initialize tabs setelah content ditampilkan
+        initializeTabs();
+    }, 500);
+}
+
+// Tunggu sampai DOM fully loaded dan assets siap
+document.addEventListener('DOMContentLoaded', function() {
+    // Tunggu sedikit untuk memastikan semua element sudah siap
+    setTimeout(showContent, 800);
 });
 
-// Style untuk tab aktif
+// Add CSS for animations
 const style = document.createElement('style');
 style.textContent = `
-    .tab-button.active {
-        position: relative;
+    @keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            transform: translateY(10px); 
+        }
+        to { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
     }
-    .tab-button.active::after {
+    .tab-content {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    .tab-button {
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    .tab-button.bg-\\[\\#017077\\]::after {
         content: '';
         position: absolute;
-        bottom: -4px;
+        bottom: -2px;
         left: 0;
         right: 0;
         height: 3px;
         background: #017077;
         border-radius: 2px;
     }
-    .tab-content {
-        animation: fadeIn 0.3s ease-in-out;
+    
+    /* Loading animation */
+    @keyframes spin {
+        to { transform: rotate(360deg); }
     }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+    .animate-spin {
+        animation: spin 1s linear infinite;
     }
 `;
 document.head.appendChild(style);
 </script>
+
+<style>
+/* Additional styles for better visual hierarchy */
+.tab-button {
+    border-bottom: 2px solid transparent;
+}
+
+.tab-button.bg-\[\\#017077\\] {
+    border-bottom-color: #017077;
+}
+
+/* Smooth transitions for all interactive elements */
+.tab-content > div {
+    transition: all 0.3s ease;
+}
+
+/* Hover effects for cards */
+.group:hover .group-hover\:scale-105 {
+    transform: scale(1.05);
+}
+
+.group:hover .group-hover\:translate-x-2 {
+    transform: translateX(0.5rem);
+}
+
+/* Ensure loading screen covers everything */
+#loadingScreen {
+    backdrop-filter: blur(8px);
+}
+</style>
 <?= $this->endSection() ?>
