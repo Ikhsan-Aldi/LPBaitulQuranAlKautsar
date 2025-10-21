@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= esc($title ?? 'Dashboard Admin') ?> | Pondok Pesantren</title>
+    <title><?= esc($title ?? 'Dashboard Admin') ?> | Ponpes Al-Kautsar</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -70,7 +70,7 @@
                     </div>
                     <div>
                         <h1 class="font-amiri text-xl font-bold">Admin Panel</h1>
-                        <p class="text-xs text-white/80">Pondok Pesantren</p>
+                        <p class="text-xs text-white/80">Ponpes Al-Kautsar</p>
                     </div>
                 </div>
             </div>
