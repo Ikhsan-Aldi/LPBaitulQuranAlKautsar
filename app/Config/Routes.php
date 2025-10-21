@@ -9,6 +9,7 @@ $routes->get('/', 'Home::index');
 $routes->get('tentang', 'Home::tentang');
 $routes->get('program', 'Home::program');
 $routes->get('profil', 'Home::profil');
+$routes->get('program', 'Home::program');
 $routes->get('kontak', 'Home::kontak');
 $routes->get('lainnya', 'Home::lainnya');
 

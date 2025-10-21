@@ -50,4 +50,12 @@ class Home extends BaseController
         ];
         return view('lp/lainnya', $data);
     }
+
+    public function program()
+    {
+        $data = [
+            'title' => 'Program - Baitul Quran Al-Kautsar'
+        ];
+        return view('lp/program', $data);
+    }
 }

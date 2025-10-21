@@ -1,250 +1,410 @@
 <?= $this->extend('lp/layout') ?>
 
 <?= $this->section('content') ?>
-<div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-    <!-- Header Section -->
-    <div class="text-center mb-16">
-        <div class="inline-flex items-center justify-center w-16 h-16 bg-[#017077] rounded-full mb-6">
-            <i class="fas fa-book-open text-white text-2xl"></i>
-        </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-[#017077] mb-4">Program & Kegiatan</h1>
-        <div class="w-24 h-1 bg-[#017077] mx-auto mb-6"></div>
-        <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-            Program pendidikan terpadu yang membentuk generasi Qur'ani berakhlak mulia, berilmu, dan bermanfaat
-        </p>
-    </div>
-
-    <!-- Jadwal dan Ekstrakurikuler Section -->
-    <div class="mb-20">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
-            <!-- Jadwal Harian - 60% -->
-            <div class="lg:col-span-3">
-                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
-                    <div class="bg-gradient-to-r from-[#017077] to-[#005359] px-6 py-4 text-white font-semibold">
-                        <i class="fas fa-calendar-day mr-2"></i>Jadwal Kegiatan Harian
-                    </div>
-                    
-                    <!-- Desktop Table -->
-                    <div class="hidden md:block">
-                        <div class="grid grid-cols-12 bg-[#017077]/10 text-gray-700 font-semibold border-b border-gray-200">
-                            <div class="col-span-4 px-6 py-3 border-r border-gray-200">
-                                <i class="fas fa-clock mr-2 text-[#017077]"></i>Waktu
-                            </div>
-                            <div class="col-span-8 px-6 py-3">
-                                <i class="fas fa-tasks mr-2 text-[#017077]"></i>Kegiatan
-                            </div>
-                        </div>
-                        
-                        <?php
-                        $jadwal = [
-                            ['03.00-03.30', 'Bangun tidur & persiapan tahajjud'],
-                            ['03.30-04.30', 'Tahajjud, Sholat Shubuh berjama\'ah'],
-                            ['04.30-06.00', 'Halaqah Tahfidz I'],
-                            ['06.00-07.30', 'Kebersihan, Sarapan, Persiapan KBM'],
-                            ['07.30-08.00', 'Apel pagi, Kuliah Tasyji\''],
-                            ['08.00-11.30', 'Kegiatan Belajar Mengajar'],
-                            ['11.30-13.00', 'Sholat Dhuhur, Muroja\'ah Tahfidz'],
-                            ['13.00-14.45', 'Makan siang, Istirahat Siang'],
-                            ['14.45-15.30', 'Persiapan Sholat Ashar'],
-                            ['15.30-17.00', 'Halaqoh Tahfidz II/Ekstra Kurikuler'],
-                            ['17.00-17.30', 'Kebersihan, Persiapan Sholat Maghrib'],
-                            ['17.30-18.45', 'Sholat Maghrib, Kajian Kitab'],
-                            ['18.45-20.00', 'Sholat Isya\', Makan malam'],
-                            ['20.00-21.30', 'Belajar malam/Halaqah Tahfidz'],
-                            ['21.30-03.00', 'Istirahat malam (tidur malam)']
-                        ];
-                        
-                        foreach ($jadwal as $index => $item):
-                            $bgClass = $index % 2 === 0 ? 'bg-gray-50' : 'bg-white';
-                        ?>
-                        <div class="grid grid-cols-12 <?= $bgClass ?> hover:bg-gray-100 transition-colors duration-200 border-b border-gray-200 last:border-b-0">
-                            <div class="col-span-4 px-6 py-4 border-r border-gray-200 font-medium text-gray-800">
-                                <i class="fas fa-clock text-[#017077] mr-2 text-sm"></i><?= $item[0] ?>
-                            </div>
-                            <div class="col-span-8 px-6 py-4 text-gray-700">
-                                <?= $item[1] ?>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                    <!-- Mobile Cards -->
-                    <div class="md:hidden">
-                        <?php foreach ($jadwal as $index => $item): ?>
-                        <div class="border-b border-gray-200 last:border-b-0">
-                            <div class="p-4 hover:bg-gray-50 transition-colors duration-200">
-                                <div class="flex items-start space-x-3">
-                                    <div class="flex-shrink-0 w-12 h-12 bg-[#017077] rounded-lg flex items-center justify-center">
-                                        <i class="fas fa-clock text-white text-sm"></i>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="font-semibold text-[#017077] mb-1 text-sm"><?= $item[0] ?></div>
-                                        <p class="text-gray-700 text-xs"><?= $item[1] ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Ekstrakurikuler - 40% -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden h-full">
-                    <div class="bg-gradient-to-r from-[#017077] to-[#005359] px-6 py-4 text-white font-semibold">
-                        <i class="fas fa-star mr-2"></i>Program Ekstrakurikuler
-                    </div>
-                    
-                    <div class="p-6">
-                        <?php if (!empty($ekstrakurikuler)): ?>
-                            <div class="space-y-4 max-h-[600px] overflow-y-auto">
-                                <?php foreach ($ekstrakurikuler as $ekstra): ?>
-                                <div class="group bg-gray-50 rounded-lg p-4 hover:bg-[#017077]/5 transition-all duration-300 border border-gray-200 hover:border-[#017077]/30">
-                                    <div class="flex items-center mb-2">
-                                        <div class="bg-[#017077] w-8 h-8 rounded-lg flex items-center justify-center mr-3">
-                                            <i class="fas fa-star text-white text-sm"></i>
-                                        </div>
-                                        <h3 class="font-bold text-[#017077] text-lg"><?= $ekstra['nama_ekstrakurikuler'] ?></h3>
-                                    </div>
-                                    
-                                    <?php if (!empty($ekstra['jadwal'])): ?>
-                                    <div class="flex items-center text-sm text-gray-600 mt-2">
-                                        <i class="fas fa-calendar-alt text-[#017077] mr-2 text-xs"></i>
-                                        <span class="text-xs"><?= $ekstra['jadwal'] ?></span>
-                                    </div>
-                                    <?php endif; ?>
-                                </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php else: ?>
-                            <div class="text-center py-8">
-                                <div class="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full mb-3">
-                                    <i class="fas fa-clipboard-list text-gray-400"></i>
-                                </div>
-                                <h3 class="text-sm font-semibold text-gray-600 mb-1">Belum ada data ekstrakurikuler</h3>
-                                <p class="text-gray-500 text-xs">Data ekstrakurikuler akan segera tersedia</p>
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Program Unggulan Section -->
-    <div class="bg-gradient-to-br from-[#017077] to-[#005359] rounded-2xl p-8 md:p-12 text-white mb-20">
+<div class="content-non-home">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <!-- Header Section -->
         <div class="text-center mb-12">
-            <h2 class="text-2xl md:text-3xl font-bold mb-4">Program Unggulan</h2>
-            <div class="w-20 h-1 bg-white/30 mx-auto mb-6"></div>
-            <p class="text-white/80 max-w-2xl mx-auto">
-                Program khusus yang menjadi fokus utama dalam pembinaan santri
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-[#017077] rounded-full mb-6">
+                <i class="fas fa-calendar-alt text-white text-2xl"></i>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-[#017077] mb-4">Program Pesantren</h1>
+            <div class="w-20 h-1 bg-[#017077] mx-auto mb-6"></div>
+            <p class="text-gray-600 max-w-2xl mx-auto text-lg">
+                Program pembelajaran yang terstruktur untuk membentuk generasi Qur'ani yang berakhlak mulia
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-quran text-white text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Tahfizh Quran</h3>
-                <p class="text-white/80 text-sm">
-                    Program menghafal Al-Quran dengan metode yang mudah dan menyenangkan
-                </p>
-            </div>
-
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-graduation-cap text-white text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Kajian Kitab</h3>
-                <p class="text-white/80 text-sm">
-                    Kajian mendalam kitab-kitab ulama dengan pemateri yang kompeten
-                </p>
-            </div>
-
-            <div class="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center hover:bg-white/20 transition-all duration-300">
-                <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i class="fas fa-hands-helping text-white text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Life Skills</h3>
-                <p class="text-white/80 text-sm">
-                    Pembinaan kemandirian dan keterampilan hidup untuk bekal masa depan
-                </p>
-            </div>
+        <!-- Tab Navigation -->
+        <div class="flex flex-wrap justify-center gap-2 mb-12 border-b border-gray-200 pb-4">
+            <button class="tab-button w-40 px-4 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="kegiatan-harian">
+                <i class="fas fa-clock mr-2"></i>Kegiatan Harian
+            </button>
+            <button class="tab-button w-40 px-4 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="ekstrakurikuler">
+                <i class="fas fa-futbol mr-2"></i>Ekstrakurikuler
+            </button>
         </div>
-    </div>
 
-    <!-- CTA Section -->
-    <div class="text-center">
-        <h2 class="text-2xl md:text-3xl font-bold text-[#017077] mb-4">Tertarik Bergabung?</h2>
-        <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Mari bergabung dengan keluarga besar Baitul Quran Al-Kautsar dan rasakan pengalaman pendidikan Islami yang menyenangkan
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a href="<?= base_url('kontak') ?>" class="bg-[#017077] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
-                <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
-            </a>
-            <a href="<?= base_url('tentang') ?>" class="border-2 border-[#017077] text-[#017077] font-bold px-8 py-3 rounded-lg hover:bg-[#017077] hover:text-white transition-colors duration-300 inline-flex items-center justify-center">
-                <i class="fas fa-info-circle mr-2"></i>Info Lengkap
-            </a>
+        <!-- Tab Content Container -->
+        <div class="bg-white rounded-b-2xl rounded-tr-2xl shadow-2xl border border-gray-200" style="min-height: 600px;">
+            
+            <!-- Kegiatan Harian Tab -->
+            <div class="tab-content p-8 md:p-12" id="kegiatan-harian-tab">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-10">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-[#017077] rounded-full mb-6">
+                            <i class="fas fa-clock text-white text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#017077] mb-4">Kegiatan Harian</h2>
+                        <div class="w-20 h-1 bg-[#017077] mx-auto mb-6"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            Jadwal kegiatan harian yang terstruktur untuk membentuk disiplin dan karakter santri
+                        </p>
+                    </div>
+
+                    <!-- Daily Schedule Table -->
+                    <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+                        <div class="bg-[#017077] text-white px-6 py-4">
+                            <h3 class="text-xl font-bold text-center">Jadwal Kegiatan Harian</h3>
+                        </div>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 w-32">Waktu</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Kegiatan</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">03.00 - 03.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Bangun tidur & persiapan tahajjud</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">03.30 - 04.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Tahajjud, Sholat Shubuh berjama'ah</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">04.30 - 06.00</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Halaqah Tahfidz I</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">06.00 - 07.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Kebersihan, Sarapan, Persiapan KBM</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">07.30 - 08.00</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Apel pagi, Kuliah Tasyji'</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">08.00 - 11.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Kegiatan Belajar Mengajar</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">11.30 - 13.00</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Sholat Dhuhur, Muroja'ah Tahfidz</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">13.00 - 14.45</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Makan siang, Istirahat Siang</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">14.45 - 15.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Persiapan Sholat Ashar</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">15.30 - 17.00</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Halaqoh Tahfidz II / Ekstra Kurikuler</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">17.00 - 17.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Kebersihan, Persiapan Sholat Maghrib</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">17.30 - 18.45</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Sholat Maghrib, Kajian Kitab</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">18.45 - 20.00</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Sholat Isya', Makan malam</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">20.00 - 21.30</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Belajar malam / Halaqah Tahfidz</td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">21.30 - 03.00</td>
+                                        <td class="px-6 py-4 text-sm text-gray-700">Istirahat malam (tidur malam)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Features Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                        <div class="text-center p-6 rounded-lg border border-gray-200 hover:border-[#017077] transition-all duration-300 hover:shadow-lg">
+                            <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-quran text-[#017077] text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 mb-2">Tahfidz Quran</h4>
+                            <p class="text-gray-600 text-sm">Program menghafal Al-Qur'an dengan metode yang efektif</p>
+                        </div>
+
+                        <div class="text-center p-6 rounded-lg border border-gray-200 hover:border-[#017077] transition-all duration-300 hover:shadow-lg">
+                            <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-[#017077] text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 mb-2">Pendidikan Formal</h4>
+                            <p class="text-gray-600 text-sm">SMP dan SMA dengan kurikulum terpadu</p>
+                        </div>
+
+                        <div class="text-center p-6 rounded-lg border border-gray-200 hover:border-[#017077] transition-all duration-300 hover:shadow-lg">
+                            <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-book text-[#017077] text-xl"></i>
+                            </div>
+                            <h4 class="font-bold text-gray-800 mb-2">Kajian Kitab</h4>
+                            <p class="text-gray-600 text-sm">Pembelajaran kitab-kitab klasik Islam</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ekstrakurikuler Tab -->
+            <div class="tab-content hidden p-8 md:p-12" id="ekstrakurikuler-tab">
+                <div class="max-w-6xl mx-auto">
+                    <div class="text-center mb-10">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-[#017077] rounded-full mb-6">
+                            <i class="fas fa-futbol text-white text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-[#017077] mb-4">Ekstrakurikuler</h2>
+                        <div class="w-20 h-1 bg-[#017077] mx-auto mb-6"></div>
+                        <p class="text-gray-600 max-w-2xl mx-auto">
+                            Berbagai kegiatan ekstrakurikuler untuk mengembangkan bakat dan minat santri
+                        </p>
+                    </div>
+
+                    <!-- Extracurricular Activities Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-swimming-pool"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Berenang</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan fisik dan mental melalui olahraga air</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-bullseye"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Memanah</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Olahraga sunnah yang mengajarkan fokus dan ketepatan</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-horse"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Berkuda</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Olahraga sunnah yang melatih keberanian dan kepemimpinan</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Olimpiade</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Kompetisi akademik untuk mengasah kemampuan intelektual</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Entrepreneur Muslim</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Mengembangkan jiwa kewirausahaan sesuai syariat Islam</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-fist-raised"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Beladiri</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan bela diri dan disiplin diri</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Pidato 3 Bahasa</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan komunikasi dalam bahasa Indonesia, Arab, dan Inggris</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-newspaper"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">Jurnalistik</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan menulis dan komunikasi media</p>
+                        </div>
+
+                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
+                            <div class="flex items-center mb-4">
+                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-[#017077]">SAPALA</h3>
+                            </div>
+                            <p class="text-gray-600 text-sm">Kegiatan alam bebas untuk mengembangkan jiwa petualang dan kepemimpinan</p>
+                        </div>
+                    </div>
+
+                    <!-- Activity Images Section -->
+                    <div class="bg-gray-50 rounded-xl p-8">
+                        <h3 class="text-xl font-bold text-[#017077] mb-6 text-center">Galeri Kegiatan</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="group">
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                                    <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
+                                        <i class="fas fa-mountain text-white text-4xl"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <h4 class="font-semibold text-gray-800 text-sm">Kegiatan Alam</h4>
+                                        <p class="text-gray-600 text-xs">Outdoor activities</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                                    <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
+                                        <i class="fas fa-trophy text-white text-4xl"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <h4 class="font-semibold text-gray-800 text-sm">Prestasi</h4>
+                                        <p class="text-gray-600 text-xs">Achievements</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                                    <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
+                                        <i class="fas fa-book text-white text-4xl"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <h4 class="font-semibold text-gray-800 text-sm">Pembelajaran</h4>
+                                        <p class="text-gray-600 text-xs">Learning activities</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="group">
+                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                                    <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
+                                        <i class="fas fa-pray text-white text-4xl"></i>
+                                    </div>
+                                    <div class="p-4">
+                                        <h4 class="font-semibold text-gray-800 text-sm">Spiritual</h4>
+                                        <p class="text-gray-600 text-xs">Religious activities</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<style>
-    .jadwal-row:hover {
-        background-color: #f8fafc;
-        transform: translateX(4px);
-        transition: all 0.3s ease;
-    }
-    
-    /* Custom scrollbar untuk ekstrakurikuler */
-    .max-h-\[600px\]::-webkit-scrollbar {
-        width: 6px;
-    }
-    
-    .max-h-\[600px\]::-webkit-scrollbar-track {
-        background: #f1f1f1;
-        border-radius: 3px;
-    }
-    
-    .max-h-\[600px\]::-webkit-scrollbar-thumb {
-        background: #017077;
-        border-radius: 3px;
-    }
-    
-    .max-h-\[600px\]::-webkit-scrollbar-thumb:hover {
-        background: #005359;
-    }
-</style>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Animasi untuk rows jadwal
-    const jadwalRows = document.querySelectorAll('.bg-gray-50, .bg-white');
-    jadwalRows.forEach((row, index) => {
-        row.style.opacity = '0';
-        row.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
-            row.style.transition = 'all 0.5s ease';
-            row.style.opacity = '1';
-            row.style.transform = 'translateY(0)';
-        }, index * 100);
+// Fungsi untuk switch tab
+function switchTab(targetTab) {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    // Update URL hash tanpa reload page
+    window.history.replaceState(null, null, `#${targetTab}`);
+    
+    // Update active tab button
+    tabButtons.forEach(btn => {
+        if (btn.getAttribute('data-tab') === targetTab) {
+            btn.classList.add('active', 'bg-[#017077]', 'text-white', 'shadow-md');
+            btn.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
+        } else {
+            btn.classList.remove('active', 'bg-[#017077]', 'text-white', 'shadow-md');
+            btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
+        }
     });
+    
+    // Update active tab content
+    tabContents.forEach(content => {
+        if (content.id === `${targetTab}-tab`) {
+            content.classList.add('active');
+            content.classList.remove('hidden');
+        } else {
+            content.classList.remove('active');
+            content.classList.add('hidden');
+        }
+    });
+}
 
-    // Hover effect untuk cards ekstrakurikuler
-    const ekstraCards = document.querySelectorAll('.group');
-    ekstraCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-2px)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
+// Fungsi untuk baca hash dari URL dan switch tab
+function handleHashChange() {
+    const hash = window.location.hash.replace('#', '');
+    const validTabs = ['kegiatan-harian', 'ekstrakurikuler'];
+    
+    if (validTabs.includes(hash)) {
+        switchTab(hash);
+    } else {
+        // Default ke tab kegiatan harian
+        switchTab('kegiatan-harian');
+    }
+}
+
+// Initialize tab system
+document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    
+    // Setup tab click handlers
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetTab = this.getAttribute('data-tab');
+            switchTab(targetTab);
         });
     });
+    
+    // Handle initial hash
+    handleHashChange();
+    
+    // Handle hash changes from browser navigation
+    window.addEventListener('hashchange', handleHashChange);
 });
+
+// Style untuk tab aktif
+const style = document.createElement('style');
+style.textContent = `
+    .tab-button.active {
+        position: relative;
+    }
+    .tab-button.active::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #017077;
+        border-radius: 2px;
+    }
+    .tab-content {
+        animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+`;
+document.head.appendChild(style);
 </script>
 <?= $this->endSection() ?>
