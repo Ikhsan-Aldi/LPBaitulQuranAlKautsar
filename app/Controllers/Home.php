@@ -22,19 +22,12 @@ class Home extends BaseController
 
     public function program()
     {
-        // Ambil data ekstrakurikuler dari model
-        $ekstrakurikulerModel = new \App\Models\EkstrakurikulerModel();
-        $ekstrakurikuler = $ekstrakurikulerModel->findAll();
-    
         $data = [
-            'title' => 'Program & Kegiatan - Baitul Quran Al-Kautsar',
-            'meta_description' => 'Program pendidikan terpadu Baitul Quran Al-Kautsar - Tahfizh Quran, Kajian Kitab, Ekstrakurikuler, dan kegiatan harian santri',
-            'meta_keywords' => 'program pesantren, kegiatan santri, tahfizh quran, ekstrakurikuler islami, jadwal pesantren',
-            'ekstrakurikuler' => $ekstrakurikuler
+            'title' => 'Program - Baitul Quran Al-Kautsar'
         ];
         return view('lp/program', $data);
     }
-
+    
     public function kontak()
     {
         $data = [
@@ -51,11 +44,4 @@ class Home extends BaseController
         return view('lp/lainnya', $data);
     }
 
-    public function program()
-    {
-        $data = [
-            'title' => 'Program - Baitul Quran Al-Kautsar'
-        ];
-        return view('lp/program', $data);
-    }
 }
