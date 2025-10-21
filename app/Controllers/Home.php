@@ -31,8 +31,11 @@ class Home extends BaseController
 
     public function program()
     {
+        $ekstrakurikulerModel = new \App\Models\EkstrakurikulerModel();
+        
         $data = [
-            'title' => 'Program - Baitul Quran Al-Kautsar'
+            'title' => 'Program - Baitul Quran Al-Kautsar',
+            'ekstrakurikuler' => $ekstrakurikulerModel->findAll() // Get all extracurricular activities
         ];
         return view('lp/program/index', $data);
     }
