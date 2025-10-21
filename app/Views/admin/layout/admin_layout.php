@@ -40,7 +40,7 @@
         }
         
         .logo-mosque {
-            background: linear-gradient(135deg, #017077 0%, #1b7c82 100%);
+            background: color ( #ffff);
         }
         
         .sidebar-transition {
@@ -64,7 +64,7 @@
             <div class="p-6 border-b border-white/20">
                 <!-- Logo dan Nama -->
                 <div class="flex items-center space-x-3 mb-4">
-                    <div class="logo-mosque w-12 h-12 rounded-xl flex items-center justify-center shadow-lg overflow-hidden bg-white/10">
+                    <div class="logo-mosque w-12 h-12 rounded-xl flex items-center justify-center shadow-lg overflow-hidden bg-white">
                         <!-- Ganti SVG dengan IMG -->
                         <img src="<?= base_url('assets/img/logo.png'); ?>" alt="Logo Pondok" class="w-10 h-10 object-contain">
                     </div>
