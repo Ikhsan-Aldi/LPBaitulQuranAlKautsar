@@ -5,7 +5,7 @@
 <section class="relative min-h-screen flex items-center overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0 z-0">
-        <img src="<?= base_url('assets/img/hero.jpg') ?>" alt="Baitul Quran Al-Kautsar" class="w-full h-full object-cover">
+        <img src="<?= base_url('assets/img/hero-2.jpg') ?>" alt="Baitul Quran Al-Kautsar" class="w-full h-full object-cover">
         <div class="absolute inset-0 hero-overlay"></div>
     </div>
     
