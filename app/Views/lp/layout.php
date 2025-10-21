@@ -248,9 +248,9 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?= base_url('profil') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('profil')) ? 'text-teal-200' : '' ?>">
+                        <a href="<?= base_url('program') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('program')) ? 'text-teal-200' : '' ?>">
                             Program
-                            <?php if (current_url() == base_url('profil')): ?>
+                            <?php if (current_url() == base_url('program')): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
                             <?php endif; ?>
                         </a>
@@ -324,7 +324,7 @@
                             </a>
                         </div>
                     </div>
-                    <a href="<?= base_url('profil') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('profil')) ? 'text-teal-700 bg-teal-50' : '' ?>">
+                    <a href="<?= base_url('program') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('program')) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-book-open mr-3 text-teal-600"></i>Program
                     </a>
                     <a href="<?= base_url('kontak') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('kontak')) ? 'text-teal-700 bg-teal-50' : '' ?>">
@@ -416,7 +416,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?= base_url('profil') ?>" class="text-teal-200 hover:text-white transition-colors duration-300 flex items-center">
+                            <a href="<?= base_url('program') ?>" class="text-teal-200 hover:text-white transition-colors duration-300 flex items-center">
                                 <i class="fas fa-chevron-right text-xs mr-2 text-teal-400"></i>
                                 Program
                             </a>
