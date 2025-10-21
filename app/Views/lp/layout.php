@@ -248,7 +248,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="<?= base_url('profil') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('profil')) ? 'text-teal-200' : '' ?>">
+                        <a href="<?= base_url('program') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('profil')) ? 'text-teal-200' : '' ?>">
                             Program
                             <?php if (current_url() == base_url('profil')): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>

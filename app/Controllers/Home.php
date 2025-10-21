@@ -19,38 +19,20 @@ class Home extends BaseController
         ];
         return view('lp/tentang', $data);
     }
-    public function tentangindex()
+
+    public function program()
     {
-        $data = [
-            'title' => 'Tentang Kami - Baitul Quran Al-Kautsar',
-            'activeTab' => 'tentang'
-        ];
-        return view('tentang', $data);
-    }
+        // Ambil data ekstrakurikuler dari model
+        $ekstrakurikulerModel = new \App\Models\EkstrakurikulerModel();
+        $ekstrakurikuler = $ekstrakurikulerModel->findAll();
     
-    public function visiMisi()
-    {
         $data = [
-            'title' => 'Visi & Misi - Baitul Quran Al-Kautsar',
-            'activeTab' => 'visi-misi'
+            'title' => 'Program & Kegiatan - Baitul Quran Al-Kautsar',
+            'meta_description' => 'Program pendidikan terpadu Baitul Quran Al-Kautsar - Tahfizh Quran, Kajian Kitab, Ekstrakurikuler, dan kegiatan harian santri',
+            'meta_keywords' => 'program pesantren, kegiatan santri, tahfizh quran, ekstrakurikuler islami, jadwal pesantren',
+            'ekstrakurikuler' => $ekstrakurikuler
         ];
-        return view('tentang', $data);
-    }
-    
-    public function sejarah()
-    {
-        $data = [
-            'title' => 'Sejarah - Baitul Quran Al-Kautsar',
-            'activeTab' => 'sejarah'
-        ];
-        return view('tentang', $data);
-    }
-    public function profil()
-    {
-        $data = [
-            'title' => 'Profil - Solusi Digital Terdepan'
-        ];
-        return view('lp/profil', $data);
+        return view('lp/program', $data);
     }
 
     public function kontak()
