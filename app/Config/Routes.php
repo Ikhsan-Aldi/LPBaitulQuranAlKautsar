@@ -37,12 +37,15 @@ $routes->get('admin/pendaftaran/detail/(:num)', 'Admin::detail_pendaftaran/$1');
 $routes->get('admin/pendaftaran/verifikasi/(:num)/(:any)', 'Admin::verifikasi_pendaftaran/$1/$2');
 
 // Ekstrakurikuler
-$routes->get('admin/ekstrakurikuler', 'Admin::ekstrakurikuler');
-$routes->get('admin/ekstrakurikuler/tambah', 'Admin::tambah_ekstrakurikuler');
-$routes->post('admin/ekstrakurikuler/simpan', 'Admin::simpan_ekstrakurikuler');
-$routes->get('admin/ekstrakurikuler/edit/(:num)', 'Admin::edit_ekstrakurikuler/$1');
-$routes->post('admin/ekstrakurikuler/update/(:num)', 'Admin::update_ekstrakurikuler/$1');
-$routes->get('admin/ekstrakurikuler/hapus/(:num)', 'Admin::hapus_ekstrakurikuler/$1');
+$routes->group('admin', ['filter' => 'auth'], function($routes) {
+    $routes->get('ekstrakurikuler', 'Admin::ekstrakurikuler');
+    $routes->get('ekstrakurikuler/tambah', 'Admin::ekstrakurikuler_tambah');
+    $routes->post('ekstrakurikuler/simpan', 'Admin::ekstrakurikuler_simpan');
+    $routes->get('ekstrakurikuler/edit/(:num)', 'Admin::ekstrakurikuler_edit/$1');
+    $routes->post('ekstrakurikuler/update/(:num)', 'Admin::ekstrakurikuler_update/$1');
+    $routes->get('ekstrakurikuler/hapus/(:num)', 'Admin::ekstrakurikuler_hapus/$1');
+});
+
 
 // Pengajar
 $routes->get('admin/pengajar', 'Admin::pengajar');

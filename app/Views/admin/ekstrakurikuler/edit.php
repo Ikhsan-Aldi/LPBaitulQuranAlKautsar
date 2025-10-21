@@ -18,6 +18,19 @@
         <label>Jadwal</label>
         <input type="text" name="jadwal" class="form-control" value="<?= esc($ekstra['jadwal']); ?>">
     </div>
+    <div class="mb-3">
+        <label for="icon" class="form-label">Ikon (Font Awesome)</label>
+        <select name="icon" id="icon" class="form-select">
+            <option value="fas fa-swimming-pool" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-swimming-pool' ? 'selected' : '' ?>>Berenang</option>
+            <option value="fas fa-book" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-book' ? 'selected' : '' ?>>Tahfidz</option>
+            <option value="fas fa-futbol" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-futbol' ? 'selected' : '' ?>>Futsal</option>
+            <option value="fas fa-music" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-music' ? 'selected' : '' ?>>Hadrah</option>
+            <option value="fas fa-paint-brush" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-paint-brush' ? 'selected' : '' ?>>Kaligrafi</option>
+            <option value="fas fa-code" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-code' ? 'selected' : '' ?>>Teknologi</option>
+            <option value="fas fa-mosque" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-mosque' ? 'selected' : '' ?>>Kajian</option>
+            <option value="" <?= empty($ekstra['icon']) ? 'selected' : '' ?>>— Gunakan ikon default —</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary">Update</button>
     <a href="<?= base_url('admin/ekstrakurikuler'); ?>" class="btn btn-secondary">Kembali</a>
 </form>

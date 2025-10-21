@@ -4,120 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Dashboard Admin') ?> | Pondok Pesantren</title>
-
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
     <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f5f6fa;
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#005359',
+                        'primary': '#017077',
+                        'primary-medium': '#006e75',
+                        'primary-light': '#1b7c82',
+                        'white': '#ffffff',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'amiri': ['Amiri', 'serif'],
+                    }
+                }
+            }
         }
-        .sidebar {
-            width: 240px;
-            background-color: #2e3b4e;
-            color: #fff;
-            height: 100vh;
-            position: fixed;
-            top: 0; left: 0;
-            padding-top: 20px;
+    </script>
+    
+    <style>
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='%23005a5f' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .logo-mosque {
+            background: color ( #ffff);
+        }
+        
+        .sidebar-transition {
             transition: all 0.3s ease;
         }
-        .sidebar a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin: 4px 10px;
-            transition: all 0.2s;
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .sidebar a:hover, .sidebar a.active {
-            background-color: #3b4b64;
-        }
-        .content {
-            margin-left: 250px;
-            padding: 25px;
-        }
-        .navbar {
-            background-color: #fff;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .navbar .navbar-brand {
-            font-weight: 600;
-        }
-        .logout-btn {
-            color: #dc3545 !important;
-            font-weight: 500;
-        }
-        footer {
-            text-align: center;
-            color: #777;
-            padding: 15px;
-            margin-top: 30px;
-            font-size: 14px;
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
         }
     </style>
 </head>
 
-<body>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h4 class="text-center mb-4">Admin Panel</h4>
-
-        <a href="<?= base_url('admin/dashboard') ?>" class="<?= service('uri')->getSegment(2) == 'dashboard' ? 'active' : '' ?>">
-            <i class="fa fa-home me-2"></i> Dashboard
-        </a>
-
-        <a href="<?= base_url('admin/pengajar') ?>" class="<?= service('uri')->getSegment(2) == 'pengajar' ? 'active' : '' ?>">
-            <i class="fa fa-user-tie me-2"></i> Data Pengajar
-        </a>
-
-        <a href="<?= base_url('admin/santri') ?>" class="<?= service('uri')->getSegment(2) == 'santri' ? 'active' : '' ?>">
-            <i class="fa fa-users me-2"></i> Data Santri
-        </a>
-
-        <a href="<?= base_url('admin/ekstrakurikuler') ?>" class="<?= service('uri')->getSegment(2) == 'ekstrakurikuler' ? 'active' : '' ?>">
-            <i class="fa fa-futbol me-2"></i> Ekstrakurikuler
-        </a>
-
-        <a href="<?= base_url('admin/kegiatan') ?>" class="<?= service('uri')->getSegment(2) == 'kegiatan' ? 'active' : '' ?>">
-            <i class="fa fa-calendar-alt me-2"></i> Kegiatan
-        </a>
-
-        <a href="<?= base_url('admin/pendaftaran') ?>" class="<?= service('uri')->getSegment(2) == 'pendaftaran' ? 'active' : '' ?>">
-            <i class="fa fa-file-alt me-2"></i> Pendaftaran
-        </a>
-
-        <hr style="border-color:#4b576e;">
-
-        <a href="<?= base_url('logout') ?>" class="logout-btn" onclick="return confirm('Yakin ingin logout?')">
-            <i class="fa fa-sign-out-alt me-2"></i> Logout
-        </a>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-        <nav class="navbar navbar-expand-lg navbar-light mb-4">
-            <div class="container-fluid">
-                <span class="navbar-brand">Pondok Pesantren Al-Kautsar</span>
-                <div class="d-flex align-items-center">
-                    <i class="fa fa-user-circle me-2"></i>
-                    <span><?= esc(session()->get('username') ?? 'Admin') ?></span>
+<body class="font-poppins bg-white">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar-transition w-64 bg-gradient-to-b from-primary-dark to-primary text-white h-full fixed left-0 top-0 shadow-lg z-50">
+            <div class="p-6 border-b border-white/20">
+                <!-- Logo dan Nama -->
+                <div class="flex items-center space-x-3 mb-4">
+                    <div class="logo-mosque w-12 h-12 rounded-xl flex items-center justify-center shadow-lg overflow-hidden bg-white">
+                        <!-- Ganti SVG dengan IMG -->
+                        <img src="<?= base_url('assets/img/logo.png'); ?>" alt="Logo Pondok" class="w-10 h-10 object-contain">
+                    </div>
+                    <div>
+                        <h1 class="font-amiri text-xl font-bold">Admin Panel</h1>
+                        <p class="text-xs text-white/80">Pondok Pesantren</p>
+                    </div>
                 </div>
             </div>
-        </nav>
+
+
+            <!-- Menu Navigasi -->
+            <nav class="p-4 space-y-2">
+                <a href="<?= base_url('admin/dashboard') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'dashboard' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-home w-6 text-center"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="<?= base_url('admin/pengajar') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pengajar' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-user-tie w-6 text-center"></i>
+                    <span>Data Pengajar</span>
+                </a>
+
+                <a href="<?= base_url('admin/santri') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'santri' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-users w-6 text-center"></i>
+                    <span>Data Santri</span>
+                </a>
+
+                <a href="<?= base_url('admin/ekstrakurikuler') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'ekstrakurikuler' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-futbol w-6 text-center"></i>
+                    <span>Ekstrakurikuler</span>
+                </a>
+
+                <a href="<?= base_url('admin/kegiatan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'kegiatan' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-calendar-alt w-6 text-center"></i>
+                    <span>Kegiatan</span>
+                </a>
+
+                <a href="<?= base_url('admin/pendaftaran') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pendaftaran' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-file-alt w-6 text-center"></i>
+                    <span>Pendaftaran</span>
+                </a>
+
+                <div class="border-t border-white/20 my-4"></div>
+
+                <a href="<?= base_url('b0/logout') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500/20 hover:translate-x-2 transition-all duration-200 text-red-200" onclick="return confirm('Yakin ingin logout?')">
+                    <i class="fa fa-sign-out-alt w-6 text-center"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+            <!-- Islamic Pattern -->
+            <div class="islamic-pattern absolute bottom-0 left-0 w-full h-16 opacity-70"></div>
+        </div>
 
         <!-- Main Content -->
-        <?= $this->renderSection('content') ?>
+        <div class="ml-64 flex-1 flex flex-col min-h-screen">
+            <!-- Top Navigation -->
+            <header class="bg-gradient-to-r from-primary-dark to-primary text-white shadow-lg">
+                <div class="flex items-center justify-between p-6">
+                    <h1 class="font-amiri text-2xl font-bold">Pondok Pesantren Al-Kautsar</h1>
+                    <div class="flex items-center space-x-4 bg-white/20 px-4 py-2 rounded-full">
+                        <i class="fa fa-user-circle"></i>
+                        <span class="font-medium"><?= esc(session()->get('username') ?? 'Admin') ?></span>
+                    </div>
+                </div>
+            </header>
 
-        <footer>
-            &copy; <?= date('Y') ?> Pondok Pesantren Al-Kautsar. All rights reserved.
-        </footer>
+            <!-- Page Content -->
+            <main class="flex-1 p-8 bg-gray-50/50">
+                <?= $this->renderSection('content') ?>
+            </main>
+
+            <!-- Footer -->
+            <footer class="bg-white border-t border-primary-medium/20 py-6 text-center">
+                <p class="text-primary-medium font-medium">
+                    &copy; <?= date('Y') ?> Pondok Pesantren Al-Kautsar. All rights reserved.
+                </p>
+                <p class="text-sm text-gray-600 mt-2">
+                    Sistem Manajemen Pondok Pesantren - Versi 1.0
+                </p>
+            </footer>
+        </div>
     </div>
     
     <!-- Bootstrap 5 JS -->
@@ -125,5 +155,43 @@
     
     <!-- Section untuk script custom dari view -->
     <?= $this->renderSection('scripts') ?>
+
+    <!-- Mobile Menu Button (Hidden by default) -->
+    <button id="mobileMenuButton" class="lg:hidden fixed top-4 left-4 z-50 bg-primary p-3 rounded-lg text-white shadow-lg">
+        <i class="fa fa-bars"></i>
+    </button>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuButton').addEventListener('click', function() {
+            const sidebar = document.querySelector('.fixed.left-0');
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Close sidebar when clicking on a link in mobile view
+        document.querySelectorAll('.fixed.left-0 a').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth < 1024) {
+                    document.querySelector('.fixed.left-0').classList.add('-translate-x-full');
+                }
+            });
+        });
+
+        // Responsive sidebar behavior
+        function handleResize() {
+            const sidebar = document.querySelector('.fixed.left-0');
+            if (window.innerWidth < 1024) {
+                sidebar.classList.add('-translate-x-full');
+            } else {
+                sidebar.classList.remove('-translate-x-full');
+            }
+        }
+
+        // Initial check
+        handleResize();
+        
+        // Listen for resize events
+        window.addEventListener('resize', handleResize);
+    </script>
 </body>
 </html>

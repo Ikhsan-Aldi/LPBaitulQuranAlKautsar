@@ -18,6 +18,19 @@
         <label>Jadwal</label>
         <input type="text" name="jadwal" class="form-control">
     </div>
+    <div class="mb-3">
+        <label>Ikon (Font Awesome)</label>
+        <select name="icon" class="form-control">
+            <option value="fas fa-swimming-pool">Berenang</option>
+            <option value="fas fa-book">Tahfidz</option>
+            <option value="fas fa-futbol">Futsal</option>
+            <option value="fas fa-music">Hadrah</option>
+            <option value="fas fa-paint-brush">Kaligrafi</option>
+            <option value="fas fa-code">Teknologi</option>
+            <option value="fas fa-mosque">Kajian</option>
+            <option value="">(Kosongkan untuk ikon default)</option>
+        </select>
+    </div>
     <button type="submit" class="btn btn-success">Simpan</button>
     <a href="<?= base_url('admin/ekstrakurikuler'); ?>" class="btn btn-secondary">Kembali</a>
 </form>
