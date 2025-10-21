@@ -248,6 +248,25 @@ class Admin extends BaseController
         return redirect()->to('/admin/pengajar')->with('success', 'Data pengajar berhasil dihapus.');
     }
 
+    public function pengajarDetail($id)
+    {
+        $model = new \App\Models\PengajarModel();
+        $pengajar = $model->find($id);
+
+        if ($pengajar) {
+            return $this->response->setJSON([
+                'status' => 'success',
+                'data' => $pengajar
+            ]);
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+    }
+
+
     //Santri
     public function santri()
     {

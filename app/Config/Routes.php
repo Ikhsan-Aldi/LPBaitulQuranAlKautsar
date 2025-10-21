@@ -54,6 +54,8 @@ $routes->post('admin/pengajar/simpan', 'Admin::simpan_pengajar');
 $routes->get('admin/pengajar/edit/(:num)', 'Admin::edit_pengajar/$1');
 $routes->post('admin/pengajar/update/(:num)', 'Admin::update_pengajar/$1');
 $routes->get('admin/pengajar/hapus/(:num)', 'Admin::hapus_pengajar/$1');
+$routes->get('admin/pengajar/detail/(:num)', 'Admin::pengajarDetail/$1');
+
 
 // Gelombang Pendaftaran Routes
 $routes->get('admin/gelombang', 'Admin::gelombang');

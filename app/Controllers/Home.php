@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\GelombangModel;
+use App\Models\EkstrakurikulerModel;
 
 class Home extends BaseController
 {
@@ -34,6 +35,11 @@ class Home extends BaseController
         $data = [
             'title' => 'Program - Baitul Quran Al-Kautsar'
         ];
+        $model = new EkstrakurikulerModel();
+
+        // Ambil semua data ekstrakurikuler
+        $data['ekstrakurikuler'] = $model->findAll();
+
         return view('lp/program/index', $data);
     }
 

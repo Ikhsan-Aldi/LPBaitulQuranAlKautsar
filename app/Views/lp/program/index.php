@@ -152,14 +152,14 @@
             </div>
 
             <!-- Ekstrakurikuler Tab -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
                 <?php foreach ($ekstrakurikuler as $e): ?>
                     <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
                         <div class="flex items-center mb-4">
                             <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
                                 <i class="<?= esc($e['icon']) ?>"></i>
                             </div>
-                            <h3 class="text-lg font-bold text-[#017077]"><?= esc($e['nama_ekstra']) ?></h3>
+                            <h3 class="text-lg font-bold text-[#017077]"><?= esc($e['nama_ekstrakurikuler']) ?></h3>
                         </div>
                         <p class="text-gray-600 text-sm"><?= esc($e['deskripsi']) ?></p>
                     </div>

@@ -121,11 +121,6 @@
                                    onclick="return confirm('Yakin ingin menghapus ekstrakurikuler <?= esc($e['nama_ekstrakurikuler']) ?>?')">
                                     <i class="fa fa-trash text-sm"></i>
                                 </a>
-                                <button class="bg-primary-medium hover:bg-primary text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
-                                        data-tooltip="Detail"
-                                        onclick="showDetail(<?= $e['id'] ?>)">
-                                    <i class="fa fa-eye text-sm"></i>
-                                </button>
                             </div>
                         </td>
                     </tr>
@@ -242,68 +237,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
-
-// Detail modal functions
-function showDetail(id) {
-    const modalContent = document.getElementById('modalContent');
-    modalContent.innerHTML = `
-        <div class="text-center mb-6">
-            <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fa fa-futbol text-3xl text-primary"></i>
-            </div>
-            <h4 class="text-lg font-semibold text-gray-800">Loading...</h4>
-        </div>
-    `;
-    
-    document.getElementById('detailModal').classList.remove('hidden');
-    
-    // Simulate API call
-    setTimeout(() => {
-        modalContent.innerHTML = `
-            <div class="space-y-4">
-                <div class="text-center mb-6">
-                    <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa fa-futbol text-3xl text-primary"></i>
-                    </div>
-                    <h4 class="text-lg font-semibold text-gray-800">Detail Ekstrakurikuler</h4>
-                    <p class="text-gray-600">Informasi lengkap kegiatan</p>
-                </div>
-                
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Nama:</span>
-                        <span class="font-medium">Loading...</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Pembimbing:</span>
-                        <span class="font-medium">Loading...</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Jadwal:</span>
-                        <span class="font-medium">Loading...</span>
-                    </div>
-                </div>
-                
-                <div class="pt-4 border-t border-gray-200">
-                    <p class="text-sm text-gray-500 text-center">
-                        Fitur detail lengkap akan tersedia di versi selanjutnya
-                    </p>
-                </div>
-            </div>
-        `;
-    }, 500);
-}
-
-function closeDetail() {
-    document.getElementById('detailModal').classList.add('hidden');
-}
-
-// Close modal when clicking outside
-document.getElementById('detailModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeDetail();
-    }
 });
 </script>
 
