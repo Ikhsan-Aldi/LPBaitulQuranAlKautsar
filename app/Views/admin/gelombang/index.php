@@ -3,10 +3,14 @@
 <?= $this->section('content') ?>
 <div class="container mx-auto px-4 py-6">
     <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-primary-dark"><?= $title ?></h1>
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-primary-dark font-amiri">Gelombang Pendaftaran</h1>
+            <p class="text-gray-600 mt-2">Kelola gelombang pendaftaran pondok pesantren</p>
+        </div>
         <a href="<?= base_url('admin/gelombang/tambah') ?>" class="bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center">
-            <i class="fas fa-plus-circle mr-2"></i>Tambah Gelombang
+            <i class="fas fa-plus-circle mr-2"></i>
+            <span>Tambah Gelombang Baru</span>
         </a>
     </div>
 
