@@ -103,6 +103,11 @@
                     <span>Kegiatan</span>
                 </a>
 
+                <a href="<?= base_url('admin/gelombang') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'gelombang' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-wave-square w-6 text-center"></i>
+                    <span>Gelombang Pendaftaran</span>
+                </a>
+
                 <a href="<?= base_url('admin/pendaftaran') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pendaftaran' ? 'bg-primary-light' : '' ?>">
                     <i class="fa fa-file-alt w-6 text-center"></i>
                     <span>Pendaftaran</span>
