@@ -8,5 +8,5 @@ class EkstrakurikulerModel extends Model
 {
     protected $table = 'ekstrakurikuler';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['nama_ekstrakurikuler', 'deskripsi', 'pembimbing', 'jadwal'];
+    protected $allowedFields = ['nama_ekstrakurikuler', 'deskripsi', 'pembimbing', 'jadwal', 'icon'];
 }

@@ -64,29 +64,47 @@ class Admin extends BaseController
     public function ekstrakurikuler()
     {
         $model = new EkstrakurikulerModel();
-        $data['title'] = 'Data Ekstrakurikuler';
         $data['ekstrakurikuler'] = $model->findAll();
+        $data['title'] = 'Data Ekstrakurikuler';
         return view('admin/ekstrakurikuler/index', $data);
     }
 
-    public function tambah_ekstrakurikuler()
+    public function ekstrakurikuler_tambah()
     {
-        return view('admin/ekstrakurikuler/tambah', ['title' => 'Tambah Ekstrakurikuler']);
+        $data['title'] = 'Tambah Ekstrakurikuler';
+        return view('admin/ekstrakurikuler/tambah', $data);
     }
 
-    public function simpan_ekstrakurikuler()
+    public function ekstrakurikuler_simpan()
     {
         $model = new EkstrakurikulerModel();
+
+        // daftar icon otomatis berdasarkan nama
+        $iconList = [
+            'berenang' => 'fas fa-swimming-pool',
+            'tahfidz'  => 'fas fa-book',
+            'futsal'   => 'fas fa-futbol',
+            'hadrah'   => 'fas fa-music',
+            'kaligrafi'=> 'fas fa-paint-brush',
+            'teknologi'=> 'fas fa-code',
+            'kajian'   => 'fas fa-mosque',
+        ];
+
+        $nama = strtolower($this->request->getPost('nama_ekstrakurikuler'));
+        $icon = $this->request->getPost('icon') ?: ($iconList[$nama] ?? 'fas fa-star');
+
         $model->save([
             'nama_ekstrakurikuler' => $this->request->getPost('nama_ekstrakurikuler'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'pembimbing' => $this->request->getPost('pembimbing'),
-            'jadwal' => $this->request->getPost('jadwal'),
+            'deskripsi'            => $this->request->getPost('deskripsi'),
+            'pembimbing'           => $this->request->getPost('pembimbing'),
+            'jadwal'               => $this->request->getPost('jadwal'),
+            'icon'                 => $icon,
         ]);
-        return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil ditambahkan');
+
+        return redirect()->to(base_url('admin/ekstrakurikuler'))->with('success', 'Data ekstrakurikuler berhasil ditambahkan');
     }
 
-    public function edit_ekstrakurikuler($id)
+    public function ekstrakurikuler_edit($id)
     {
         $model = new EkstrakurikulerModel();
         $data['ekstra'] = $model->find($id);
@@ -94,23 +112,46 @@ class Admin extends BaseController
         return view('admin/ekstrakurikuler/edit', $data);
     }
 
-    public function update_ekstrakurikuler($id)
+   public function ekstrakurikuler_update($id)
     {
         $model = new EkstrakurikulerModel();
+        $ekstra = $model->find($id);
+
+        $iconList = [
+            'berenang' => 'fas fa-swimming-pool',
+            'tahfidz'  => 'fas fa-book',
+            'futsal'   => 'fas fa-futbol',
+            'hadrah'   => 'fas fa-music',
+            'kaligrafi'=> 'fas fa-paint-brush',
+            'teknologi'=> 'fas fa-code',
+            'kajian'   => 'fas fa-mosque',
+        ];
+
+        $nama = strtolower($this->request->getPost('nama_ekstrakurikuler'));
+        $icon = $this->request->getPost('icon') ?: ($iconList[$nama] ?? $ekstra['icon']);
+
         $model->update($id, [
             'nama_ekstrakurikuler' => $this->request->getPost('nama_ekstrakurikuler'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'pembimbing' => $this->request->getPost('pembimbing'),
-            'jadwal' => $this->request->getPost('jadwal'),
+            'deskripsi'            => $this->request->getPost('deskripsi'),
+            'pembimbing'           => $this->request->getPost('pembimbing'),
+            'jadwal'               => $this->request->getPost('jadwal'),
+            'icon'                 => $icon,
         ]);
-        return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil diupdate');
+
+        return redirect()->to(base_url('admin/ekstrakurikuler'))->with('success', 'Data ekstrakurikuler berhasil diperbarui');
     }
 
-    public function hapus_ekstrakurikuler($id)
+    public function ekstrakurikuler_hapus($id)
     {
         $model = new EkstrakurikulerModel();
+        $ekstra = $model->find($id);
+
+        if (!empty($ekstra['logo']) && file_exists('uploads/logo_ekstra/' . $ekstra['logo'])) {
+            unlink('uploads/logo_ekstra/' . $ekstra['logo']);
+        }
+
         $model->delete($id);
-        return redirect()->to('/admin/ekstrakurikuler')->with('success', 'Data berhasil dihapus');
+        return redirect()->to(base_url('admin/ekstrakurikuler'))->with('success', 'Data berhasil dihapus');
     }
 
     //Pengajar
