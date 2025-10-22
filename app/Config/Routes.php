@@ -77,7 +77,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('santri/edit/(:num)', 'Admin::santri_edit/$1');
     $routes->post('santri/update/(:num)', 'Admin::santri_update/$1');
     $routes->get('santri/hapus/(:num)', 'Admin::santri_hapus/$1');
-    $routes->get('santri/detail/(:num)', 'Admin::santriDetail/$1');
+    $routes->get('santri/detail/(:num)', 'Admin::santri_detail/$1');
 
     // Kegiatan
     $routes->get('kegiatan', 'Admin::kegiatan');

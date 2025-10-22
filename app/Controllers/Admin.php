@@ -299,37 +299,79 @@ class Admin extends BaseController
     public function santri_simpan()
     {
         $santriModel = new SantriModel();
-
+        
         $id_pendaftaran = $this->request->getPost('id_pendaftaran');
+        $mode = $this->request->getPost('pilih_mode');
 
-        if (empty($id_pendaftaran)) {
-            $data = [
-                'id_pendaftaran' => null,
-                'nis' => $this->request->getPost('nis'),
-                'nama' => $this->request->getPost('nama'),
-                'jenjang' => $this->request->getPost('jenjang'),
-                'asal_sekolah' => $this->request->getPost('asal_sekolah'),
-                'alamat' => $this->request->getPost('alamat'),
-                'no_hp' => $this->request->getPost('no_hp'),
-                'status' => $this->request->getPost('status'),
-            ];
+        if ($mode === 'pendaftaran' && !empty($id_pendaftaran)) {
+            // Mode: Import dari pendaftaran menggunakan method dari model
+            $result = $santriModel->importFromPendaftaran($id_pendaftaran);
+            
+            if (!$result) {
+                return redirect()->back()->with('error', 'Gagal mengimpor data dari pendaftaran');
+            }
+            
+            // Update NIS dan status jika diinput manual
+            $nis = $this->request->getPost('nis');
+            $status = $this->request->getPost('status');
+            
+            if (!empty($nis) || !empty($status)) {
+                $updateData = [];
+                if (!empty($nis)) {
+                    // Validasi NIS unik
+                    if ($santriModel->isNISExist($nis, $result['id'])) {
+                        $santriModel->delete($result['id']); // Hapus data yang baru dibuat
+                        return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
+                    }
+                    $updateData['nis'] = $nis;
+                }
+                if (!empty($status)) {
+                    $updateData['status'] = $status;
+                }
+                
+                $santriModel->update($result['id'], $updateData);
+            }
+            
         } else {
-            $pendaftaranModel = new PendaftaranModel();
-            $p = $pendaftaranModel->find($id_pendaftaran);
-
+            // Mode: Input manual
             $data = [
-                'id_pendaftaran' => $id_pendaftaran,
-                'nis' => $this->request->getPost('nis'),
-                'nama' => $p['nama_lengkap'],
-                'jenjang' => $p['jenjang'],
-                'asal_sekolah' => $p['asal_sekolah'] ?? '',
-                'alamat' => $p['alamat'] ?? '',
-                'no_hp' => $p['no_hp'] ?? '',
-                'status' => $this->request->getPost('status'),
+                'id_pendaftaran'   => null,
+                'nama_lengkap'     => $this->request->getPost('nama_lengkap'),
+                'jenis_kelamin'    => $this->request->getPost('jenis_kelamin'),
+                'tempat_lahir'     => $this->request->getPost('tempat_lahir'),
+                'tanggal_lahir'    => $this->request->getPost('tanggal_lahir'),
+                'nis'              => $this->request->getPost('nis'),
+                'nisn'             => $this->request->getPost('nisn'),
+                'nama'             => $this->request->getPost('nama_lengkap'),
+                'jenjang'          => $this->request->getPost('jenjang'),
+                'asal_sekolah'     => $this->request->getPost('asal_sekolah'),
+                'alamat'           => $this->request->getPost('alamat'),
+                'nama_ayah'        => $this->request->getPost('nama_ayah'),
+                'nama_ibu'         => $this->request->getPost('nama_ibu'),
+                'no_hp'            => $this->request->getPost('no_hp'),
+                'no_hp_ortu'       => $this->request->getPost('no_hp_ortu'),
+                'ktp_ortu'         => $this->request->getPost('ktp_ortu'),
+                'akta_kk'          => $this->request->getPost('akta_kk'),
+                'surat_ket_lulus'  => $this->request->getPost('surat_ket_lulus'),
+                'ijazah_terakhir'  => $this->request->getPost('ijazah_terakhir'),
+                'foto'             => $this->request->getPost('foto'),
+                'status'           => $this->request->getPost('status') ?? 'Aktif'
             ];
+
+            try {
+                // Validasi NIS unik
+                if ($santriModel->isNISExist($data['nis'])) {
+                    return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
+                }
+
+                $santriModel->insert($data);
+                
+            } catch (\Exception $e) {
+                log_message('error', 'Error menyimpan data santri: ' . $e->getMessage());
+                return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data santri');
+            }
         }
 
-        $santriModel->insert($data);
         return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil disimpan');
     }
 
@@ -378,6 +420,37 @@ class Admin extends BaseController
                 'status' => 'error',
                 'message' => 'Data tidak ditemukan'
             ]);
+        }
+    }
+
+    public function santri_detail($id)
+    {
+        $santriModel = new SantriModel();
+        $santri = $santriModel->find($id);
+
+        if (!$santri) {
+            return redirect()->to(base_url('admin/santri'))->with('error', 'Data santri tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Detail Santri - ' . $santri['nama_lengkap'],
+            'santri' => $santri
+        ];
+
+        return view('admin/santri/detail', $data);
+    }
+
+    public function santri_update_status($id)
+    {
+        $santriModel = new SantriModel();
+        $status = $this->request->getJSON()->status;
+
+        $result = $santriModel->updateStatus($id, $status);
+
+        if ($result) {
+            return $this->response->setJSON(['success' => true]);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengupdate status']);
         }
     }
 

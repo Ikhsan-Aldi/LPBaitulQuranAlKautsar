@@ -5,10 +5,10 @@
     <!-- Header -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <div>
-            <h1 class="text-3xl font-bold text-primary-dark font-amiri">Edit Kegiatan</h1>
-            <p class="text-gray-600 mt-2">Ubah informasi kegiatan pondok pesantren</p>
+            <h1 class="text-3xl font-bold text-primary-dark font-amiri">Edit Data Santri</h1>
+            <p class="text-gray-600 mt-2">Ubah informasi data santri pondok pesantren</p>
         </div>
-        <a href="<?= base_url('admin/kegiatan'); ?>" class="mt-4 md:mt-0 bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center space-x-2">
+        <a href="<?= base_url('admin/santri'); ?>" class="mt-4 md:mt-0 bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center space-x-2">
             <i class="fa fa-arrow-left"></i>
             <span>Kembali ke Daftar</span>
         </a>
@@ -16,126 +16,215 @@
 
     <!-- Form -->
     <div class="bg-white rounded-2xl shadow-lg p-6">
-        <form action="<?= base_url('admin/kegiatan/update/'.$kegiatan['id']); ?>" method="post" enctype="multipart/form-data" class="space-y-6">
+        <form action="<?= base_url('admin/santri/update/' . $santri['id']); ?>" method="post" class="space-y-6">
             <?= csrf_field(); ?>
 
-            <!-- Judul Kegiatan -->
-            <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700">Judul Kegiatan *</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fa fa-heading text-gray-400"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama Lengkap -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Nama Lengkap *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" name="nama_lengkap" value="<?= esc($santri['nama_lengkap']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="Masukkan nama lengkap" required>
                     </div>
-                    <input type="text" name="judul" value="<?= esc($kegiatan['judul']); ?>" 
-                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
-                           placeholder="Masukkan judul kegiatan" required>
                 </div>
-            </div>
 
-            <!-- Deskripsi -->
-            <div class="space-y-2">
-                <label class="block text-sm font-medium text-gray-700">Deskripsi</label>
-                <div class="relative">
-                    <div class="absolute top-3 left-3 pointer-events-none">
-                        <i class="fa fa-align-left text-gray-400"></i>
+                <!-- Jenis Kelamin -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Jenis Kelamin *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-venus-mars text-gray-400"></i>
+                        </div>
+                        <select name="jenis_kelamin" 
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white" required>
+                            <option value="Laki-laki" <?= $santri['jenis_kelamin'] == 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+                            <option value="Perempuan" <?= $santri['jenis_kelamin'] == 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="fa fa-chevron-down text-gray-400"></i>
+                        </div>
                     </div>
-                    <textarea name="deskripsi" rows="4" 
-                              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 resize-none"
-                              placeholder="Jelaskan detail kegiatan..."><?= esc($kegiatan['deskripsi']); ?></textarea>
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Tanggal -->
+                <!-- Tempat Lahir -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">Tanggal *</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa fa-calendar text-gray-400"></i>
-                        </div>
-                        <input type="date" name="tanggal" value="<?= esc($kegiatan['tanggal']); ?>" 
-                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
-                               required>
-                    </div>
-                </div>
-
-                <!-- Lokasi -->
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">Lokasi *</label>
+                    <label class="block text-sm font-medium text-gray-700">Tempat Lahir</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fa fa-map-marker-alt text-gray-400"></i>
                         </div>
-                        <input type="text" name="lokasi" value="<?= esc($kegiatan['lokasi']); ?>" 
+                        <input type="text" name="tempat_lahir" value="<?= esc($santri['tempat_lahir']); ?>" 
                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
-                               placeholder="Contoh: Masjid, Aula, Lapangan" required>
+                               placeholder="Kota kelahiran">
+                    </div>
+                </div>
+
+                <!-- Tanggal Lahir -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-calendar text-gray-400"></i>
+                        </div>
+                        <input type="date" name="tanggal_lahir" value="<?= esc($santri['tanggal_lahir']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200">
                     </div>
                 </div>
             </div>
 
-            <!-- Foto -->
-            <div class="space-y-4">
-                <label class="block text-sm font-medium text-gray-700">Foto Kegiatan</label>
-
-                <?php if (!empty($foto)): ?>
-                <div class="mb-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <p class="text-sm text-gray-600 mb-3">Foto Saat Ini:</p>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        <?php foreach ($foto as $f): ?>
-                        <div class="relative group">
-                            <img src="<?= base_url('uploads/kegiatan/' . esc($f['file_name'])) ?>" 
-                                alt="<?= esc($kegiatan['judul']); ?>" 
-                                class="w-full h-28 rounded-lg object-cover shadow-sm border-2 border-white group-hover:scale-105 transition-transform duration-200">
-
-                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all duration-200 flex items-center justify-center">
-                                <a href="<?= base_url('uploads/kegiatan/' . esc($f['file_name'])) ?>" 
-                                target="_blank" 
-                                class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                    <i class="fa fa-search-plus"></i>
-                                </a>
-                            </div>
-
-                            <!-- Tombol hapus -->
-                            <button type="button" 
-                                    class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1 cursor-pointer hover:bg-red-700 delete-btn"
-                                    data-foto-id="<?= esc($f['id_foto']) ?>">
-                                <i class="fa fa-trash text-xs"></i>
-                            </button>
-
-                            <!-- Checkbox tersembunyi -->
-                            <input type="checkbox" name="hapus_foto[]" value="<?= esc($f['id_foto']) ?>" class="hidden delete-checkbox">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- NIS -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">NIS *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-hashtag text-gray-400"></i>
                         </div>
-
-                        <?php endforeach; ?>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-2">Centang ikon tempat sampah untuk menghapus foto lama.</p>
-                </div>
-                <?php else: ?>
-                    <p class="text-gray-500 text-sm italic mb-4">Belum ada foto dokumentasi untuk kegiatan ini.</p>
-                <?php endif; ?>
-
-                <!-- Upload baru -->
-                <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary transition-colors duration-200 relative">
-                    <div class="flex flex-col items-center justify-center space-y-3">
-                        <i class="fa fa-cloud-upload-alt text-3xl text-gray-400"></i>
-                        <div>
-                            <p class="text-sm text-gray-600">
-                                <span class="font-medium text-primary">Klik untuk upload</span> atau drag and drop
-                            </p>
-                            <p class="text-xs text-gray-500 mt-1">
-                                Bisa pilih beberapa foto (PNG, JPG, JPEG, Maks. 2MB per foto)
-                            </p>
-                        </div>
-                        <input type="file" name="foto[]" 
-                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                            accept="image/*" multiple>
+                        <input type="text" name="nis" value="<?= esc($santri['nis']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="Nomor Induk Santri" required>
                     </div>
                 </div>
 
-                <!-- Preview gambar baru -->
-                <div id="imagePreview" class="hidden p-4 bg-gray-50 rounded-xl border border-gray-200">
-                    <p class="text-sm text-gray-600 mb-2">Preview Gambar Baru:</p>
-                    <div id="previewContainer" class="flex flex-wrap gap-3"></div>
+                <!-- NISN -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">NISN</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-id-card text-gray-400"></i>
+                        </div>
+                        <input type="text" name="nisn" value="<?= esc($santri['nisn']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="Nomor Induk Siswa Nasional">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Jenjang -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Jenjang *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-graduation-cap text-gray-400"></i>
+                        </div>
+                        <select name="jenjang" 
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white" required>
+                            <option value="SMP" <?= $santri['jenjang'] == 'SMP' ? 'selected' : '' ?>>SMP</option>
+                            <option value="SMA" <?= $santri['jenjang'] == 'SMA' ? 'selected' : '' ?>>SMA</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="fa fa-chevron-down text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Status *</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-circle text-gray-400"></i>
+                        </div>
+                        <select name="status" 
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white">
+                            <option value="Aktif" <?= $santri['status'] == 'Aktif' ? 'selected' : '' ?>>Aktif</option>
+                            <option value="Lulus" <?= $santri['status'] == 'Lulus' ? 'selected' : '' ?>>Lulus</option>
+                            <option value="Nonaktif" <?= $santri['status'] == 'Nonaktif' ? 'selected' : '' ?>>Nonaktif</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <i class="fa fa-chevron-down text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asal Sekolah -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Asal Sekolah *</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa fa-school text-gray-400"></i>
+                    </div>
+                    <input type="text" name="asal_sekolah" value="<?= esc($santri['asal_sekolah']); ?>" 
+                           class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                           placeholder="Nama sekolah asal" required>
+                </div>
+            </div>
+
+            <!-- Alamat -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Alamat</label>
+                <div class="relative">
+                    <div class="absolute top-3 left-3 pointer-events-none">
+                        <i class="fa fa-map text-gray-400"></i>
+                    </div>
+                    <textarea name="alamat" rows="3" 
+                              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 resize-none"
+                              placeholder="Alamat lengkap"><?= esc($santri['alamat']); ?></textarea>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nama Ayah -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Nama Ayah</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-male text-gray-400"></i>
+                        </div>
+                        <input type="text" name="nama_ayah" value="<?= esc($santri['nama_ayah']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="Nama lengkap ayah">
+                    </div>
+                </div>
+
+                <!-- Nama Ibu -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Nama Ibu</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-female text-gray-400"></i>
+                        </div>
+                        <input type="text" name="nama_ibu" value="<?= esc($santri['nama_ibu']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="Nama lengkap ibu">
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- No HP Santri -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">No HP Santri</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-phone text-gray-400"></i>
+                        </div>
+                        <input type="text" name="no_hp" value="<?= esc($santri['no_hp']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="081234567890">
+                    </div>
+                </div>
+
+                <!-- No HP Orang Tua -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">No HP Orang Tua</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fa fa-phone-alt text-gray-400"></i>
+                        </div>
+                        <input type="text" name="no_hp_ortu" value="<?= esc($santri['no_hp_ortu']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="081234567890">
+                    </div>
                 </div>
             </div>
 
@@ -144,10 +233,10 @@
                 <button type="submit" 
                         class="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2">
                     <i class="fa fa-save"></i>
-                    <span>Update Kegiatan</span>
+                    <span>Update Data Santri</span>
                 </button>
-                <a href="<?= base_url('admin/kegiatan'); ?>" 
-                class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2">
+                <a href="<?= base_url('admin/santri'); ?>" 
+                   class="bg-gray-500 hover:bg-gray-600 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2">
                     <i class="fa fa-times"></i>
                     <span>Batal</span>
                 </a>
@@ -157,107 +246,10 @@
 </div>
 
 <script>
+// Form validation
 document.addEventListener('DOMContentLoaded', function() {
-    const fileInput = document.querySelector('input[name="foto[]"]');
-    const uploadArea = document.querySelector('.border-dashed');
-    const imagePreview = document.getElementById('imagePreview');
-    const previewContainer = document.getElementById('previewContainer');
-
-    // Event listener upload file
-    fileInput.addEventListener('change', function(e) {
-        const files = e.target.files;
-        previewContainer.innerHTML = ''; // Hapus preview lama
-
-        if (files.length === 0) {
-            imagePreview.classList.add('hidden');
-            return;
-        }
-
-        imagePreview.classList.remove('hidden');
-
-        Array.from(files).forEach(file => {
-            // Validasi ukuran file (max 2MB)
-            if (file.size > 2 * 1024 * 1024) {
-                alert(`File "${file.name}" terlalu besar (maksimal 2MB)`);
-                return;
-            }
-
-            // Validasi tipe file
-            if (!file.type.match('image.*')) {
-                alert(`File "${file.name}" bukan gambar yang valid`);
-                return;
-            }
-
-            // Baca dan tampilkan preview
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const previewDiv = document.createElement('div');
-                previewDiv.classList.add('relative', 'w-24', 'h-24');
-
-                previewDiv.innerHTML = `
-                    <img src="${e.target.result}" 
-                         alt="${file.name}" 
-                         class="w-24 h-24 object-cover rounded-lg border border-gray-200 shadow-sm">
-                    <span class="absolute bottom-1 left-1 bg-black bg-opacity-50 text-white text-[10px] px-1 rounded">
-                        ${formatFileSize(file.size)}
-                    </span>
-                `;
-
-                previewContainer.appendChild(previewDiv);
-            };
-            reader.readAsDataURL(file);
-        });
-
-    // Format ukuran file
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-});
-
-    // Drag and drop functionality
-    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        uploadArea.addEventListener(eventName, preventDefaults, false);
-    });
-
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
-
-    ['dragenter', 'dragover'].forEach(eventName => {
-        uploadArea.addEventListener(eventName, highlight, false);
-    });
-
-    ['dragleave', 'drop'].forEach(eventName => {
-        uploadArea.addEventListener(eventName, unhighlight, false);
-    });
-
-    function highlight() {
-        uploadArea.classList.add('border-primary', 'bg-primary/5');
-    }
-
-    function unhighlight() {
-        uploadArea.classList.remove('border-primary', 'bg-primary/5');
-    }
-
-    uploadArea.addEventListener('drop', handleDrop, false);
-
-    function handleDrop(e) {
-        const dt = e.dataTransfer;
-        const files = dt.files;
-        fileInput.files = files;
-        
-        // Trigger change event
-        const event = new Event('change');
-        fileInput.dispatchEvent(event);
-    }
-
-    // Form validation
     const form = document.querySelector('form');
+    
     form.addEventListener('submit', function(e) {
         const requiredFields = form.querySelectorAll('[required]');
         let valid = true;
@@ -299,64 +291,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const deleteButtons = document.querySelectorAll('.delete-btn');
-
-    deleteButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const parent = btn.closest('.relative');
-            const checkbox = parent.querySelector('.delete-checkbox');
-
-            // toggle nilai checkbox
-            checkbox.checked = !checkbox.checked;
-
-            // beri efek visual kalau sudah dipilih
-            if (checkbox.checked) {
-                parent.classList.add('ring-2', 'ring-red-500', 'opacity-75');
-            } else {
-                parent.classList.remove('ring-2', 'ring-red-500', 'opacity-75');
-            }
-        });
-    });
-});
-
-document.getElementById('fotoInput').addEventListener('change', function(event) {
-    const files = event.target.files;
-    const previewContainer = document.getElementById('previewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-
-    previewContainer.innerHTML = '';
-    if (files.length > 0) {
-        imagePreview.classList.remove('hidden');
-    } else {
-        imagePreview.classList.add('hidden');
-    }
-
-    for (const file of files) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const imgWrapper = document.createElement('div');
-            imgWrapper.className = "w-20 h-20 rounded-lg overflow-hidden border border-gray-200 shadow-sm";
-
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = file.name;
-            img.className = "object-cover w-full h-full";
-
-            imgWrapper.appendChild(img);
-            previewContainer.appendChild(imgWrapper);
-        }
-        reader.readAsDataURL(file);
-    }
-});
-
 </script>
 
 <style>
-.border-dashed {
-    position: relative;
-    transition: all 0.3s ease;
+select {
+    background-image: none;
 }
 
 .error-message {
@@ -368,7 +307,7 @@ document.getElementById('fotoInput').addEventListener('change', function(event) 
     to { opacity: 1; transform: translateY(0); }
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(1, 112, 119, 0.1);
 }
