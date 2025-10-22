@@ -100,15 +100,12 @@
                             </span>
                         </td>
                         <td class="py-4 px-6">
-                            <?php if ($row['foto']): ?>
+                            <?php if (!empty($row['foto_utama'])): ?>
                                 <div class="relative group">
-                                    <img src="<?= base_url('uploads/kegiatan/'.$row['foto']); ?>" 
-                                         alt="<?= esc($row['judul']); ?>" 
-                                         class="w-16 h-16 rounded-lg object-cover shadow-sm border-2 border-white group-hover:scale-110 transition-transform duration-200 cursor-pointer"
-                                         onclick="showImage('<?= base_url('uploads/kegiatan/'.$row['foto']); ?>', '<?= esc($row['judul']); ?>')">
-                                    <div class="absolute inset-0 bg-primary/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                                        <i class="fa fa-search-plus text-white text-lg"></i>
-                                    </div>
+                                    <img src="<?= base_url('uploads/kegiatan/' . esc($row['foto_utama'])); ?>" 
+                                        alt="<?= esc($row['judul']); ?>" 
+                                        class="w-16 h-16 rounded-lg object-cover shadow-sm border-2 border-white"
+                                        onclick="showImage('<?= base_url('uploads/kegiatan/' . esc($row['foto_utama'])); ?>', '<?= esc($row['judul']); ?>')">
                                 </div>
                             <?php else: ?>
                                 <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -129,11 +126,11 @@
                                    onclick="return confirm('Yakin ingin menghapus kegiatan <?= esc($row['judul']) ?>?')">
                                     <i class="fa fa-trash text-sm"></i>
                                 </a>
-                                <button class="bg-primary-medium hover:bg-primary text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
-                                        data-tooltip="Detail"
-                                        onclick="showDetail(<?= $row['id'] ?>)">
-                                    <i class="fa fa-eye text-sm"></i>
-                                </button>
+                                <a href="<?= base_url('admin/kegiatan/detail/'.$row['id']); ?>" 
+                                   class="bg-primary-medium hover:bg-primary text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
+                                   data-tooltip="Detail">
+                                   <i class="fa fa-eye text-sm"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -170,36 +167,6 @@
         </div>
     </div>
     <?php endif; ?>
-</div>
-
-<!-- Detail Modal -->
-<div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex items-center justify-between">
-                <h3 class="text-xl font-bold text-primary-dark font-amiri">Detail Kegiatan</h3>
-                <button onclick="closeDetail()" class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
-                    <i class="fa fa-times text-xl"></i>
-                </button>
-            </div>
-        </div>
-        <div class="p-6" id="modalContent">
-            <!-- Detail content will be loaded here -->
-        </div>
-    </div>
-</div>
-
-<!-- Image Modal -->
-<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50 hidden">
-    <div class="max-w-4xl max-h-full">
-        <div class="flex justify-between items-center mb-4">
-            <h4 class="text-white text-lg font-semibold" id="imageTitle"></h4>
-            <button onclick="closeImage()" class="text-white hover:text-gray-300 text-2xl">
-                <i class="fa fa-times"></i>
-            </button>
-        </div>
-        <img id="modalImage" src="" alt="" class="max-w-full max-h-[80vh] object-contain rounded-lg">
-    </div>
 </div>
 
 <script>
@@ -268,84 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Detail modal functions
-function showDetail(id) {
-    const modalContent = document.getElementById('modalContent');
-    modalContent.innerHTML = `
-        <div class="text-center mb-6">
-            <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i class="fa fa-calendar-alt text-3xl text-primary"></i>
-            </div>
-            <h4 class="text-lg font-semibold text-gray-800">Loading...</h4>
-        </div>
-    `;
-    
-    document.getElementById('detailModal').classList.remove('hidden');
-    
-    // Simulate API call
-    setTimeout(() => {
-        modalContent.innerHTML = `
-            <div class="space-y-4">
-                <div class="text-center mb-6">
-                    <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa fa-calendar-alt text-3xl text-primary"></i>
-                    </div>
-                    <h4 class="text-lg font-semibold text-gray-800">Detail Kegiatan</h4>
-                    <p class="text-gray-600">Informasi lengkap kegiatan</p>
-                </div>
-                
-                <div class="space-y-3 text-sm">
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Judul:</span>
-                        <span class="font-medium">Loading...</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Tanggal:</span>
-                        <span class="font-medium">Loading...</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-gray-600">Lokasi:</span>
-                        <span class="font-medium">Loading...</span>
-                    </div>
-                </div>
-                
-                <div class="pt-4 border-t border-gray-200">
-                    <p class="text-sm text-gray-500 text-center">
-                        Fitur detail lengkap akan tersedia di versi selanjutnya
-                    </p>
-                </div>
-            </div>
-        `;
-    }, 500);
-}
-
-function closeDetail() {
-    document.getElementById('detailModal').classList.add('hidden');
-}
-
-// Image modal functions
-function showImage(src, title) {
-    document.getElementById('modalImage').src = src;
-    document.getElementById('imageTitle').textContent = title;
-    document.getElementById('imageModal').classList.remove('hidden');
-}
-
-function closeImage() {
-    document.getElementById('imageModal').classList.add('hidden');
-}
-
-// Close modals when clicking outside
-document.getElementById('detailModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeDetail();
-    }
-});
-
-document.getElementById('imageModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeImage();
-    }
-});
 </script>
 
 <style>

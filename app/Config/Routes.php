@@ -86,6 +86,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('kegiatan/edit/(:num)', 'Admin::kegiatan_edit/$1');
     $routes->post('kegiatan/update/(:num)', 'Admin::kegiatan_update/$1');
     $routes->get('kegiatan/hapus/(:num)', 'Admin::kegiatan_hapus/$1');
+    $routes->get('kegiatan/detail/(:num)', 'Admin::kegiatan_detail/$1');
+    $routes->get('kegiatan/hapus-foto/(:num)/(:num)', 'Admin::kegiatan_hapusFoto/$1/$2');
 
 });
 
