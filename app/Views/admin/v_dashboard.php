@@ -11,49 +11,34 @@
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Santri Card -->
         <div class="bg-white rounded-2xl shadow-lg card-hover border-l-4 border-primary">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-sm font-medium text-gray-600">Total Santri</p>
-                        <p class="text-3xl font-bold text-primary-dark mt-2" id="santri-count"><?= $totalSantri ?? '124' ?></p>
+                        <p class="text-3xl font-bold text-primary-dark mt-2" id="santri-count"><?= count($santri) ?></p>
                     </div>
                     <div class="p-3 bg-primary/10 rounded-xl">
                         <i class="fa fa-users text-2xl text-primary"></i>
                     </div>
                 </div>
-                <div class="mt-4 flex items-center text-sm">
-                    <span class="text-green-600 flex items-center">
-                        <i class="fa fa-arrow-up mr-1"></i>
-                        <span id="santri-trend">+5 baru minggu ini</span>
-                    </span>
-                </div>
             </div>
         </div>
 
-        <!-- Ustadz Card -->
         <div class="bg-white rounded-2xl shadow-lg card-hover border-l-4 border-primary-medium">
             <div class="p-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-sm font-medium text-gray-600">Total Ustadz</p>
-                        <p class="text-3xl font-bold text-primary-dark mt-2" id="ustadz-count"><?= $totalUstadz ?? '15' ?></p>
+                        <p class="text-sm font-medium text-gray-600">Total Pengajar</p>
+                        <p class="text-3xl font-bold text-primary-dark mt-2" id="pengajar-count"><?= $totalPengajar ?? '15' ?></p>
                     </div>
                     <div class="p-3 bg-primary-medium/10 rounded-xl">
                         <i class="fa fa-user-tie text-2xl text-primary-medium"></i>
                     </div>
                 </div>
-                <div class="mt-4 flex items-center text-sm">
-                    <span class="text-green-600 flex items-center">
-                        <i class="fa fa-check mr-1"></i>
-                        <span id="ustadz-status">Semua aktif</span>
-                    </span>
-                </div>
             </div>
         </div>
 
-        <!-- Kegiatan Card -->
         <div class="bg-white rounded-2xl shadow-lg card-hover border-l-4 border-primary-light">
             <div class="p-6">
                 <div class="flex items-center justify-between">
@@ -65,16 +50,9 @@
                         <i class="fa fa-calendar-alt text-2xl text-primary-light"></i>
                     </div>
                 </div>
-                <div class="mt-4 flex items-center text-sm">
-                    <span class="text-blue-600 flex items-center">
-                        <i class="fa fa-clock mr-1"></i>
-                        <span id="kegiatan-next"><?= $nextKegiatan ?? 'Pengajian besok' ?></span>
-                    </span>
-                </div>
             </div>
         </div>
 
-        <!-- Pengumuman Card -->
         <div class="bg-white rounded-2xl shadow-lg card-hover border-l-4 border-primary-dark">
             <div class="p-6">
                 <div class="flex items-center justify-between">
@@ -85,12 +63,6 @@
                     <div class="p-3 bg-primary-dark/10 rounded-xl">
                         <i class="fa fa-bullhorn text-2xl text-primary-dark"></i>
                     </div>
-                </div>
-                <div class="mt-4 flex items-center text-sm">
-                    <span class="text-orange-600 flex items-center">
-                        <i class="fa fa-exclamation-circle mr-1"></i>
-                        <span id="pengumuman-important"><?= $importantPengumuman ?? '1 penting' ?></span>
-                    </span>
                 </div>
             </div>
         </div>
@@ -198,52 +170,29 @@
                     <?php if(isset($recentRegistrations) && !empty($recentRegistrations)): ?>
                         <?php foreach($recentRegistrations as $registration): ?>
                         <tr class="border-b border-gray-100 hover:bg-gray-50">
-                            <td class="py-3 px-4"><?= $registration['nama'] ?></td>
+                            <td class="py-3 px-4"><?= $registration['nama_lengkap'] ?></td>
                             <td class="py-3 px-4"><?= $registration['tanggal_daftar'] ?></td>
                             <td class="py-3 px-4">
                                 <span class="px-2 py-1 rounded-full text-xs font-medium 
-                                    <?= $registration['status'] == 'pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                       ($registration['status'] == 'approved' ? 'bg-green-100 text-green-800' : 
+                                    <?= $registration['status'] == 'Menunggu' ? 'bg-yellow-100 text-yellow-800' : 
+                                       ($registration['status'] == 'Diterima' ? 'bg-green-100 text-green-800' : 
                                        'bg-red-100 text-red-800') ?>">
                                     <?= ucfirst($registration['status']) ?>
                                 </span>
                             </td>
                             <td class="py-3 px-4">
                                 <button class="text-primary hover:text-primary-dark text-sm font-medium" 
-                                        onclick="viewRegistration(<?= $registration['id'] ?>)">
+                                        onclick="viewRegistration(<?= $registration['id_pendaftaran'] ?>)">
                                     Lihat
                                 </button>
                             </td>
                         </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <!-- Default registrations -->
-                        <tr class="border-b border-gray-100 hover:bg-gray-50">
-                            <td class="py-3 px-4">Ahmad Fauzi</td>
-                            <td class="py-3 px-4"><?= date('d/m/Y') ?></td>
-                            <td class="py-3 px-4">
-                                <span class="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    Pending
-                                </span>
-                            </td>
-                            <td class="py-3 px-4">
-                                <button class="text-primary hover:text-primary-dark text-sm font-medium">
-                                    Lihat
-                                </button>
-                            </td>
-                        </tr>
-                        <tr class="border-b border-gray-100 hover:bg-gray-50">
-                            <td class="py-3 px-4">Siti Aminah</td>
-                            <td class="py-3 px-4"><?= date('d/m/Y', strtotime('-1 day')) ?></td>
-                            <td class="py-3 px-4">
-                                <span class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    Approved
-                                </span>
-                            </td>
-                            <td class="py-3 px-4">
-                                <button class="text-primary hover:text-primary-dark text-sm font-medium">
-                                    Lihat
-                                </button>
+                        <tr>
+                            <td colspan="4" class="py-6 px-4 text-center text-gray-500">
+                                <i class="fas fa-inbox text-3xl mb-2 block"></i>
+                                Belum ada pendaftaran terbaru
                             </td>
                         </tr>
                     <?php endif; ?>
@@ -260,7 +209,7 @@ function updateStats() {
     fetch('/admin/api/dashboard-stats')
         .then(response => response.json())
         .then(data => {
-            document.getElementById('santri-count').textContent = data.totalSantri;
+            document.getElementById('santri-count').textContent = data.totalSantri ?? '0';
             document.getElementById('ustadz-count').textContent = data.totalUstadz;
             document.getElementById('kegiatan-count').textContent = data.totalKegiatan;
             document.getElementById('pengumuman-count').textContent = data.totalPengumuman;
@@ -273,7 +222,9 @@ function updateStats() {
         })
         .catch(error => {
             console.error('Error fetching stats:', error);
-        });
+        })
+        ;
+
 }
 
 // Function to view registration details

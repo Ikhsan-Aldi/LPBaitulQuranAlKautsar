@@ -24,15 +24,28 @@ class Admin extends BaseController
     // Dashboard
     public function dashboard()
     {
+        $santriModel = new SantriModel();
+        $santriModel->findAll();
         $totalPendaftar = $this->pendaftaranModel->countAllResults();
         $diterima = $this->pendaftaranModel->where('status', 'Diterima')->countAllResults();
         $ditolak = $this->pendaftaranModel->where('status', 'Ditolak')->countAllResults();
+        $data[] = $santriModel->findAll();
+        $totalPengajar = (new PengajarModel())->countAllResults();
+        $totalKegiatan = (new KegiatanModel())->countAllResults();
+        $recentRegistrations = $this->pendaftaranModel
+            ->orderBy('tanggal_daftar', 'DESC')
+            ->limit(5)
+            ->findAll();
 
         $data = [
             'title' => 'Dashboard Admin',
             'totalPendaftar' => $totalPendaftar,
             'diterima' => $diterima,
             'ditolak' => $ditolak,
+            'santri' => $data,
+            'totalPengajar' => $totalPengajar,
+            'totalKegiatan' => $totalKegiatan,
+            'recentRegistrations' => $recentRegistrations
         ];
 
         return view('admin/v_dashboard', $data);
@@ -82,7 +95,6 @@ class Admin extends BaseController
     {
         $model = new EkstrakurikulerModel();
 
-        // daftar icon otomatis berdasarkan nama
         $iconList = [
             'berenang' => 'fas fa-swimming-pool',
             'tahfidz'  => 'fas fa-book',
