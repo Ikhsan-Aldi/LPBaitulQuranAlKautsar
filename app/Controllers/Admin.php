@@ -839,4 +839,45 @@ class Admin extends BaseController
             return redirect()->to('/admin/gelombang')->with('error', 'Gagal menghapus gelombang pendaftaran');
         }
     }
+
+    public function gelombang_detail($id)
+    {
+        $gelombangModel = new GelombangModel();
+        $pendaftaranModel = new PendaftaranModel();
+        
+        $gelombang = $gelombangModel->find($id);
+
+        if (!$gelombang) {
+            return redirect()->to(base_url('admin/gelombang'))->with('error', 'Data gelombang tidak ditemukan');
+        }
+
+        // Hitung statistik
+        $jumlah_pendaftar = $pendaftaranModel->where('id_pendaftaran', $id)->countAllResults();
+        $jumlah_diterima = $pendaftaranModel->where('id_pendaftaran', $id)->where('status', 'Diterima')->countAllResults();
+        $jumlah_menunggu = $pendaftaranModel->where('id_pendaftaran', $id)->where('status', 'Menunggu Verifikasi')->countAllResults();
+
+        $data = [
+            'title' => 'Detail Gelombang - ' . $gelombang['nama'],
+            'gelombang' => $gelombang,
+            'jumlah_pendaftar' => $jumlah_pendaftar,
+            'jumlah_diterima' => $jumlah_diterima,
+            'jumlah_menunggu' => $jumlah_menunggu
+        ];
+
+        return view('admin/gelombang/detail', $data);
+    }
+
+    public function gelombang_update_status($id)
+    {
+        $gelombangModel = new GelombangModel();
+        $status = $this->request->getJSON()->status;
+
+        $result = $gelombangModel->update($id, ['status' => $status]);
+
+        if ($result) {
+            return $this->response->setJSON(['success' => true]);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengupdate status']);
+        }
+    }
 }

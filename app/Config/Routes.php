@@ -69,7 +69,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('gelombang/edit/(:num)', 'Admin::editGelombang/$1');
     $routes->post('gelombang/update/(:num)', 'Admin::updateGelombang/$1');
     $routes->get('gelombang/hapus/(:num)', 'Admin::hapusGelombang/$1');
-
+    $routes->get('gelombang/detail/(:num)', 'Admin::gelombang_detail/$1');
+    
     //Santri
     $routes->get('santri', 'Admin::santri');
     $routes->get('santri/tambah', 'Admin::santri_tambah');
