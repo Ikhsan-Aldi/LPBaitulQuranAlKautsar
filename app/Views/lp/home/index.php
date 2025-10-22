@@ -1,11 +1,26 @@
 <?= $this->extend('lp/layout') ?>
 
 <?= $this->section('content') ?>
+<style>
+@keyframes zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+#hero-bg1, #hero-bg2 {
+  animation: zoom 14s ease-in-out infinite alternate;
+}
+
+</style>
 <!-- Hero Section dengan Gambar Full Height -->
 <section class="relative min-h-screen flex items-center overflow-hidden">
     <!-- Background Image -->
-    <div class="absolute inset-0 z-0">
-        <img src="<?= base_url('assets/img/hero.jpg') ?>" alt="Baitul Quran Al-Kautsar" class="w-full h-full object-cover">
+    <div class="absolute inset-0 z-0 overflow-hidden">
+        <div class="absolute inset-0 transition-opacity duration-[1500ms] opacity-100" id="hero-bg1"
+            style="background-image: url('<?= base_url('assets/img/hero.jpg') ?>'); background-size: cover; background-position: center;">
+        </div>
+        <div class="absolute inset-0 transition-opacity duration-[1500ms] opacity-0" id="hero-bg2"
+            style="background-image: url('<?= base_url('assets/img/hero-2.jpg') ?>'); background-size: cover; background-position: center;">
+        </div>
         <div class="absolute inset-0 hero-overlay"></div>
     </div>
     
@@ -30,7 +45,7 @@
 
             <!-- Tombol CTA -->
             <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
-                <a href="<?= base_url('profil') ?>" 
+                <a href="<?= base_url('program') ?>" 
                    class="bg-[#017077] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center">
                     <i class="fas fa-book-open mr-2"></i>Program Kami
                 </a>
@@ -61,9 +76,9 @@
                 <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                     <i class="fas fa-quran text-[#017077] text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Tahfizh Quran</h3>
+                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Tahfizh Qur’an</h3>
                 <p class="text-gray-600 text-center">
-                    Program menghafal Al-Quran dengan metode yang mudah dan menyenangkan untuk semua usia.
+                    Program unggulan hafalan Al-Qur’an dengan bimbingan intensif dan metode yang efektif.
                 </p>
                 <div class="mt-6 text-center">
                     <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
@@ -71,15 +86,15 @@
                     </a>
                 </div>
             </div>
-            
+
             <!-- Program 2 -->
             <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
                 <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                     <i class="fas fa-graduation-cap text-[#017077] text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Kajian Islam</h3>
+                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Pendidikan Formal & Non Formal</h3>
                 <p class="text-gray-600 text-center">
-                    Kajian rutin kitab-kitab ulama dengan pemateri yang kompeten di bidangnya.
+                    Pendidikan formal SMP–SMA dan non formal Dirosah Islamiyah dalam sistem pesantren terpadu.
                 </p>
                 <div class="mt-6 text-center">
                     <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
@@ -87,15 +102,15 @@
                     </a>
                 </div>
             </div>
-            
+
             <!-- Program 3 -->
             <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
                 <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                    <i class="fas fa-child text-[#017077] text-2xl"></i>
+                    <i class="fas fa-book-reader text-[#017077] text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Pendidikan Anak</h3>
+                <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Kajian & Pembinaan</h3>
                 <p class="text-gray-600 text-center">
-                    Pembinaan karakter Islami sejak dini dengan metode yang sesuai perkembangan anak.
+                    Kajian kitab dan pembinaan karakter santri untuk membentuk pribadi Qur’ani dan mandiri.
                 </p>
                 <div class="mt-6 text-center">
                     <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
@@ -106,22 +121,41 @@
         </div>
     </div>
 </section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const images = [
+        "<?= base_url('assets/img/hero.jpg') ?>",
+        "<?= base_url('assets/img/hero-2.jpg') ?>",
+        "<?= base_url('assets/img/hero-3.jpg') ?>"
+    ];
 
-<!-- CTA Section -->
-<section class="py-16 bg-[#017077]/5">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold text-[#017077] mb-4">Bergabunglah dengan Komunitas Kami</h2>
-        <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Mari bersama-sama membangun generasi Qur'ani yang akan membawa kemaslahatan bagi umat.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a href="<?= base_url('kontak') ?>" class="bg-[#017077] text-white font-bold px-8 py-3 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
-                <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
-            </a>
-            <a href="#" class="border-2 border-[#017077] text-[#017077] font-bold px-8 py-3 rounded-lg hover:bg-[#017077] hover:text-white transition-colors duration-300 inline-flex items-center justify-center">
-                <i class="fas fa-calendar-alt mr-2"></i>Jadwal Kajian
-            </a>
-        </div>
-    </div>
-</section>
+    // Preload images
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+
+    const bg1 = document.getElementById('hero-bg1');
+    const bg2 = document.getElementById('hero-bg2');
+    let current = 0;
+    let showingBg1 = true;
+
+    setInterval(() => {
+        const next = (current + 1) % images.length;
+
+        if (showingBg1) {
+            bg2.style.backgroundImage = `url(${images[next]})`;
+            bg2.classList.remove('opacity-0');
+            bg1.classList.add('opacity-0');
+        } else {
+            bg1.style.backgroundImage = `url(${images[next]})`;
+            bg1.classList.remove('opacity-0');
+            bg2.classList.add('opacity-0');
+        }
+
+        showingBg1 = !showingBg1;
+        current = next;
+    }, 7000); // ganti tiap 7 detik
+});
+</script>
 <?= $this->endSection() ?>
