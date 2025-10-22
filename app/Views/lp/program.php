@@ -52,69 +52,69 @@
                             <table class="w-full">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 w-32">Waktu</th>
+                                        <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700 w-40">Waktu</th>
                                         <th class="px-6 py-4 text-left text-sm font-semibold text-gray-700">Kegiatan</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200">
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">03.00 - 03.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">03.00 - 03.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Bangun tidur & persiapan tahajjud</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">03.30 - 04.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">03.30 - 04.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Tahajjud, Sholat Shubuh berjama'ah</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">04.30 - 06.00</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">04.30 - 06.00</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Halaqah Tahfidz I</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">06.00 - 07.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">06.00 - 07.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Kebersihan, Sarapan, Persiapan KBM</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">07.30 - 08.00</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">07.30 - 08.00</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Apel pagi, Kuliah Tasyji'</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">08.00 - 11.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">08.00 - 11.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Kegiatan Belajar Mengajar</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">11.30 - 13.00</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">11.30 - 13.00</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Sholat Dhuhur, Muroja'ah Tahfidz</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">13.00 - 14.45</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">13.00 - 14.45</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Makan siang, Istirahat Siang</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">14.45 - 15.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">14.45 - 15.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Persiapan Sholat Ashar</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">15.30 - 17.00</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">15.30 - 17.00</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Halaqoh Tahfidz II / Ekstra Kurikuler</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">17.00 - 17.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">17.00 - 17.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Kebersihan, Persiapan Sholat Maghrib</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">17.30 - 18.45</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">17.30 - 18.45</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Sholat Maghrib, Kajian Kitab</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">18.45 - 20.00</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">18.45 - 20.00</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Sholat Isya', Makan malam</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">20.00 - 21.30</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">20.00 - 21.30</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Belajar malam / Halaqah Tahfidz</td>
                                     </tr>
                                     <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5">21.30 - 03.00</td>
+                                        <td class="px-6 py-4 text-sm font-medium text-[#017077] bg-[#017077]/5 whitespace-nowrap">21.30 - 03.00</td>
                                         <td class="px-6 py-4 text-sm text-gray-700">Istirahat malam (tidur malam)</td>
                                     </tr>
                                 </tbody>
