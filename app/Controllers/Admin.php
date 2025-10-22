@@ -452,33 +452,56 @@ class Admin extends BaseController
     public function kegiatan_update($id)
     {
         $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+
         $kegiatan = $kegiatanModel->find($id);
+        if (!$kegiatan) {
+            return redirect()->back()->with('error', 'Kegiatan tidak ditemukan.');
+        }
 
         $judul = $this->request->getPost('judul');
         $deskripsi = $this->request->getPost('deskripsi');
         $ekstrakurikuler = $this->request->getPost('ekstrakurikuler');
+        $hapusFoto = $this->request->getPost('hapus_foto'); 
 
-        $foto = $this->request->getFile('foto');
-        $namaFile = $kegiatan['foto']; 
-
-        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-            if (!empty($kegiatan['foto']) && file_exists(FCPATH . 'uploads/kegiatan/' . $kegiatan['foto'])) {
-                unlink(FCPATH . 'uploads/kegiatan/' . $kegiatan['foto']);
+        if (!empty($hapusFoto)) {
+            foreach ($hapusFoto as $id_foto) {
+                $foto = $fotoModel->find($id_foto);
+                if ($foto) {
+                    $path = FCPATH . 'uploads/kegiatan/' . $foto['file_name'];
+                    if (is_file($path)) {
+                        unlink($path);
+                    }
+                    $fotoModel->delete($id_foto);
+                }
             }
+        }
 
-            $namaFile = $foto->getRandomName();
-            $foto->move(FCPATH . 'uploads/kegiatan', $namaFile);
+        $files = $this->request->getFiles();
+
+        if (!empty($files['foto'])) {
+            foreach ($files['foto'] as $foto) {
+                if ($foto->isValid() && !$foto->hasMoved()) {
+                    $namaFile = $foto->getRandomName();
+                    $foto->move(FCPATH . 'uploads/kegiatan', $namaFile);
+
+                    $fotoModel->insert([
+                        'id_kegiatan' => $id,
+                        'file_name' => $namaFile,
+                    ]);
+                }
+            }
         }
 
         $kegiatanModel->update($id, [
             'judul' => $judul,
             'deskripsi' => $deskripsi,
             'ekstrakurikuler' => $ekstrakurikuler,
-            'foto' => $namaFile,
         ]);
 
         return redirect()->to('/admin/kegiatan')->with('success', 'Kegiatan berhasil diperbarui!');
     }
+
 
     public function store()
     {

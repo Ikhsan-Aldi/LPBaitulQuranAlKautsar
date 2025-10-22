@@ -77,37 +77,41 @@
             <div class="space-y-4">
                 <label class="block text-sm font-medium text-gray-700">Foto Kegiatan</label>
 
-                <?php 
-                    $fotoList = json_decode($kegiatan['foto'], true) ?? []; 
-                ?>
-
-                <?php if (!empty($fotoList)): ?>
+                <?php if (!empty($foto)): ?>
                 <div class="mb-4 p-4 bg-gray-50 rounded-xl border border-gray-200">
                     <p class="text-sm text-gray-600 mb-3">Foto Saat Ini:</p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                        <?php foreach ($fotoList as $foto): ?>
+                        <?php foreach ($foto as $f): ?>
                         <div class="relative group">
-                            <img src="<?= base_url('uploads/kegiatan/'.$foto); ?>" 
+                            <img src="<?= base_url('uploads/kegiatan/' . esc($f['file_name'])) ?>" 
                                 alt="<?= esc($kegiatan['judul']); ?>" 
                                 class="w-full h-28 rounded-lg object-cover shadow-sm border-2 border-white group-hover:scale-105 transition-transform duration-200">
+
                             <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 rounded-lg transition-all duration-200 flex items-center justify-center">
-                                <a href="<?= base_url('uploads/kegiatan/'.$foto); ?>" 
+                                <a href="<?= base_url('uploads/kegiatan/' . esc($f['file_name'])) ?>" 
                                 target="_blank" 
                                 class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                                     <i class="fa fa-search-plus"></i>
                                 </a>
                             </div>
 
-                            <!-- Checkbox hapus -->
-                            <label class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1 cursor-pointer hover:bg-red-700">
-                                <input type="checkbox" name="hapus_foto[]" value="<?= $foto ?>" class="hidden">
+                            <!-- Tombol hapus -->
+                            <button type="button" 
+                                    class="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1 cursor-pointer hover:bg-red-700 delete-btn"
+                                    data-foto-id="<?= esc($f['id_foto']) ?>">
                                 <i class="fa fa-trash text-xs"></i>
-                            </label>
+                            </button>
+
+                            <!-- Checkbox tersembunyi -->
+                            <input type="checkbox" name="hapus_foto[]" value="<?= esc($f['id_foto']) ?>" class="hidden delete-checkbox">
                         </div>
+
                         <?php endforeach; ?>
                     </div>
                     <p class="text-xs text-gray-500 mt-2">Centang ikon tempat sampah untuk menghapus foto lama.</p>
                 </div>
+                <?php else: ?>
+                    <p class="text-gray-500 text-sm italic mb-4">Belum ada foto dokumentasi untuk kegiatan ini.</p>
                 <?php endif; ?>
 
                 <!-- Upload baru -->
@@ -291,6 +295,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (errorMsg) {
                     errorMsg.remove();
                 }
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+
+    deleteButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const parent = btn.closest('.relative');
+            const checkbox = parent.querySelector('.delete-checkbox');
+
+            // toggle nilai checkbox
+            checkbox.checked = !checkbox.checked;
+
+            // beri efek visual kalau sudah dipilih
+            if (checkbox.checked) {
+                parent.classList.add('ring-2', 'ring-red-500', 'opacity-75');
+            } else {
+                parent.classList.remove('ring-2', 'ring-red-500', 'opacity-75');
             }
         });
     });
