@@ -9,6 +9,31 @@
     </div>
 </div>
 
+<!-- Hero Section -->
+<section class="relative min-h-[50vh] flex items-center overflow-hidden bg-gradient-to-r from-[#017077] to-[#005359]">
+    <!-- Background -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <img src="<?= base_url('assets/img/tentang-hero.jpg') ?>" alt="Tentang Kami" class="w-full h-full object-cover">
+    </div>
+
+    <!-- Content -->
+    <div class="max-w-7xl mx-auto px-6 py-20 relative z-10 w-full text-center">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 arabic-font">
+                Tentang Kami
+            </h1>
+            <p class="text-lg md:text-xl text-white/90 leading-relaxed mb-6">
+                Mengenal lebih dekat visi, misi, dan perjalanan Baitul Quran Al-Kautsar dalam membentuk generasi Qur’ani yang berakhlak mulia.
+            </p>
+            <!-- <a href="#profil-pesantren"
+               class="inline-block bg-white text-[#017077] font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-100 hover:shadow-xl transition duration-300">
+               <i class="fas fa-book-open mr-2"></i> Lihat Profil
+            </a> -->
+        </div>
+    </div>
+</section>
+
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12" style="display: none;" id="mainContent">
     <!-- Tab Navigation -->
     <div class="flex flex-wrap justify-center gap-2 border-b border-gray-200">

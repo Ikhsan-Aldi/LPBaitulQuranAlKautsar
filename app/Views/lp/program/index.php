@@ -209,40 +209,25 @@
                     </div>
 
                     <!-- Ekstrakurikuler Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
-                        <?php 
-                        // Sample data - replace with actual data from model
-                        $ekstrakurikuler = [
-                            ['name' => 'Berenang', 'icon' => 'swimming-pool'],
-                            ['name' => 'Memanah', 'icon' => 'bullseye'],
-                            ['name' => 'Berkuda', 'icon' => 'horse'],
-                            ['name' => 'Olimpiade', 'icon' => 'trophy'],
-                            ['name' => 'Entrepreneur', 'icon' => 'chart-line'],
-                            ['name' => 'Beladiri', 'icon' => 'fist-raised'],
-                            ['name' => 'Pidato 3 Bahasa', 'icon' => 'microphone'],
-                            ['name' => 'Jurnalistik', 'icon' => 'newspaper'],
-                            ['name' => 'SAPALA', 'icon' => 'mountain'],
-                            ['name' => 'Robotik', 'icon' => 'robot'],
-                            ['name' => 'Programming', 'icon' => 'code'],
-                            ['name' => 'Kaligrafi', 'icon' => 'pen-fancy'],
-                            ['name' => 'Marawis', 'icon' => 'music'],
-                            ['name' => 'Teater', 'icon' => 'theater-masks'],
-                            ['name' => 'Fotografi', 'icon' => 'camera']
-                        ];
-                        ?>
-                        
-                        <?php foreach ($ekstrakurikuler as $item): ?>
-                        <div class="group text-center">
-                            <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#017077]/30">
-                                <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#017077]/20 transition-colors duration-300">
-                                    <i class="fas fa-<?= $item['icon'] ?> text-[#017077] text-lg"></i>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        <?php if (!empty($ekstrakurikuler)): ?>
+                            <?php foreach ($ekstrakurikuler as $item): ?>
+                                <div class="group text-center">
+                                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#017077]/30">
+                                        <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#017077]/20 transition-colors duration-300">
+                                            <i class="fas fa-<?= esc($item['icon']) ?> text-[#017077] text-lg"></i>
+                                        </div>
+                                        <h4 class="font-semibold text-gray-800 text-sm group-hover:text-[#017077] transition-colors duration-300">
+                                            <?= esc($item['nama_ekstrakurikuler']) ?>
+                                        </h4>
+                                    </div>
                                 </div>
-                                <h4 class="font-semibold text-gray-800 text-sm group-hover:text-[#017077] transition-colors duration-300">
-                                    <?= $item['name'] ?>
-                                </h4>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="col-span-full text-center text-gray-500 py-8">
+                                Belum ada data ekstrakurikuler.
                             </div>
-                        </div>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Benefits Section -->
