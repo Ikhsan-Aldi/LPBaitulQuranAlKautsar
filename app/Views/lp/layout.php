@@ -266,26 +266,12 @@
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
                             <?php endif; ?>
                         </a>
-                        <div class="relative dropdown-group">
-                            <a href="<?= base_url('lainnya') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 flex items-center py-2 nav-link <?= (current_url() == base_url('lainnya')) ? 'text-teal-200' : '' ?>">
-                                Lainnya
-                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                            </a>
-                            <!-- Dropdown Menu -->
-                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-xl dropdown-menu z-50 border border-teal-100">
-                                <div class="py-2">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
-                                        <i class="fas fa-book mr-2 text-teal-600"></i>Artikel
-                                    </a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
-                                        <i class="fas fa-images mr-2 text-teal-600"></i>Galeri
-                                    </a>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200">
-                                        <i class="fas fa-heart mr-2 text-teal-600"></i>Donasi
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="<?= base_url('galeri') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('galeri')) ? 'text-teal-200' : '' ?>">
+                            Galeri
+                            <?php if (current_url() == base_url('galeri')): ?>
+                                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
+                            <?php endif; ?>
+                        </a>
                     </div>
                     
                     <!-- CTA Button Desktop -->
@@ -336,8 +322,11 @@
                     <a href="<?= base_url('kontak') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('kontak')) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-phone mr-3 text-teal-600"></i>Kontak
                     </a>
-                    <a href="<?= base_url('lainnya') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('lainnya')) ? 'text-teal-700 bg-teal-50' : '' ?>">
-                        <i class="fas fa-ellipsis-h mr-3 text-teal-600"></i>Lainnya
+                    <a href="<?= base_url('pendaftaran') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('pendaftaran')) ? 'text-teal-700 bg-teal-50' : '' ?>">
+                        <i class="fas fa-user-plus mr-3 text-teal-600"></i>Pendaftaran
+                    </a>
+                    <a href="<?= base_url('galeri') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('galeri')) ? 'text-teal-700 bg-teal-50' : '' ?>">
+                        <i class="fas fa-images mr-3 text-teal-600"></i>Galeri
                     </a>
                     <div class="pt-4 border-t border-teal-100">
                         <a href="<?= base_url('kontak') ?>" class="block bg-teal-600 text-white text-center px-5 py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors duration-300 shadow-md">
