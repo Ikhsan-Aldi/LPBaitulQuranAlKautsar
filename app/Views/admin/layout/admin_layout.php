@@ -79,7 +79,6 @@
 <body class="font-poppins bg-white">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <di<!-- Sidebar -->
 <div class="sidebar-transition w-64 bg-gradient-to-b from-primary-dark to-primary text-white h-screen fixed left-0 top-0 shadow-lg z-50 flex flex-col overflow-hidden">
     <!-- Header -->
     <div class="px-6 py-2 border-b border-white/20 flex-shrink-0">
@@ -177,7 +176,9 @@
 
             <!-- Page Content -->
             <main class="flex-1 p-8 bg-gray-50/50">
+            <div class="container mx-auto px-6 py-6">
                 <?= $this->renderSection('content') ?>
+            </div>
             </main>
 
             <!-- Footer -->
