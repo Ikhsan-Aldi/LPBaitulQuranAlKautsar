@@ -270,7 +270,6 @@
         </div>
     </div>
 </section>
-<p>Baitul Quran Al-Kautsar</p>
 <script>
 // Fungsi untuk switch tab
 function switchTab(targetTab) {
