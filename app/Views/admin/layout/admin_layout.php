@@ -54,26 +54,44 @@
         .card-hover:hover {
             transform: translateY(-5px);
         }
+        
+        /* Custom scrollbar untuk sidebar */
+        .scrollable-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .scrollable-nav::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .scrollable-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+        
+        .scrollable-nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
     </style>
 </head>
 
 <body class="font-poppins bg-white">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="sidebar-transition w-64 bg-gradient-to-b from-primary-dark to-primary text-white h-full fixed left-0 top-0 shadow-lg z-50">
-            <div class="p-6 border-b border-white/20">
-                <!-- Logo dan Nama -->
-                <div class="flex items-center space-x-3 mb-4">
-                    <div class="logo-mosque w-12 h-12 rounded-xl flex items-center justify-center shadow-lg overflow-hidden bg-white">
-                        <!-- Ganti SVG dengan IMG -->
-                        <img src="<?= base_url('assets/img/logo.png'); ?>" alt="Logo Pondok" class="w-10 h-10 object-contain">
-                    </div>
-                    <div>
-                        <h1 class="font-amiri text-xl font-bold">Admin Panel</h1>
-                        <p class="text-xs text-white/80">Ponpes Al-Kautsar</p>
-                    </div>
-                </div>
+        <di<!-- Sidebar -->
+<div class="sidebar-transition w-64 bg-gradient-to-b from-primary-dark to-primary text-white h-screen fixed left-0 top-0 shadow-lg z-50 flex flex-col overflow-hidden">
+    <!-- Header -->
+    <div class="px-6 py-2 border-b border-white/20 flex-shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="logo-mosque w-12 h-12 rounded-xl flex items-center justify-center shadow-lg overflow-hidden bg-white">
+                <img src="<?= base_url('assets/img/logo.png'); ?>" alt="Logo Pondok" class="w-10 h-10 object-contain">
             </div>
+            <div>
+                <h1 class="font-amiri text-xl font-bold">Admin Panel</h1>
+                <p class="text-xs text-white/80">Ponpes Al-Kautsar</p>
+            </div>
+<<<<<<< HEAD
 
 
             <!-- Menu Navigasi -->
@@ -138,7 +156,72 @@
 
             <!-- Islamic Pattern -->
             <div class="islamic-pattern absolute bottom-0 left-0 w-full h-16 opacity-70"></div>
+=======
+>>>>>>> ed1da0704b02ff9525b3e44c0f67e78e15723dac
         </div>
+    </div>
+
+    <!-- Scrollable Navigation -->
+    <div class="flex-1 overflow-y-auto scrollable-nav p-4 space-y-2">
+        <a href="<?= base_url('admin/dashboard') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'dashboard' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-home w-6 text-center"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="<?= base_url('admin/pengajar') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'pengajar' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-user-tie w-6 text-center"></i>
+            <span>Data Pengajar</span>
+        </a>
+
+        <a href="<?= base_url('admin/santri') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'santri' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-users w-6 text-center"></i>
+            <span>Data Santri</span>
+        </a>
+
+        <a href="<?= base_url('admin/ekstrakurikuler') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'ekstrakurikuler' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-futbol w-6 text-center"></i>
+            <span>Ekstrakurikuler</span>
+        </a>
+
+        <a href="<?= base_url('admin/kegiatan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'kegiatan' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-calendar-alt w-6 text-center"></i>
+            <span>Kegiatan</span>
+        </a>
+
+        <a href="<?= base_url('admin/gelombang') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'gelombang' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-wave-square w-6 text-center"></i>
+            <span>Gelombang Pendaftaran</span>
+        </a>
+
+        <a href="<?= base_url('admin/pendaftaran') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'pendaftaran' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-file-alt w-6 text-center"></i>
+            <span>Pendaftaran</span>
+        </a>
+
+        <a href="<?= base_url('admin/pesan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'pesan' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-envelope w-6 text-center"></i>
+            <span>Pesan</span>
+        </a>
+    </div>
+
+    <!-- Footer Tetap di Bawah -->
+    <div class="mt-auto border-t border-white/10">
+        <nav class="p-4 space-y-2">
+            <a href="<?= base_url('admin/pengaturan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'pengaturan' ? 'bg-primary-light' : '' ?>">
+                <i class="fa fa-cog w-6 text-center"></i>
+                <span>Pengaturan</span>
+            </a>
+
+            <a href="<?= base_url('b0/logout') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500/20 text-red-200"
+               onclick="return confirm('Yakin ingin logout?')">
+                <i class="fa fa-sign-out-alt w-6 text-center"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+        
+    </div>
+</div>
+
 
         <!-- Main Content -->
         <div class="ml-64 flex-1 flex flex-col min-h-screen">
@@ -212,6 +295,15 @@
         
         // Listen for resize events
         window.addEventListener('resize', handleResize);
+
+        // Smooth scrolling untuk sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollableNav = document.querySelector('.scrollable-nav');
+            if (scrollableNav) {
+                // Optional: Add smooth scrolling behavior
+                scrollableNav.style.scrollBehavior = 'smooth';
+            }
+        });
     </script>
 </body>
 </html>
