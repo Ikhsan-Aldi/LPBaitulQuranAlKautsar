@@ -33,25 +33,22 @@ class Home extends BaseController
     public function program()
     {
         $ekstrakurikulerModel = new \App\Models\EkstrakurikulerModel();
-        
+    
         $data = [
             'title' => 'Program - Baitul Quran Al-Kautsar',
-            'ekstrakurikuler' => $ekstrakurikulerModel->findAll() // Get all extracurricular activities
+            'ekstrakurikuler' => $ekstrakurikulerModel->getWithIconMapping()
         ];
-        $model = new EkstrakurikulerModel();
-
-        // Ambil semua data ekstrakurikuler
-        $data['ekstrakurikuler'] = $model->findAll();
-
+    
         return view('lp/program/index', $data);
     }
+    
 
     public function kontak()
     {
         $data = [
             'title' => 'Kontak - Solusi Digital Terdepan'
         ];
-        return view('lp/kontak', $data);
+        return view('lp/kontak/index', $data);
     }
 
     // Method baru untuk halaman pendaftaran
@@ -179,4 +176,51 @@ class Home extends BaseController
             ];
             return view('lp/pendaftaran/success_pendaftaran', $data);
         }
+
+
+        public function kirimPesan()
+        {
+            helper(['form']);
+        
+            $rules = [
+                'name'    => 'required|min_length[3]',
+                'email'   => 'required|valid_email',
+                'phone'   => 'permit_empty|min_length[8]',
+                'subject' => 'required|in_list[pendaftaran,program,beasiswa,lainnya]',
+                'message' => 'required|min_length[5]',
+            ];
+        
+            if (!$this->validate($rules)) {
+                session()->setFlashdata('error', 'Mohon isi semua data dengan benar.');
+                return redirect()->to(base_url('kontak'))->withInput();
+            }
+        
+            // ✅ Verifikasi Google reCAPTCHA
+            $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
+            $secretKey = '6LeO6vMrAAAAAAHvRXJedp2tWqvukrsSP6OXYikR'; // contoh: 6LfX0A0pAAAAABCD...
+        
+            // Kirim request ke Google API
+            $verifyResponse = file_get_contents(
+                "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}"
+            );
+            $responseData = json_decode($verifyResponse);
+        
+            if (!$responseData || !$responseData->success) {
+                session()->setFlashdata('error', 'Verifikasi reCAPTCHA gagal. Silakan coba lagi.');
+                return redirect()->to(base_url('kontak'))->withInput();
+            }
+        
+            // ✅ Simpan pesan ke database
+            $model = new \App\Models\PesanModel();
+            $model->insert([
+                'nama_lengkap' => $this->request->getPost('name'),
+                'email'        => $this->request->getPost('email'),
+                'telepon'      => $this->request->getPost('phone'),
+                'subjek'       => $this->request->getPost('subject'),
+                'pesan'        => $this->request->getPost('message'),
+            ]);
+        
+            session()->setFlashdata('success', 'Pesan Anda berhasil dikirim.');
+            return redirect()->to(base_url('kontak'));
+        }             
 }

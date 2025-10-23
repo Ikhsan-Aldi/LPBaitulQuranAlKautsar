@@ -38,38 +38,38 @@
             </div>
         </div>
         
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-primary-medium">
+        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-green-500">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600">Santri Aktif</p>
                     <p class="text-2xl font-bold text-primary-dark"><?= count(array_filter($santri, function($s) { return $s['status'] == 'Aktif'; })) ?></p>
                 </div>
-                <div class="p-2 bg-primary-medium/10 rounded-lg">
-                    <i class="fa fa-user-check text-primary-medium text-xl"></i>
+                <div class="p-2 bg-green-100 rounded-lg">
+                    <i class="fa fa-user-check text-green-600 text-xl"></i>
                 </div>
             </div>
         </div>
         
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-primary-light">
+        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-blue-500">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600">Santri Lulus</p>
                     <p class="text-2xl font-bold text-primary-dark"><?= count(array_filter($santri, function($s) { return $s['status'] == 'Lulus'; })) ?></p>
                 </div>
-                <div class="p-2 bg-primary-light/10 rounded-lg">
-                    <i class="fa fa-graduation-cap text-primary-light text-xl"></i>
+                <div class="p-2 bg-blue-100 rounded-lg">
+                    <i class="fa fa-graduation-cap text-blue-600 text-xl"></i>
                 </div>
             </div>
         </div>
         
-        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-primary-dark">
+        <div class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-red-500">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-sm text-gray-600">Nonaktif</p>
                     <p class="text-2xl font-bold text-primary-dark"><?= count(array_filter($santri, function($s) { return $s['status'] == 'Nonaktif'; })) ?></p>
                 </div>
-                <div class="p-2 bg-primary-dark/10 rounded-lg">
-                    <i class="fa fa-user-times text-primary-dark text-xl"></i>
+                <div class="p-2 bg-red-100 rounded-lg">
+                    <i class="fa fa-user-times text-red-600 text-xl"></i>
                 </div>
             </div>
         </div>
@@ -138,7 +138,7 @@
                                 <code class="bg-gray-100 px-2 py-1 rounded text-sm"><?= esc($row['nis']); ?></code>
                             </td>
                             <td class="py-4 px-6">
-                                <div class="font-medium text-gray-800"><?= esc($row['nama']); ?></div>
+                                <div class="font-medium text-gray-800"><?= esc($row['nama_lengkap']); ?></div>
                                 <div class="text-sm text-gray-600 mt-1"><?= esc($row['email'] ?? '-'); ?></div>
                             </td>
                             <td class="py-4 px-6">
@@ -187,14 +187,13 @@
                                     <a href="<?= base_url('admin/santri/hapus/' . $row['id']); ?>" 
                                        class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
                                        data-tooltip="Hapus Data"
-                                       onclick="return confirm('Yakin ingin menghapus data <?= esc($row['nama']) ?>?')">
+                                       onclick="return confirm('Yakin ingin menghapus data <?= esc($row['nama_lengkap']) ?>?')">
                                         <i class="fa fa-trash text-sm"></i>
                                     </a>
-                                    <button class="bg-primary-medium hover:bg-primary text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
-                                            data-tooltip="Detail"
-                                            onclick="showDetail(<?= $row['id'] ?>)">
+                                    <a href="<?= base_url('admin/santri/detail/' . $row['id']); ?>" 
+                                       data-tooltip="Detail" class="bg-primary-medium hover:bg-primary text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip">
                                         <i class="fa fa-eye text-sm"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
@@ -267,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const jenjangFilter = filterJenjang.value.toLowerCase();
 
         for (let row of rows) {
-            if (row.cells.length < 8) continue; // Skip empty row
+            if (row.cells.length < 8) continue; 
             
             const nis = row.cells[1].textContent.toLowerCase();
             const nama = row.cells[2].textContent.toLowerCase();
@@ -344,7 +343,7 @@ function showDetail(id) {
                             <div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fa fa-user-graduate text-3xl text-primary"></i>
                             </div>
-                            <h4 class="text-lg font-semibold text-gray-800">${d.nama || '-'}</h4>
+                            <h4 class="text-lg font-semibold text-gray-800">${d.nama_lengkap || '-'}</h4>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4 text-sm">

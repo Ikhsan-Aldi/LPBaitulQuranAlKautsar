@@ -47,16 +47,17 @@ class Ekstra extends Migration
                 'type'    => 'DATETIME',
                 'null'    => true,
                 'default' => 'CURRENT_TIMESTAMP',
-                'on_update' => 'CURRENT_TIMESTAMP', 
+                'on_update' => 'CURRENT_TIMESTAMP',
             ],
         ]);
 
         $this->forge->addKey('id', true);
-        $this->forge->createTable('ekstrakurikuler');
+        // Tambahkan argumen TRUE agar tidak error jika tabel sudah ada
+        $this->forge->createTable('ekstrakurikuler', true);
     }
 
     public function down()
     {
-        $this->forge->dropTable('ekstrakurikuler');
+        $this->forge->dropTable('ekstrakurikuler', true);
     }
 }

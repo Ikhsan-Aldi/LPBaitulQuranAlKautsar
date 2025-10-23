@@ -165,97 +165,26 @@
                         </p>
                     </div>
 
-                    <!-- Extracurricular Activities Grid -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-swimming-pool"></i>
+                    <!-- Ekstrakurikuler Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+                        <?php if (!empty($ekstrakurikuler)): ?>
+                            <?php foreach ($ekstrakurikuler as $item): ?>
+                                <div class="group text-center">
+                                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#017077]/30">
+                                        <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#017077]/20 transition-colors duration-300">
+                                            <i class="fas fa-<?= esc($item['icon']) ?> text-[#017077] text-lg"></i>
+                                        </div>
+                                        <h4 class="font-semibold text-gray-800 text-sm group-hover:text-[#017077] transition-colors duration-300">
+                                            <?= esc($item['nama_ekstrakurikuler']) ?>
+                                        </h4>
+                                    </div>
                                 </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Berenang</h3>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div class="col-span-full text-center text-gray-500 py-8">
+                                Belum ada data ekstrakurikuler.
                             </div>
-                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan fisik dan mental melalui olahraga air</p>
-                        </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-bullseye"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Memanah</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Olahraga sunnah yang mengajarkan fokus dan ketepatan</p>
-                        </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-horse"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Berkuda</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Olahraga sunnah yang melatih keberanian dan kepemimpinan</p>
-                        </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-trophy"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Olimpiade</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Kompetisi akademik untuk mengasah kemampuan intelektual</p>
-                        </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Entrepreneur Muslim</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Mengembangkan jiwa kewirausahaan sesuai syariat Islam</p>
-                        </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-fist-raised"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Beladiri</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan bela diri dan disiplin diri</p>
-                        </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-microphone"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Pidato 3 Bahasa</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan komunikasi dalam bahasa Indonesia, Arab, dan Inggris</p>
-                    </div>
-
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-newspaper"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">Jurnalistik</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Mengembangkan kemampuan menulis dan komunikasi media</p>
-                        </div>
-                        
-                        <div class="group bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-all duration-500 hover:border-[#017077]/30">
-                            <div class="flex items-center mb-4">
-                                <div class="bg-[#017077] text-white p-3 rounded-lg mr-4 group-hover:scale-110 transition-transform duration-300">
-                                    <i class="fas fa-mountain"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-[#017077]">SAPALA</h3>
-                            </div>
-                            <p class="text-gray-600 text-sm">Kegiatan alam bebas untuk mengembangkan jiwa petualang dan kepemimpinan</p>
-                        </div>
+                        <?php endif; ?>
                     </div>
 
                     <!-- Activity Images Section -->

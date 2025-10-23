@@ -8,17 +8,20 @@ use App\Models\PengajarModel;
 use App\Models\SantriModel;
 use App\Models\KegiatanModel;
 use App\Models\GelombangModel;
+use App\Models\PesanModel;
 
 
 class Admin extends BaseController
 {
     protected $pendaftaranModel;
     protected $gelombangModel;
+    protected $pesanModel;
 
     public function __construct()
     {
         $this->pendaftaranModel = new PendaftaranModel();
         $this->gelombangModel = new GelombangModel();
+        $this->pesanModel = new PesanModel(); // Tambahkan ini
     }
 
     // Dashboard
@@ -299,37 +302,79 @@ class Admin extends BaseController
     public function santri_simpan()
     {
         $santriModel = new SantriModel();
-
+        
         $id_pendaftaran = $this->request->getPost('id_pendaftaran');
+        $mode = $this->request->getPost('pilih_mode');
 
-        if (empty($id_pendaftaran)) {
-            $data = [
-                'id_pendaftaran' => null,
-                'nis' => $this->request->getPost('nis'),
-                'nama' => $this->request->getPost('nama'),
-                'jenjang' => $this->request->getPost('jenjang'),
-                'asal_sekolah' => $this->request->getPost('asal_sekolah'),
-                'alamat' => $this->request->getPost('alamat'),
-                'no_hp' => $this->request->getPost('no_hp'),
-                'status' => $this->request->getPost('status'),
-            ];
+        if ($mode === 'pendaftaran' && !empty($id_pendaftaran)) {
+            // Mode: Import dari pendaftaran menggunakan method dari model
+            $result = $santriModel->importFromPendaftaran($id_pendaftaran);
+            
+            if (!$result) {
+                return redirect()->back()->with('error', 'Gagal mengimpor data dari pendaftaran');
+            }
+            
+            // Update NIS dan status jika diinput manual
+            $nis = $this->request->getPost('nis');
+            $status = $this->request->getPost('status');
+            
+            if (!empty($nis) || !empty($status)) {
+                $updateData = [];
+                if (!empty($nis)) {
+                    // Validasi NIS unik
+                    if ($santriModel->isNISExist($nis, $result['id'])) {
+                        $santriModel->delete($result['id']); // Hapus data yang baru dibuat
+                        return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
+                    }
+                    $updateData['nis'] = $nis;
+                }
+                if (!empty($status)) {
+                    $updateData['status'] = $status;
+                }
+                
+                $santriModel->update($result['id'], $updateData);
+            }
+            
         } else {
-            $pendaftaranModel = new PendaftaranModel();
-            $p = $pendaftaranModel->find($id_pendaftaran);
-
+            // Mode: Input manual
             $data = [
-                'id_pendaftaran' => $id_pendaftaran,
-                'nis' => $this->request->getPost('nis'),
-                'nama' => $p['nama_lengkap'],
-                'jenjang' => $p['jenjang'],
-                'asal_sekolah' => $p['asal_sekolah'] ?? '',
-                'alamat' => $p['alamat'] ?? '',
-                'no_hp' => $p['no_hp'] ?? '',
-                'status' => $this->request->getPost('status'),
+                'id_pendaftaran'   => null,
+                'nama_lengkap'     => $this->request->getPost('nama_lengkap'),
+                'jenis_kelamin'    => $this->request->getPost('jenis_kelamin'),
+                'tempat_lahir'     => $this->request->getPost('tempat_lahir'),
+                'tanggal_lahir'    => $this->request->getPost('tanggal_lahir'),
+                'nis'              => $this->request->getPost('nis'),
+                'nisn'             => $this->request->getPost('nisn'),
+                'nama'             => $this->request->getPost('nama_lengkap'),
+                'jenjang'          => $this->request->getPost('jenjang'),
+                'asal_sekolah'     => $this->request->getPost('asal_sekolah'),
+                'alamat'           => $this->request->getPost('alamat'),
+                'nama_ayah'        => $this->request->getPost('nama_ayah'),
+                'nama_ibu'         => $this->request->getPost('nama_ibu'),
+                'no_hp'            => $this->request->getPost('no_hp'),
+                'no_hp_ortu'       => $this->request->getPost('no_hp_ortu'),
+                'ktp_ortu'         => $this->request->getPost('ktp_ortu'),
+                'akta_kk'          => $this->request->getPost('akta_kk'),
+                'surat_ket_lulus'  => $this->request->getPost('surat_ket_lulus'),
+                'ijazah_terakhir'  => $this->request->getPost('ijazah_terakhir'),
+                'foto'             => $this->request->getPost('foto'),
+                'status'           => $this->request->getPost('status') ?? 'Aktif'
             ];
+
+            try {
+                // Validasi NIS unik
+                if ($santriModel->isNISExist($data['nis'])) {
+                    return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
+                }
+
+                $santriModel->insert($data);
+                
+            } catch (\Exception $e) {
+                log_message('error', 'Error menyimpan data santri: ' . $e->getMessage());
+                return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat menyimpan data santri');
+            }
         }
 
-        $santriModel->insert($data);
         return redirect()->to(base_url('admin/santri'))->with('success', 'Data santri berhasil disimpan');
     }
 
@@ -381,12 +426,52 @@ class Admin extends BaseController
         }
     }
 
+    public function santri_detail($id)
+    {
+        $santriModel = new SantriModel();
+        $santri = $santriModel->find($id);
+
+        if (!$santri) {
+            return redirect()->to(base_url('admin/santri'))->with('error', 'Data santri tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Detail Santri - ' . $santri['nama_lengkap'],
+            'santri' => $santri
+        ];
+
+        return view('admin/santri/detail', $data);
+    }
+
+    public function santri_update_status($id)
+    {
+        $santriModel = new SantriModel();
+        $status = $this->request->getJSON()->status;
+
+        $result = $santriModel->updateStatus($id, $status);
+
+        if ($result) {
+            return $this->response->setJSON(['success' => true]);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengupdate status']);
+        }
+    }
+
     //Kegiatan
     public function kegiatan()
     {
-        $model = new KegiatanModel();
-        $data['kegiatan'] = $model->findAll();
-        $data['title'] = 'Data Kegiatan';
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+
+        $kegiatan = $kegiatanModel->findAll();
+
+        foreach ($kegiatan as &$row) {
+            $foto = $fotoModel->where('id_kegiatan', $row['id'])->first();
+            $row['foto_utama'] = $foto ? $foto['file_name'] : null;
+        }
+
+        $data['kegiatan'] = $kegiatan;
+
         return view('admin/kegiatan/index', $data);
     }
 
@@ -398,72 +483,186 @@ class Admin extends BaseController
 
     public function kegiatan_simpan()
     {
-        $model = new KegiatanModel();
-        $file = $this->request->getFile('foto');
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
 
-        $fotoName = null;
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $fotoName = $file->getRandomName();
-            $file->move('uploads/kegiatan', $fotoName);
-        }
-
-        $model->save([
+        $kegiatanData = [
             'judul' => $this->request->getPost('judul'),
             'deskripsi' => $this->request->getPost('deskripsi'),
             'tanggal' => $this->request->getPost('tanggal'),
             'lokasi' => $this->request->getPost('lokasi'),
-            'foto' => $fotoName
-        ]);
+        ];
+        $kegiatanModel->insert($kegiatanData);
+        $id_kegiatan = $kegiatanModel->getInsertID();
 
-        return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil ditambahkan');
+        $files = $this->request->getFiles();
+        if (isset($files['foto'])) {
+            foreach ($files['foto'] as $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+                    $newName = $file->getRandomName();
+                    $file->move(FCPATH . 'uploads/kegiatan', $newName);
+
+                    $fotoModel->insert([
+                        'id_kegiatan' => $id_kegiatan,
+                        'file_name' => $newName
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->to(base_url('admin/kegiatan'))
+                        ->with('success', 'Data kegiatan dan foto berhasil disimpan');
     }
 
     public function kegiatan_edit($id)
     {
-        $model = new KegiatanModel();
-        $data['kegiatan'] = $model->find($id);
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+
+        $data['kegiatan'] = $kegiatanModel->find($id);
+        $data['foto'] = $fotoModel->where('id_kegiatan', $id)->findAll();
         $data['title'] = 'Edit Kegiatan';
         return view('admin/kegiatan/edit', $data);
     }
 
     public function kegiatan_update($id)
     {
-        $model = new KegiatanModel();
-        $file = $this->request->getFile('foto');
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
 
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'lokasi' => $this->request->getPost('lokasi'),
-        ];
-
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $fotoName = $file->getRandomName();
-            $file->move('uploads/kegiatan', $fotoName);
-            $data['foto'] = $fotoName;
+        $kegiatan = $kegiatanModel->find($id);
+        if (!$kegiatan) {
+            return redirect()->back()->with('error', 'Kegiatan tidak ditemukan.');
         }
 
-        $model->update($id, $data);
-        return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil diperbarui');
+        $judul = $this->request->getPost('judul');
+        $deskripsi = $this->request->getPost('deskripsi');
+        $ekstrakurikuler = $this->request->getPost('ekstrakurikuler');
+        $hapusFoto = $this->request->getPost('hapus_foto'); 
+
+        if (!empty($hapusFoto)) {
+            foreach ($hapusFoto as $id_foto) {
+                $foto = $fotoModel->find($id_foto);
+                if ($foto) {
+                    $path = FCPATH . 'uploads/kegiatan/' . $foto['file_name'];
+                    if (is_file($path)) {
+                        unlink($path);
+                    }
+                    $fotoModel->delete($id_foto);
+                }
+            }
+        }
+
+        $files = $this->request->getFiles();
+
+        if (!empty($files['foto'])) {
+            foreach ($files['foto'] as $foto) {
+                if ($foto->isValid() && !$foto->hasMoved()) {
+                    $namaFile = $foto->getRandomName();
+                    $foto->move(FCPATH . 'uploads/kegiatan', $namaFile);
+
+                    $fotoModel->insert([
+                        'id_kegiatan' => $id,
+                        'file_name' => $namaFile,
+                    ]);
+                }
+            }
+        }
+
+        $kegiatanModel->update($id, [
+            'judul' => $judul,
+            'deskripsi' => $deskripsi,
+            'ekstrakurikuler' => $ekstrakurikuler,
+        ]);
+
+        return redirect()->to('/admin/kegiatan')->with('success', 'Kegiatan berhasil diperbarui!');
+    }
+
+
+    public function store()
+    {
+        $kegiatanModel = new \App\Models\KegiatanModel();
+
+        $judul       = $this->request->getPost('judul');
+        $deskripsi   = $this->request->getPost('deskripsi');
+        $ekstrakurikuler = $this->request->getPost('ekstrakurikuler');
+
+        $foto = $this->request->getFile('foto');
+        $namaFile = null;
+
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $namaFile = $foto->getRandomName();
+            $foto->move(FCPATH . 'uploads/kegiatan', $namaFile);
+        }
+
+        $kegiatanModel->insert([
+            'judul' => $judul,
+            'deskripsi' => $deskripsi,
+            'ekstrakurikuler' => $ekstrakurikuler,
+            'foto' => $namaFile,
+        ]);
+
+        return redirect()->to('/admin/kegiatan')->with('success', 'Kegiatan berhasil ditambahkan!');
+    }
+
+    public function kegiatan_detail($id)
+    {
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+
+        $data['kegiatan'] = $kegiatanModel->find($id);
+
+        if (!$data['kegiatan']) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kegiatan dengan ID $id tidak ditemukan");
+        }
+
+        // Ambil semua foto yang terkait kegiatan ini
+        $data['kegiatan']['foto_list'] = $fotoModel->where('id_kegiatan', $id)->findAll();
+
+        $data['title'] = 'Detail Kegiatan';
+
+        return view('admin/kegiatan/detail', $data);
+    }
+
+
+    public function kegiatan_hapusFoto($id_kegiatan, $id_foto)
+    {
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+        $foto = $fotoModel->find($id_foto);
+
+        if ($foto) {
+            $path = FCPATH . 'uploads/kegiatan/' . $foto['file_name'];
+            if (is_file($path)) {
+                unlink($path);
+            }
+            $fotoModel->delete($id_foto);
+        }
+
+        return redirect()->to(base_url("admin/kegiatan/detail/$id_kegiatan"))
+                        ->with('success', 'Foto berhasil dihapus.');
     }
 
     public function kegiatan_hapus($id)
     {
-        $model = new KegiatanModel();
-        $kegiatan = $model->find($id);
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
 
-        if ($kegiatan && $kegiatan['foto'] && file_exists('uploads/kegiatan/' . $kegiatan['foto'])) {
-            unlink('uploads/kegiatan/' . $kegiatan['foto']);
+        $fotos = $fotoModel->where('id_kegiatan', $id)->findAll();
+        foreach ($fotos as $f) {
+            $path = FCPATH . 'uploads/kegiatan/' . $f['file_name'];
+            if (is_file($path)) {
+                unlink($path);
+            }
         }
+        $fotoModel->where('id_kegiatan', $id)->delete();
 
-        $model->delete($id);
-        return redirect()->to(base_url('admin/kegiatan'))->with('success', 'Kegiatan berhasil dihapus');
+        $kegiatanModel->delete($id);
+
+        return redirect()->to(base_url('admin/kegiatan'))
+                        ->with('success', 'Kegiatan dan semua foto berhasil dihapus.');
     }
 
-    //===========================
-    //CRUD GELOMBANG PENDAFTARAN
-    //===========================
+    // Gelombang Pendaftaran
     public function gelombang()
     {
         $gelombang = $this->gelombangModel->findAll();
@@ -476,9 +675,6 @@ class Admin extends BaseController
         return view('admin/gelombang/index', $data);
     }
 
-    /**
-     * Menampilkan form tambah gelombang
-     */
     public function tambahGelombang()
     {
         $data = [
@@ -489,12 +685,8 @@ class Admin extends BaseController
         return view('admin/gelombang/form', $data);
     }
 
-    /**
-     * Menyimpan data gelombang baru
-     */
     public function simpanGelombang()
     {
-        // Validasi input
         if (!$this->validate([
             'nama' => 'required|min_length[3]|max_length[100]',
             'tanggal_mulai' => 'required|valid_date',
@@ -504,23 +696,20 @@ class Admin extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Ambil data dari form
         $nama = $this->request->getPost('nama');
         $tanggal_mulai = $this->request->getPost('tanggal_mulai');
         $tanggal_selesai = $this->request->getPost('tanggal_selesai');
         $status = $this->request->getPost('status');
 
-        // Proses data seleksi (array)
         $seleksi = $this->request->getPost('seleksi');
         $jadwal_seleksi = $this->request->getPost('jadwal_seleksi');
         $metode = $this->request->getPost('metode');
 
-        // Validasi tambahan untuk seleksi
         if (empty($seleksi) || !is_array($seleksi)) {
             return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi harus diisi');
         }
 
-        // Filter data yang kosong
+        
         $seleksi_data = [];
         $jadwal_data = [];
         $metode_data = [];
@@ -537,7 +726,6 @@ class Admin extends BaseController
             return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi yang valid harus diisi');
         }
 
-        // Simpan ke database
         $data = [
             'nama' => $nama,
             'tanggal_mulai' => $tanggal_mulai,
@@ -555,9 +743,6 @@ class Admin extends BaseController
         }
     }
 
-    /**
-     * Menampilkan form edit gelombang
-     */
     public function editGelombang($id)
     {
         $gelombang = $this->gelombangModel->find($id);
@@ -566,7 +751,6 @@ class Admin extends BaseController
             return redirect()->to('/admin/gelombang')->with('error', 'Data gelombang tidak ditemukan');
         }
 
-        // Decode data JSON
         $gelombang['seleksi_array'] = json_decode($gelombang['seleksi'], true) ?? [];
         $gelombang['jadwal_seleksi_array'] = json_decode($gelombang['jadwal_seleksi'], true) ?? [];
         $gelombang['metode_array'] = json_decode($gelombang['metode'], true) ?? [];
@@ -580,18 +764,14 @@ class Admin extends BaseController
         return view('admin/gelombang/form', $data);
     }
 
-    /**
-     * Menyimpan hasil edit gelombang
-     */
     public function updateGelombang($id)
     {
-        // Cek apakah data exists
+        
         $gelombang = $this->gelombangModel->find($id);
         if (!$gelombang) {
             return redirect()->to('/admin/gelombang')->with('error', 'Data gelombang tidak ditemukan');
         }
-
-        // Validasi input
+        
         if (!$this->validate([
             'nama' => 'required|min_length[3]|max_length[100]',
             'tanggal_mulai' => 'required|valid_date',
@@ -600,24 +780,20 @@ class Admin extends BaseController
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
-
-        // Ambil data dari form
+        
         $nama = $this->request->getPost('nama');
         $tanggal_mulai = $this->request->getPost('tanggal_mulai');
         $tanggal_selesai = $this->request->getPost('tanggal_selesai');
         $status = $this->request->getPost('status');
-
-        // Proses data seleksi (array)
+        
         $seleksi = $this->request->getPost('seleksi');
         $jadwal_seleksi = $this->request->getPost('jadwal_seleksi');
         $metode = $this->request->getPost('metode');
 
-        // Validasi tambahan untuk seleksi
         if (empty($seleksi) || !is_array($seleksi)) {
             return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi harus diisi');
         }
 
-        // Filter data yang kosong
         $seleksi_data = [];
         $jadwal_data = [];
         $metode_data = [];
@@ -633,8 +809,7 @@ class Admin extends BaseController
         if (empty($seleksi_data)) {
             return redirect()->back()->withInput()->with('error', 'Minimal satu seleksi yang valid harus diisi');
         }
-
-        // Update data
+        
         $data = [
             'id' => $id,
             'nama' => $nama,
@@ -653,9 +828,6 @@ class Admin extends BaseController
         }
     }
 
-    /**
-     * Menghapus data gelombang
-     */
     public function hapusGelombang($id)
     {
         $gelombang = $this->gelombangModel->find($id);
@@ -668,6 +840,93 @@ class Admin extends BaseController
             return redirect()->to('/admin/gelombang')->with('success', 'Gelombang pendaftaran berhasil dihapus');
         } else {
             return redirect()->to('/admin/gelombang')->with('error', 'Gagal menghapus gelombang pendaftaran');
+        }
+    }
+
+    public function gelombang_detail($id)
+    {
+        $gelombangModel = new GelombangModel();
+        $pendaftaranModel = new PendaftaranModel();
+        
+        $gelombang = $gelombangModel->find($id);
+
+        if (!$gelombang) {
+            return redirect()->to(base_url('admin/gelombang'))->with('error', 'Data gelombang tidak ditemukan');
+        }
+
+        // Hitung statistik
+        $jumlah_pendaftar = $pendaftaranModel->where('id_pendaftaran', $id)->countAllResults();
+        $jumlah_diterima = $pendaftaranModel->where('id_pendaftaran', $id)->where('status', 'Diterima')->countAllResults();
+        $jumlah_menunggu = $pendaftaranModel->where('id_pendaftaran', $id)->where('status', 'Menunggu Verifikasi')->countAllResults();
+
+        $data = [
+            'title' => 'Detail Gelombang - ' . $gelombang['nama'],
+            'gelombang' => $gelombang,
+            'jumlah_pendaftar' => $jumlah_pendaftar,
+            'jumlah_diterima' => $jumlah_diterima,
+            'jumlah_menunggu' => $jumlah_menunggu
+        ];
+
+        return view('admin/gelombang/detail', $data);
+    }
+
+    public function gelombang_update_status($id)
+    {
+        $gelombangModel = new GelombangModel();
+        $status = $this->request->getJSON()->status;
+
+        $result = $gelombangModel->update($id, ['status' => $status]);
+
+        if ($result) {
+            return $this->response->setJSON(['success' => true]);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Gagal mengupdate status']);
+        }
+    }
+
+    ///=============
+    //HALAMAN PESAN
+    ///=============
+    // Pesan dari Pengunjung
+    public function pesan()
+    {
+        $data = [
+            'title' => 'Pesan dari Pengunjung',
+            'pesan' => $this->pesanModel->orderBy('created_at', 'DESC')->findAll(),
+        ];
+        return view('admin/pesan/index', $data);
+    }
+
+    // Detail Pesan
+    public function detailPesan($id)
+    {
+        $pesan = $this->pesanModel->find($id);
+        
+        if (!$pesan) {
+            return redirect()->to('/admin/pesan')->with('error', 'Pesan tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Detail Pesan',
+            'pesan' => $pesan
+        ];
+
+        return view('admin/pesan/detail', $data);
+    }
+
+    // Hapus Pesan
+    public function hapusPesan($id)
+    {
+        $pesan = $this->pesanModel->find($id);
+        
+        if (!$pesan) {
+            return redirect()->to('/admin/pesan')->with('error', 'Pesan tidak ditemukan');
+        }
+
+        if ($this->pesanModel->delete($id)) {
+            return redirect()->to('/admin/pesan')->with('success', 'Pesan berhasil dihapus');
+        } else {
+            return redirect()->to('/admin/pesan')->with('error', 'Gagal menghapus pesan');
         }
     }
 }
