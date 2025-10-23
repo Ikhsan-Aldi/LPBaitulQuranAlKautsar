@@ -5,7 +5,7 @@
 <section class="relative min-h-[60vh] flex items-center overflow-hidden bg-gradient-to-r from-[#017077] to-[#005359]">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-black/40"></div>
-        <img src="<?= base_url('assets/img/hero-3.jpg') ?>" alt="Galeri" class="w-full h-full object-cover">
+        <img src="<?= base_url('assets/img/hero-2.jpg') ?>" alt="Galeri" class="w-full h-full object-cover">
     </div>
     
     <div class="max-w-7xl mx-auto px-6 relative z-10 w-full text-center">
@@ -22,290 +22,167 @@
 
 <!-- Main Content -->
 <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-6xl mx-auto px-6">
         <!-- Filter Tabs -->
-        <div class="flex flex-wrap justify-center gap-2 mb-12 border-b border-gray-200 pb-4">
-            <button class="tab-button px-6 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="semua">
+        <div class="flex flex-wrap justify-center gap-3 mb-12">
+            <button class="tab-btn px-6 py-3 rounded-lg bg-[#017077] text-white font-semibold text-sm transition-all duration-300 hover:bg-[#005359] shadow-md" data-category="semua">
                 <i class="fas fa-th mr-2"></i>Semua
             </button>
-            <button class="tab-button px-6 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="kegiatan">
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 hover:bg-gray-200" data-category="kegiatan">
                 <i class="fas fa-calendar-alt mr-2"></i>Kegiatan
             </button>
-            <button class="tab-button px-6 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="fasilitas">
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 hover:bg-gray-200" data-category="fasilitas">
                 <i class="fas fa-building mr-2"></i>Fasilitas
             </button>
-            <button class="tab-button px-6 py-3 rounded-t-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-200 text-center" data-tab="prestasi">
+            <button class="tab-btn px-6 py-3 rounded-lg bg-gray-100 text-gray-600 font-semibold text-sm transition-all duration-300 hover:bg-gray-200" data-category="prestasi">
                 <i class="fas fa-trophy mr-2"></i>Prestasi
             </button>
         </div>
 
         <!-- Gallery Grid -->
-        <div class="bg-white rounded-2xl shadow-xl p-8">
-            <!-- Semua Tab -->
-            <div class="tab-content" id="semua-tab">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <?php if (!empty($galeri)): ?>
-                        <?php foreach ($galeri as $item): ?>
-                            <div class="group">
-                                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                                    <?php if ($item['gambar']): ?>
-                                        <div class="aspect-square bg-cover bg-center" style="background-image: url('<?= base_url('uploads/galeri/' . $item['gambar']) ?>');">
-                                            <div class="w-full h-full bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-end">
-                                                <div class="w-full p-4 bg-gradient-to-t from-black to-transparent text-white transform translate-y-full group-hover:translate-y-0 transition-all duration-300">
-                                                    <h4 class="font-semibold text-sm"><?= esc($item['judul']) ?></h4>
-                                                    <p class="text-xs opacity-90"><?= date('d M Y', strtotime($item['tanggal'])) ?></p>
-                                                </div>
-                                            </div>
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <?php if (!empty($galeri)): ?>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="gallery-grid">
+                    <?php foreach ($galeri as $item): ?>
+                        <div class="gallery-item group" data-category="<?= $item['kategori'] ?>">
+                            <div class="relative overflow-hidden bg-gray-200 transition-all duration-500 group-hover:shadow-2xl">
+                                <!-- Image Container -->
+                                <div class="relative aspect-[16/9] overflow-hidden">
+                                    <?php if ($item['gambar'] && file_exists(ROOTPATH . 'public/uploads/galeri/' . $item['gambar'])): ?>
+                                        <img 
+                                            src="<?= base_url('uploads/galeri/' . $item['gambar']) ?>" 
+                                            alt="<?= esc($item['judul']) ?>"
+                                            class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                                            loading="lazy"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                        >
+                                        <!-- Fallback jika gambar error -->
+                                        <div class="absolute inset-0 bg-gradient-to-br from-[#017077] to-[#005359] hidden flex-col items-center justify-center text-white">
+                                            <i class="fas fa-image text-4xl mb-3 opacity-80"></i>
+                                            <span class="text-sm">Gambar tidak tersedia</span>
                                         </div>
                                     <?php else: ?>
-                                        <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                            <i class="fas fa-image text-white text-4xl"></i>
+                                        <div class="w-full h-full bg-gradient-to-br from-[#017077] to-[#005359] flex flex-col items-center justify-center text-white">
+                                            <i class="fas fa-image text-4xl mb-3 opacity-80"></i>
+                                            <span class="text-sm">Tidak ada gambar</span>
                                         </div>
                                     <?php endif; ?>
-                                    <div class="p-4">
-                                        <h4 class="font-semibold text-gray-800 text-sm"><?= esc($item['judul']) ?></h4>
-                                        <?php if ($item['deskripsi']): ?>
-                                            <p class="text-gray-600 text-xs mt-1"><?= esc(substr($item['deskripsi'], 0, 80)) ?>...</p>
-                                        <?php endif; ?>
-                                        <div class="flex items-center justify-between mt-2">
-                                            <span class="text-xs text-gray-500"><?= date('d M Y', strtotime($item['tanggal'])) ?></span>
-                                            <span class="badge bg-<?= $item['kategori'] == 'kegiatan' ? 'blue' : ($item['kategori'] == 'fasilitas' ? 'green' : 'yellow') ?>-100 text-<?= $item['kategori'] == 'kegiatan' ? 'blue' : ($item['kategori'] == 'fasilitas' ? 'green' : 'yellow') ?>-800 text-xs">
-                                                <?= ucfirst($item['kategori']) ?>
-                                            </span>
+                                    
+                                    <!-- Default Overlay (Selalu terlihat - tipis) -->
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end">
+                                        <div class="w-full p-6 text-white transform transition-all duration-500 group-hover:translate-y-2">
+                                            <h3 class="font-bold text-lg mb-1 line-clamp-1"><?= esc($item['judul']) ?></h3>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Hover Overlay (Muncul saat hover) -->
+                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/50 transition-all duration-500 flex items-center justify-center">
+                                        <div class="text-center text-white transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 p-6">
+                                            <?php if ($item['deskripsi']): ?>
+                                                <p class="text-sm mb-3 line-clamp-3 leading-relaxed"><?= esc($item['deskripsi']) ?></p>
+                                            <?php endif; ?>
+                                            <div class="flex items-center justify-center space-x-4 text-xs">
+                                                <span class="flex items-center">
+                                                    <i class="fas fa-calendar-alt mr-1"></i>
+                                                    <?= date('d M Y', strtotime($item['tanggal'])) ?>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="col-span-full text-center py-12">
-                            <div class="bg-[#017077]/10 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
-                                <i class="fas fa-images text-[#017077] text-3xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold text-gray-700 mb-4">Belum Ada Galeri</h3>
-                            <p class="text-gray-600 text-lg">
-                                Galeri akan segera ditambahkan. Silakan pantau terus informasi terbaru dari kami.
-                            </p>
                         </div>
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
-            </div>
-
-            <!-- Kegiatan Tab -->
-            <div class="tab-content hidden" id="kegiatan-tab">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-mountain text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Kegiatan Alam</h4>
-                                <p class="text-gray-600 text-xs">Outdoor activities</p>
-                            </div>
-                        </div>
+            <?php else: ?>
+                <div class="text-center py-20">
+                    <div class="bg-[#017077]/10 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-images text-[#017077] text-3xl"></i>
                     </div>
-
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-book text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Pembelajaran</h4>
-                                <p class="text-gray-600 text-xs">Learning activities</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-pray text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Spiritual</h4>
-                                <p class="text-gray-600 text-xs">Religious activities</p>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="text-2xl font-bold text-gray-700 mb-4">Belum Ada Galeri</h3>
+                    <p class="text-gray-600 text-lg max-w-md mx-auto">
+                        Galeri akan segera ditambahkan. Silakan pantau terus informasi terbaru dari kami.
+                    </p>
                 </div>
-            </div>
-
-            <!-- Fasilitas Tab -->
-            <div class="tab-content hidden" id="fasilitas-tab">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-home text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Asrama</h4>
-                                <p class="text-gray-600 text-xs">Dormitory facilities</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-utensils text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Kantin</h4>
-                                <p class="text-gray-600 text-xs">Cafeteria</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-dumbbell text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Lapangan Olahraga</h4>
-                                <p class="text-gray-600 text-xs">Sports facilities</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Prestasi Tab -->
-            <div class="tab-content hidden" id="prestasi-tab">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-trophy text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Prestasi</h4>
-                                <p class="text-gray-600 text-xs">Achievements</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-medal text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Penghargaan</h4>
-                                <p class="text-gray-600 text-xs">Awards</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="group">
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                            <div class="aspect-square bg-gradient-to-br from-[#017077] to-[#005359] flex items-center justify-center">
-                                <i class="fas fa-star text-white text-4xl"></i>
-                            </div>
-                            <div class="p-4">
-                                <h4 class="font-semibold text-gray-800 text-sm">Pencapaian</h4>
-                                <p class="text-gray-600 text-xs">Accomplishments</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>
 </section>
 
 <script>
-// Fungsi untuk switch tab
-function switchTab(targetTab) {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-    
-    // Update URL hash tanpa reload page
-    window.history.replaceState(null, null, `#${targetTab}`);
-    
-    // Update active tab button
-    tabButtons.forEach(btn => {
-        if (btn.getAttribute('data-tab') === targetTab) {
-            btn.classList.add('active', 'bg-[#017077]', 'text-white', 'shadow-md');
-            btn.classList.remove('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
-        } else {
-            btn.classList.remove('active', 'bg-[#017077]', 'text-white', 'shadow-md');
-            btn.classList.add('bg-gray-100', 'text-gray-600', 'hover:bg-gray-200');
-        }
-    });
-    
-    // Update active tab content
-    tabContents.forEach(content => {
-        if (content.id === `${targetTab}-tab`) {
-            content.classList.add('active');
-            content.classList.remove('hidden');
-        } else {
-            content.classList.remove('active');
-            content.classList.add('hidden');
-        }
-    });
-}
-
-// Fungsi untuk baca hash dari URL dan switch tab
-function handleHashChange() {
-    const hash = window.location.hash.replace('#', '');
-    const validTabs = ['semua', 'kegiatan', 'fasilitas', 'prestasi'];
-    
-    if (validTabs.includes(hash)) {
-        switchTab(hash);
-    } else {
-        // Default ke tab semua
-        switchTab('semua');
-    }
-}
-
-// Initialize tab system
 document.addEventListener('DOMContentLoaded', function() {
-    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    // Fungsi untuk filter galeri
+    function filterGallery(category) {
+        let visibleCount = 0;
+        
+        galleryItems.forEach(item => {
+            if (category === 'semua' || item.getAttribute('data-category') === category) {
+                item.style.display = 'block';
+                visibleCount++;
+                
+                // Trigger animation
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                }, 50);
+            } else {
+                item.style.display = 'none';
+            }
+        });
+        
+        // Update URL hash
+        window.history.replaceState(null, null, `#${category}`);
+    }
     
     // Setup tab click handlers
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            switchTab(targetTab);
+            const category = this.getAttribute('data-category');
+            
+            // Update active tab
+            tabButtons.forEach(btn => {
+                if (btn === this) {
+                    btn.classList.add('bg-[#017077]', 'text-white', 'shadow-md');
+                    btn.classList.remove('bg-gray-100', 'text-gray-600');
+                } else {
+                    btn.classList.remove('bg-[#017077]', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-gray-100', 'text-gray-600');
+                }
+            });
+            
+            // Filter gallery
+            filterGallery(category);
         });
     });
     
-    // Handle initial hash
-    handleHashChange();
+    // Handle initial hash from URL
+    const initialHash = window.location.hash.replace('#', '');
+    const validCategories = ['semua', 'kegiatan', 'fasilitas', 'prestasi'];
     
-    // Handle hash changes from browser navigation
-    window.addEventListener('hashchange', handleHashChange);
+    if (validCategories.includes(initialHash)) {
+        // Find and click the corresponding tab button
+        const initialTab = document.querySelector(`.tab-btn[data-category="${initialHash}"]`);
+        if (initialTab) {
+            initialTab.click();
+        }
+    } else {
+        // Default to semua tab
+        filterGallery('semua');
+    }
+    
+    // Image error handling
+    document.addEventListener('error', function(e) {
+        if (e.target.tagName === 'IMG' && e.target.closest('.gallery-item')) {
+            const img = e.target;
+            const fallback = img.nextElementSibling;
+            img.style.display = 'none';
+            fallback.style.display = 'flex';
+        }
+    }, true);
 });
-
-// Style untuk tab aktif
-const style = document.createElement('style');
-style.textContent = `
-    .tab-button.active {
-        position: relative;
-    }
-    .tab-button.active::after {
-        content: '';
-        position: absolute;
-        bottom: -4px;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: #017077;
-        border-radius: 2px;
-    }
-    .tab-content {
-        animation: fadeIn 0.3s ease-in-out;
-    }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-`;
-document.head.appendChild(style);
 </script>
 
 <style>
@@ -313,9 +190,47 @@ document.head.appendChild(style);
     font-family: 'Traditional Arabic', 'Scheherazade New', 'Lateef', serif;
 }
 
-.section-pattern {
-    background-image: radial-gradient(circle at 1px 1px, rgba(1, 112, 119, 0.1) 1px, transparent 0);
-    background-size: 20px 20px;
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Smooth animations */
+.gallery-item {
+    transition: all 0.4s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Enhanced hover effects */
+.gallery-item:hover {
+    transform: translateY(-4px);
 }
 </style>
 <?= $this->endSection() ?>

@@ -101,32 +101,52 @@
                     <p class="text-gray-700 leading-relaxed whitespace-pre-line"><?= esc($pesan['pesan']) ?></p>
                 </div>
                 
-                <!-- Quick Actions -->
+                <!-- Quick Actions - REVISI: Lebih minimalis dan compact -->
                 <div class="mt-6 pt-6 border-t border-gray-200">
-                    <h4 class="text-md font-semibold text-primary-dark mb-3">Tindakan Cepat</h4>
-                    <div class="flex flex-wrap gap-3">
+                    <h4 class="text-md font-semibold text-primary-dark mb-4">Tindakan Cepat</h4>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <!-- Balas Gmail -->
                         <button onclick="balasEmail('<?= esc($pesan['email']) ?>', '<?= esc($pesan['subjek']) ?>', '<?= esc($pesan['nama_lengkap']) ?>')" 
-                           class="bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center">
-                            <i class="fas fa-reply mr-2"></i>Balas via Gmail
+                           class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center text-sm"
+                           title="Balas via Gmail">
+                            <i class="fas fa-reply text-xs mr-1.5"></i>
+                            <span>Balas</span>
                         </button>
                         
+                        <!-- Template -->
                         <button onclick="balasEmailWithTemplate('<?= esc($pesan['email']) ?>', '<?= esc($pesan['subjek']) ?>', '<?= esc($pesan['nama_lengkap']) ?>')" 
-                           class="bg-indigo-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-200 flex items-center">
-                            <i class="fas fa-envelope mr-2"></i>Template Balasan
+                           class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center text-sm"
+                           title="Template Balasan">
+                            <i class="fas fa-envelope text-xs mr-1.5"></i>
+                            <span>Template</span>
                         </button>
                         
+                        <!-- WhatsApp -->
                         <?php if ($pesan['telepon']): ?>
                         <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $pesan['telepon']) ?>?text=Halo%20<?= urlencode($pesan['nama_lengkap']) ?>%2C%20terima%20kasih%20telah%20menghubungi%20kami." 
                            target="_blank"
-                           class="bg-green-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center">
-                            <i class="fab fa-whatsapp mr-2"></i>Chat WhatsApp
+                           class="bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center text-sm"
+                           title="Chat WhatsApp">
+                            <i class="fab fa-whatsapp text-xs mr-1.5"></i>
+                            <span>WhatsApp</span>
                         </a>
                         <?php endif; ?>
                         
+                        <!-- Copy Email -->
+                        <button onclick="salinEmail('<?= esc($pesan['email']) ?>')" 
+                           class="bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-200 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center text-sm"
+                           title="Salin Email">
+                            <i class="fas fa-copy text-xs mr-1.5"></i>
+                            <span>Salin</span>
+                        </button>
+                        
+                        <!-- Hapus -->
                         <a href="<?= base_url('admin/pesan/hapus/' . $pesan['id']) ?>" 
-                           class="bg-red-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-red-700 transition-colors duration-200 flex items-center"
+                           class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 font-medium py-2 px-3 rounded-lg transition-all duration-200 flex items-center text-sm"
+                           title="Hapus Pesan"
                            onclick="return confirm('Apakah Anda yakin ingin menghapus pesan ini?')">
-                            <i class="fas fa-trash mr-2"></i>Hapus Pesan
+                            <i class="fas fa-trash text-xs mr-1.5"></i>
+                            <span>Hapus</span>
                         </a>
                     </div>
                 </div>
