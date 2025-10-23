@@ -8,17 +8,20 @@ use App\Models\PengajarModel;
 use App\Models\SantriModel;
 use App\Models\KegiatanModel;
 use App\Models\GelombangModel;
+use App\Models\PesanModel;
 
 
 class Admin extends BaseController
 {
     protected $pendaftaranModel;
     protected $gelombangModel;
+    protected $pesanModel;
 
     public function __construct()
     {
         $this->pendaftaranModel = new PendaftaranModel();
         $this->gelombangModel = new GelombangModel();
+        $this->pesanModel = new PesanModel(); // Tambahkan ini
     }
 
     // Dashboard
@@ -764,6 +767,52 @@ class Admin extends BaseController
             return redirect()->to('/admin/gelombang')->with('success', 'Gelombang pendaftaran berhasil dihapus');
         } else {
             return redirect()->to('/admin/gelombang')->with('error', 'Gagal menghapus gelombang pendaftaran');
+        }
+    }
+
+    ///=============
+    //HALAMAN PESAN
+    ///=============
+    // Pesan dari Pengunjung
+    public function pesan()
+    {
+        $data = [
+            'title' => 'Pesan dari Pengunjung',
+            'pesan' => $this->pesanModel->orderBy('created_at', 'DESC')->findAll(),
+        ];
+        return view('admin/pesan/index', $data);
+    }
+
+    // Detail Pesan
+    public function detailPesan($id)
+    {
+        $pesan = $this->pesanModel->find($id);
+        
+        if (!$pesan) {
+            return redirect()->to('/admin/pesan')->with('error', 'Pesan tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Detail Pesan',
+            'pesan' => $pesan
+        ];
+
+        return view('admin/pesan/detail', $data);
+    }
+
+    // Hapus Pesan
+    public function hapusPesan($id)
+    {
+        $pesan = $this->pesanModel->find($id);
+        
+        if (!$pesan) {
+            return redirect()->to('/admin/pesan')->with('error', 'Pesan tidak ditemukan');
+        }
+
+        if ($this->pesanModel->delete($id)) {
+            return redirect()->to('/admin/pesan')->with('success', 'Pesan berhasil dihapus');
+        } else {
+            return redirect()->to('/admin/pesan')->with('error', 'Gagal menghapus pesan');
         }
     }
 }

@@ -113,6 +113,13 @@
                     <span>Pendaftaran</span>
                 </a>
 
+                <!-- ✅ Tambahan Menu Pesan -->
+                <a href="<?= base_url('admin/pesan') ?>" 
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pesan' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-envelope w-6 text-center"></i>
+                    <span>Pesan</span>
+                </a>
+
                 <div class="border-t border-white/20 my-4"></div>
 
                 <a href="<?= base_url('b0/logout') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500/20 hover:translate-x-2 transition-all duration-200 text-red-200" onclick="return confirm('Yakin ingin logout?')">
@@ -120,6 +127,7 @@
                     <span>Logout</span>
                 </a>
             </nav>
+
 
             <!-- Islamic Pattern -->
             <div class="islamic-pattern absolute bottom-0 left-0 w-full h-16 opacity-70"></div>

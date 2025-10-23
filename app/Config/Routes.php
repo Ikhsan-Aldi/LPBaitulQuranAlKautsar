@@ -13,6 +13,7 @@ $routes->get('program', 'Home::program');
 $routes->get('profil', 'Home::profil');
 $routes->get('program', 'Home::program');
 $routes->get('kontak', 'Home::kontak');
+$routes->post('kirim-pesan', 'Home::kirimPesan');
 $routes->get('lainnya', 'Home::lainnya');
 $routes->get('pendaftaran', 'Home::pendaftaran');
 $routes->get('pendaftaran/form', 'Home::formPendaftaran');
@@ -89,6 +90,10 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('kegiatan/detail/(:num)', 'Admin::kegiatan_detail/$1');
     $routes->get('kegiatan/hapus-foto/(:num)/(:num)', 'Admin::kegiatan_hapusFoto/$1/$2');
 
+    // Pesan
+    $routes->get('pesan', 'Admin::pesan');
+    $routes->get('pesan/detail/(:num)', 'Admin::detailPesan/$1');
+    $routes->get('pesan/hapus/(:num)', 'Admin::hapusPesan/$1');
 });
 
 
