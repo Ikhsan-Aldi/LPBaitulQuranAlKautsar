@@ -70,12 +70,16 @@ class Home extends BaseController
         ];
         return view('lp/pendaftaran/index', $data);
     }
-    public function lainnya()
+    public function galeri()
     {
+        $galeriModel = new \App\Models\GaleriModel();
+        $galeri = $galeriModel->getAktif();
+        
         $data = [
-            'title' => 'Lainnya - Solusi Digital Terdepan'
+            'title' => 'Galeri - Baitul Quran Al-Kautsar',
+            'galeri' => $galeri
         ];
-        return view('lp/lainnya', $data);
+        return view('lp/galeri/index', $data);
     }
 
 

@@ -14,7 +14,7 @@ $routes->get('profil', 'Home::profil');
 $routes->get('program', 'Home::program');
 $routes->get('kontak', 'Home::kontak');
 $routes->post('kirim-pesan', 'Home::kirimPesan');
-$routes->get('lainnya', 'Home::lainnya');
+$routes->get('galeri', 'Home::galeri');
 $routes->get('pendaftaran', 'Home::pendaftaran');
 $routes->get('pendaftaran/form', 'Home::formPendaftaran');
 $routes->post('pendaftaran/simpan', 'Home::simpanPendaftaran');
@@ -95,6 +95,15 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('pesan', 'Admin::pesan');
     $routes->get('pesan/detail/(:num)', 'Admin::detailPesan/$1');
     $routes->get('pesan/hapus/(:num)', 'Admin::hapusPesan/$1');
+
+    // Galeri
+    $routes->get('galeri', 'Admin::galeri');
+    $routes->get('galeri/tambah', 'Admin::galeri_tambah');
+    $routes->post('galeri/simpan', 'Admin::galeri_simpan');
+    $routes->get('galeri/edit/(:num)', 'Admin::galeri_edit/$1');
+    $routes->post('galeri/update/(:num)', 'Admin::galeri_update/$1');
+    $routes->get('galeri/hapus/(:num)', 'Admin::galeri_hapus/$1');
+    $routes->get('galeri/detail/(:num)', 'Admin::galeri_detail/$1');
 });
 
 

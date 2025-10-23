@@ -91,6 +91,73 @@
                 <h1 class="font-amiri text-xl font-bold">Admin Panel</h1>
                 <p class="text-xs text-white/80">Ponpes Al-Kautsar</p>
             </div>
+<<<<<<< HEAD
+
+
+            <!-- Menu Navigasi -->
+            <nav class="p-4 space-y-2">
+                <a href="<?= base_url('admin/dashboard') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'dashboard' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-home w-6 text-center"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="<?= base_url('admin/pengajar') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pengajar' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-user-tie w-6 text-center"></i>
+                    <span>Data Pengajar</span>
+                </a>
+
+                <a href="<?= base_url('admin/santri') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'santri' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-users w-6 text-center"></i>
+                    <span>Data Santri</span>
+                </a>
+
+                <a href="<?= base_url('admin/ekstrakurikuler') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'ekstrakurikuler' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-futbol w-6 text-center"></i>
+                    <span>Ekstrakurikuler</span>
+                </a>
+
+                <a href="<?= base_url('admin/kegiatan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'kegiatan' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-calendar-alt w-6 text-center"></i>
+                    <span>Kegiatan</span>
+                </a>
+
+                <a href="<?= base_url('admin/gelombang') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'gelombang' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-wave-square w-6 text-center"></i>
+                    <span>Gelombang Pendaftaran</span>
+                </a>
+
+                <a href="<?= base_url('admin/pendaftaran') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pendaftaran' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-file-alt w-6 text-center"></i>
+                    <span>Pendaftaran</span>
+                </a>
+
+                <!-- ✅ Tambahan Menu Galeri -->
+                <a href="<?= base_url('admin/galeri') ?>" 
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'galeri' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-images w-6 text-center"></i>
+                    <span>Galeri</span>
+                </a>
+
+                <!-- ✅ Tambahan Menu Pesan -->
+                <a href="<?= base_url('admin/pesan') ?>" 
+                class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'pesan' ? 'bg-primary-light' : '' ?>">
+                    <i class="fa fa-envelope w-6 text-center"></i>
+                    <span>Pesan</span>
+                </a>
+
+                <div class="border-t border-white/20 my-4"></div>
+
+                <a href="<?= base_url('b0/logout') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500/20 hover:translate-x-2 transition-all duration-200 text-red-200" onclick="return confirm('Yakin ingin logout?')">
+                    <i class="fa fa-sign-out-alt w-6 text-center"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+
+            <!-- Islamic Pattern -->
+            <div class="islamic-pattern absolute bottom-0 left-0 w-full h-16 opacity-70"></div>
+=======
+>>>>>>> ed1da0704b02ff9525b3e44c0f67e78e15723dac
         </div>
     </div>
 
