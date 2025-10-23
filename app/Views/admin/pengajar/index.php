@@ -77,7 +77,6 @@
                         </td>
                         <td class="py-4 px-6">
                             <div class="font-medium text-gray-800"><?= esc($p['nama_lengkap']); ?></div>
-                            <div class="text-sm text-gray-600 mt-1"><?= esc($p['email'] ?? '-'); ?></div>
                         </td>
                         <td class="py-4 px-6">
                             <code class="bg-gray-100 px-2 py-1 rounded text-sm"><?= esc($p['nip']); ?></code>

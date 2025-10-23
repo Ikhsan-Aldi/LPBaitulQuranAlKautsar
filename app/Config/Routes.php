@@ -70,7 +70,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('gelombang/edit/(:num)', 'Admin::editGelombang/$1');
     $routes->post('gelombang/update/(:num)', 'Admin::updateGelombang/$1');
     $routes->get('gelombang/hapus/(:num)', 'Admin::hapusGelombang/$1');
-
+    $routes->get('gelombang/detail/(:num)', 'Admin::gelombang_detail/$1');
+    
     //Santri
     $routes->get('santri', 'Admin::santri');
     $routes->get('santri/tambah', 'Admin::santri_tambah');
@@ -78,7 +79,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('santri/edit/(:num)', 'Admin::santri_edit/$1');
     $routes->post('santri/update/(:num)', 'Admin::santri_update/$1');
     $routes->get('santri/hapus/(:num)', 'Admin::santri_hapus/$1');
-    $routes->get('santri/detail/(:num)', 'Admin::santriDetail/$1');
+    $routes->get('santri/detail/(:num)', 'Admin::santri_detail/$1');
 
     // Kegiatan
     $routes->get('kegiatan', 'Admin::kegiatan');
