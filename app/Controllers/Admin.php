@@ -10,6 +10,7 @@ use App\Models\KegiatanModel;
 use App\Models\GelombangModel;
 use App\Models\PesanModel;
 use App\Models\KontakModel;
+use App\Models\BeritaModel;
 
 
 class Admin extends BaseController
@@ -18,6 +19,7 @@ class Admin extends BaseController
     protected $gelombangModel;
     protected $pesanModel;
     protected $kontakModel;
+    protected $beritaModel;
 
     public function __construct()
     {
@@ -25,6 +27,7 @@ class Admin extends BaseController
         $this->gelombangModel = new GelombangModel();
         $this->pesanModel = new PesanModel();
         $this->kontakModel = new KontakModel();
+        $this->beritaModel = new BeritaModel();
     }
 
     // Dashboard
@@ -1224,5 +1227,91 @@ class Admin extends BaseController
         }
         
         return redirect()->to('/admin/pengaturan')->with('success', 'Informasi perusahaan berhasil diperbarui');
+    }
+    
+    // Berita
+    public function berita()
+    {
+        $data['berita'] = $this->beritaModel->findAll();
+        return view('admin/berita/index', $data);
+    }
+
+    public function berita_create()
+    {
+        return view('admin/berita/tambah');
+    }
+
+    public function berita_store()
+    {
+        $judul = $this->request->getPost('judul');
+        $slug = url_title($judul, '-', true);
+        $isi = $this->request->getPost('isi');
+        $penulis = $this->request->getPost('penulis');
+        $foto = $this->request->getFile('foto');
+        $namaFoto = null;
+
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            $namaFoto = $foto->getRandomName();
+            $foto->move(FCPATH . 'uploads/berita', $namaFoto);
+        }
+
+        $this->beritaModel->save([
+            'judul' => $judul,
+            'slug' => $slug,
+            'isi' => $isi,
+            'foto' => $namaFoto,
+            'penulis' => $penulis,
+        ]);
+
+        return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil ditambahkan!');
+    }
+
+    public function berita_edit($id)
+    {
+        $data['berita'] = $this->beritaModel->find($id);
+        return view('admin/berita/edit', $data);
+    }
+
+    public function berita_update($id)
+    {
+        $berita = $this->beritaModel->find($id);
+        $foto = $this->request->getFile('foto');
+        $namaFoto = $berita['foto'];
+
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            if ($namaFoto && file_exists(FCPATH . 'uploads/berita/' . $namaFoto)) {
+                unlink(FCPATH . 'uploads/berita/' . $namaFoto);
+            }
+
+            $namaFoto = $foto->getRandomName();
+            $foto->move(FCPATH . 'uploads/berita', $namaFoto);
+        }
+
+        $this->beritaModel->update($id, [
+            'judul' => $this->request->getPost('judul'),
+            'slug' => url_title($this->request->getPost('judul'), '-', true),
+            'isi' => $this->request->getPost('isi'),
+            'penulis' => $this->request->getPost('penulis'),
+            'foto' => $namaFoto,
+        ]);
+
+        return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil diperbarui!');
+    }
+
+    public function berita_delete($id)
+    {
+        $berita = $this->beritaModel->find($id);
+        if ($berita && $berita['foto'] && file_exists(FCPATH . 'uploads/berita/' . $berita['foto'])) {
+            unlink(FCPATH . 'uploads/berita/' . $berita['foto']);
+        }
+
+        $this->beritaModel->delete($id);
+        return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil dihapus!');
+    }
+
+    public function berita_detail($slug)
+    {
+        $data['berita'] = $this->beritaModel->where('slug', $slug)->first();
+        return view('admin/berita/detail', $data);
     }
 }
