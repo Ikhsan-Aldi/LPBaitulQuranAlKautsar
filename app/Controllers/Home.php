@@ -17,7 +17,7 @@ class Home extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Beranda - BQ Al-Kautsar'
+            'title' => 'Beranda - Baitul Quran Al-Kautsar'
         ];
         return view('lp/home/index', $data);
     }
@@ -25,7 +25,7 @@ class Home extends BaseController
     public function tentang()
     {
         $data = [
-            'title' => 'Tentang Kami - BQ Al-Kautsar'
+            'title' => 'Tentang Kami - Baitul Quran Al-Kautsar'
         ];
         return view('lp/tentang/index', $data);
     }
@@ -46,7 +46,7 @@ class Home extends BaseController
     public function kontak()
     {
         $data = [
-            'title' => 'Kontak - BQ Al-Kautsar'
+            'title' => 'Kontak - Baitul Quran Al-Kautsar'
         ];
         return view('lp/kontak/index', $data);
     }
@@ -189,33 +189,70 @@ class Home extends BaseController
         public function kirimPesan()
         {
             helper(['form']);
-        
+
             $rules = [
-                'name'    => 'required|min_length[3]',
-                'email'   => 'required|valid_email',
-                'phone'   => 'permit_empty|min_length[8]',
-                'subject' => 'required|in_list[pendaftaran,program,beasiswa,lainnya]',
-                'message' => 'required|min_length[5]',
+                'name' => [
+                    'rules' => 'required|min_length[3]',
+                    'errors' => [
+                        'required' => 'Nama lengkap wajib diisi.',
+                        'min_length' => 'Nama lengkap minimal 3 karakter.'
+                    ]
+                ],
+                'email' => [
+                    'rules' => 'required|valid_email',
+                    'errors' => [
+                        'required' => 'Alamat email wajib diisi.',
+                        'valid_email' => 'Format email tidak valid.'
+                    ]
+                ],
+                'phone' => [
+                    'rules' => 'permit_empty|min_length[8]',
+                    'errors' => [
+                        'min_length' => 'Nomor telepon minimal 8 digit.'
+                    ]
+                ],
+                'subject' => [
+                    'rules' => 'required|in_list[pendaftaran,program,beasiswa,lainnya]',
+                    'errors' => [
+                        'required' => 'Subjek pesan wajib dipilih.',
+                        'in_list' => 'Subjek pesan tidak valid.'
+                    ]
+                ],
+                'message' => [
+                    'rules' => 'required|min_length[5]',
+                    'errors' => [
+                        'required' => 'Pesan wajib diisi.',
+                        'min_length' => 'Pesan minimal 5 karakter.'
+                    ]
+                ],
             ];
-        
+
             if (!$this->validate($rules)) {
-                session()->setFlashdata('error', 'Mohon isi semua data dengan benar.');
+                // Ambil pesan error spesifik dari validator
+                $errors = $this->validator->getErrors();
+
+                // Gabungkan semua error jadi satu string dipisah <br>
+                $errorMessages = implode('<br>', $errors);
+
+                session()->setFlashdata('error', $errorMessages);
                 return redirect()->to(base_url('kontak'))->withInput();
             }
-        
+
+            // Validasi reCAPTCHA
             $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
             $secretKey = '6LeO6vMrAAAAAAHvRXJedp2tWqvukrsSP6OXYikR'; 
-        
+
             $verifyResponse = file_get_contents(
                 "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}"
             );
             $responseData = json_decode($verifyResponse);
-        
+
             if (!$responseData || !$responseData->success) {
                 session()->setFlashdata('error', 'Verifikasi reCAPTCHA gagal. Silakan coba lagi.');
                 return redirect()->to(base_url('kontak'))->withInput();
             }
-        
+
+            // Simpan pesan ke database
             $model = new \App\Models\PesanModel();
             $model->insert([
                 'nama_lengkap' => $this->request->getPost('name'),
@@ -224,8 +261,9 @@ class Home extends BaseController
                 'subjek'       => $this->request->getPost('subject'),
                 'pesan'        => $this->request->getPost('message'),
             ]);
-        
+
             session()->setFlashdata('success', 'Pesan Anda berhasil dikirim.');
             return redirect()->to(base_url('kontak'));
-        }             
+        }
+
 }
