@@ -26,7 +26,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa fa-database text-gray-400"></i>
                     </div>
-                    <select id="pilih_mode" 
+                    <select id="pilih_mode" name="pilih_mode"
                             class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white"
                             onchange="toggleMode()" required>
                         <option value="">-- Pilih Mode Input --</option>
