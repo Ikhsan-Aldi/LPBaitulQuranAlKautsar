@@ -934,13 +934,23 @@ class Admin extends BaseController
     // Pesan 
     public function pesan()
     {
+        $status = $this->request->getGet('status');
+        
+        $builder = $this->pesanModel->orderBy('created_at', 'DESC');
+        
+        // Filter by status jika ada
+        if ($status && in_array($status, ['dibaca', 'belum_dibaca'])) {
+            $builder->where('status', $status);
+        }
+        
         $data = [
             'title' => 'Pesan dari Pengunjung',
-            'pesan' => $this->pesanModel->orderBy('created_at', 'DESC')->findAll(),
+            'pesan' => $builder->findAll(),
+            'current_status' => $status // Untuk set filter yang aktif
         ];
         return view('admin/pesan/index', $data);
     }
-
+    
     public function detailPesan($id)
     {
         $pesan = $this->pesanModel->find($id);
@@ -948,13 +958,36 @@ class Admin extends BaseController
         if (!$pesan) {
             return redirect()->to('/admin/pesan')->with('error', 'Pesan tidak ditemukan');
         }
-
+    
+        // Update status menjadi dibaca saat melihat detail
+        if ($pesan['status'] === 'belum_dibaca') {
+            $this->pesanModel->update($id, ['status' => 'dibaca']);
+        }
+    
         $data = [
             'title' => 'Detail Pesan',
             'pesan' => $pesan
         ];
-
+    
         return view('admin/pesan/detail', $data);
+    }
+    
+    // Tambahkan method untuk update status via AJAX
+    public function updateStatus($id)
+    {
+        $status = $this->request->getPost('status');
+        
+        if (!in_array($status, ['dibaca', 'belum_dibaca'])) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Status tidak valid']);
+        }
+        
+        $updated = $this->pesanModel->update($id, ['status' => $status]);
+        
+        if ($updated) {
+            return $this->response->setJSON(['success' => true, 'message' => 'Status berhasil diupdate']);
+        } else {
+            return $this->response->setJSON(['success' => false, 'message' => 'Gagal update status']);
+        }
     }
 
     public function hapusPesan($id)

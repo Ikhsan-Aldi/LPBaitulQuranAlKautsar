@@ -18,9 +18,19 @@ class PesanModel extends Model
         'telepon',
         'subjek',
         'pesan',
+        'status',
     ];
 
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+
+    // Default values
+    protected $beforeInsert = ['setDefaultStatus'];
+    
+    protected function setDefaultStatus(array $data)
+    {
+        $data['data']['status'] = 'belum_dibaca';
+        return $data;
+    }
 }

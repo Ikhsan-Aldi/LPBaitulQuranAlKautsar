@@ -240,7 +240,7 @@ class Home extends BaseController
 
             // Validasi reCAPTCHA
             $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
-            $secretKey = '6LeO6vMrAAAAAAHvRXJedp2tWqvukrsSP6OXYikR'; 
+            $secretKey = '6LcpQPUrAAAAAEGohdb1OuVaHfOgx1AzAWujSmIF'; 
 
             $verifyResponse = file_get_contents(
                 "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}"

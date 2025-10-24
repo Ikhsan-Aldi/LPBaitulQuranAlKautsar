@@ -261,7 +261,7 @@
 
                         <!-- ✅ Tambahkan reCAPTCHA di sini -->
                         <div class="flex justify-center my-4">
-                            <div class="g-recaptcha" data-sitekey="6LeO6vMrAAAAAPuazAAio52H5QsEo1XoPdYND-50"></div>
+                            <div class="g-recaptcha" data-sitekey="6LcpQPUrAAAAAGomCs2DiTIpN1GGJkDxt4tTtlTj"></div>
                         </div>
 
                         <button type="submit" 
