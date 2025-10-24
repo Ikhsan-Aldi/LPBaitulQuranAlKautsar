@@ -8,6 +8,7 @@ class BeritaModel extends Model
 {
     protected $table = 'berita';
     protected $primaryKey = 'id_berita';
-    protected $allowedFields = ['judul', 'slug', 'isi', 'foto', 'penulis', 'tanggal'];
-    protected $useTimestamps = false;
+    protected $allowedFields = ['judul', 'slug', 'isi', 'excerpt', 'foto', 'penulis', 'created_at', 'updated_at'];
+    protected $useTimestamps = true;
+    protected $dateFormat = 'datetime';
 }

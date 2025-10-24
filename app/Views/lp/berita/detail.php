@@ -9,7 +9,7 @@
             <i class="fa fa-chevron-right text-xs"></i>
             <a href="<?= base_url('berita') ?>" class="hover:text-primary transition-colors duration-200">Berita</a>
             <i class="fa fa-chevron-right text-xs"></i>
-            <span class="text-gray-900 font-medium"><?= esc($berita['judul']) ?></span>
+            <span class="text-gray-900 font-medium line-clamp-1"><?= esc($berita['judul']) ?></span>
         </nav>
 
         <!-- Article Card -->
@@ -63,11 +63,9 @@
                     <div class="w-20 h-1 bg-primary rounded-full"></div>
                 </header>
 
-                <!-- Article Body -->
-                <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-                    <div class="text-lg leading-8 space-y-6">
-                        <?= nl2br(esc($berita['isi'])) ?>
-                    </div>
+                <!-- Article Body - PERBAIKAN DI SINI -->
+                <div class="ql-editor-content text-gray-700 leading-relaxed text-lg">
+                    <?= $berita['isi'] ?>
                 </div>
 
                 <!-- Action Buttons -->
@@ -95,16 +93,37 @@
         </article>
 
         <!-- Related News Section -->
+        <?php if (isset($related_news) && !empty($related_news)): ?>
         <div class="mt-16">
-            <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">Berita Lainnya</h2>
+            <h2 class="text-2xl font-bold text-gray-900 mb-8">Berita Lainnya</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- You can add related news items here -->
-                <div class="text-center py-8 text-gray-500">
-                    <i class="fa fa-newspaper text-4xl mb-4"></i>
-                    <p>Tidak ada berita lainnya saat ini</p>
-                </div>
+                <?php foreach ($related_news as $related): ?>
+                <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    <?php if (!empty($related['foto'])): ?>
+                    <img src="<?= base_url('uploads/berita/'.$related['foto']) ?>" 
+                         alt="<?= esc($related['judul']) ?>" 
+                         class="w-full h-40 object-cover">
+                    <?php endif; ?>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">
+                            <a href="<?= base_url('berita/'.$related['slug']) ?>" class="hover:text-primary transition-colors duration-200">
+                                <?= esc($related['judul']) ?>
+                            </a>
+                        </h3>
+                        <p class="text-sm text-gray-500">
+                            <?= date('d M Y', strtotime($related['created_at'])) ?>
+                        </p>
+                    </div>
+                </article>
+                <?php endforeach; ?>
             </div>
         </div>
+        <?php else: ?>
+        <div class="mt-16 text-center py-8 text-gray-500">
+            <i class="fa fa-newspaper text-4xl mb-4"></i>
+            <p>Tidak ada berita lainnya saat ini</p>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -127,18 +146,94 @@ function shareBerita() {
 </script>
 
 <style>
-.prose {
-    color: #374151;
+/* Styling untuk konten dari Quill.js */
+.ql-editor-content {
+    font-size: 1.125rem;
+    line-height: 1.7;
 }
 
-.prose p {
-    margin-bottom: 1.5em;
-    line-height: 1.8;
-}
-
-.prose strong {
+.ql-editor-content h1,
+.ql-editor-content h2,
+.ql-editor-content h3 {
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
     color: #111827;
+}
+
+.ql-editor-content h1 {
+    font-size: 1.875rem;
+}
+
+.ql-editor-content h2 {
+    font-size: 1.5rem;
+}
+
+.ql-editor-content h3 {
+    font-size: 1.25rem;
+}
+
+.ql-editor-content p {
+    margin-bottom: 1.2em;
+}
+
+.ql-editor-content ul, 
+.ql-editor-content ol {
+    margin-bottom: 1.2em;
+    padding-left: 1.5em;
+}
+
+.ql-editor-content li {
+    margin-bottom: 0.5em;
+}
+
+.ql-editor-content strong {
     font-weight: 600;
+    color: #111827;
+}
+
+.ql-editor-content em {
+    font-style: italic;
+}
+
+.ql-editor-content u {
+    text-decoration: underline;
+}
+
+.ql-editor-content a {
+    color: #017077;
+    text-decoration: underline;
+}
+
+.ql-editor-content a:hover {
+    color: #015c61;
+}
+
+.ql-editor-content blockquote {
+    border-left: 4px solid #017077;
+    padding-left: 1em;
+    margin: 1.5em 0;
+    font-style: italic;
+    color: #6b7280;
+}
+
+.ql-editor-content .ql-align-center {
+    text-align: center;
+}
+
+.ql-editor-content .ql-align-right {
+    text-align: right;
+}
+
+.ql-editor-content .ql-align-justify {
+    text-align: justify;
+}
+
+.line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 </style>
 

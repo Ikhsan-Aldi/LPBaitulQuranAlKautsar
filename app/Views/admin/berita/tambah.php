@@ -38,7 +38,7 @@
             <!-- Judul -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Berita</label>
-                <input type="text" name="judul" required
+                <input type="text" name="judul"
                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
                        placeholder="Masukkan judul berita">
             </div>
@@ -46,17 +46,23 @@
             <!-- Penulis -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Penulis</label>
-                <input type="text" name="penulis" required
+                <input type="text" name="penulis"
                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
                        placeholder="Nama penulis berita">
             </div>
 
-            <!-- Isi -->
+            <!-- Excerpt/ Ringkasan -->
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Isi Berita</label>
-                <textarea name="isi" rows="8" required
-                          class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
-                          placeholder="Tulis isi berita di sini..."></textarea>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Ringkasan Berita</label>
+                <div id="excerpt-editor" style="height: 150px;" class="mb-4 rounded-xl border border-gray-300"></div>
+                <textarea name="excerpt" id="excerpt" class="hidden"></textarea>
+            </div>
+
+            <!-- Isi Berita -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Isi Berita Lengkap</label>
+                <div id="content-editor" style="height: 400px;" class="mb-4 rounded-xl border border-gray-300"></div>
+                <textarea name="isi" id="content" class="hidden"></textarea>
             </div>
 
             <!-- Upload Foto -->
@@ -72,6 +78,7 @@
                         <input type="file" name="foto" accept="image/*" class="opacity-0 absolute">
                     </label>
                 </div>
+                <div id="image-preview" class="mt-4 text-center hidden"></div>
             </div>
 
             <!-- Tombol -->
@@ -91,24 +98,107 @@
     </div>
 </div>
 
+<!-- Quill.js Styles -->
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 <script>
-// Preview image upload
-document.querySelector('input[name="foto"]').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const preview = document.createElement('div');
-            preview.className = 'mt-4 text-center';
-            preview.innerHTML = `
-                <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
-                <img src="${e.target.result}" class="w-32 h-32 object-cover rounded-lg shadow-md border-2 border-primary/20 mx-auto">
-            `;
-            document.querySelector('input[name="foto"]').parentNode.appendChild(preview);
+// Initialize Quill Editors
+document.addEventListener('DOMContentLoaded', function() {
+    // Configure Quill options
+    const quillOptions = {
+        theme: 'snow',
+        modules: {
+            toolbar: [
+                [{ 'header': [1, 2, 3, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                [{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['link', 'image'],
+                [{ 'align': [] }],
+                ['clean']
+            ]
+        },
+        placeholder: 'Tulis konten berita di sini...'
+    };
+
+    // Initialize excerpt editor
+    const excerptQuill = new Quill('#excerpt-editor', {
+        ...quillOptions,
+        placeholder: 'Tulis ringkasan berita di sini...'
+    });
+
+    // Initialize content editor
+    const contentQuill = new Quill('#content-editor', quillOptions);
+
+    // Handle form submission
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        // Update textareas with Quill content
+        document.getElementById('excerpt').value = excerptQuill.root.innerHTML;
+        document.getElementById('content').value = contentQuill.root.innerHTML;
+        
+        // Basic validation
+        const content = contentQuill.getText().trim();
+        if (content.length === 0) {
+            e.preventDefault();
+            alert('Isi berita tidak boleh kosong');
+            return false;
         }
-        reader.readAsDataURL(file);
-    }
+        console.log("Form submitted");
+
+    });
+
+    // Image preview for file upload
+    const fileInput = document.querySelector('input[name="foto"]');
+    const imagePreview = document.getElementById('image-preview');
+    
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.innerHTML = `
+                    <p class="text-sm font-medium text-gray-700 mb-2">Preview:</p>
+                    <img src="${e.target.result}" class="w-32 h-32 object-cover rounded-lg shadow-md border-2 border-primary/20 mx-auto">
+                `;
+                imagePreview.classList.remove('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    
 });
 </script>
+
+<style>
+.ql-toolbar.ql-snow {
+    border-top: 1px solid #d1d5db;
+    border-left: 1px solid #d1d5db;
+    border-right: 1px solid #d1d5db;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background: #f9fafb;
+}
+
+.ql-container.ql-snow {
+    border-bottom: 1px solid #d1d5db;
+    border-left: 1px solid #d1d5db;
+    border-right: 1px solid #d1d5db;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    font-size: 14px;
+}
+
+.ql-editor {
+    min-height: 150px;
+}
+
+.ql-editor.ql-blank::before {
+    color: #9ca3af;
+    font-style: italic;
+}
+</style>
 
 <?= $this->endSection() ?>

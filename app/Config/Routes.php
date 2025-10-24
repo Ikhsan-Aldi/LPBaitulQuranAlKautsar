@@ -119,7 +119,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('berita/edit/(:num)', 'Admin::berita_edit/$1');
     $routes->post('berita/update/(:num)', 'Admin::berita_update/$1');
     $routes->get('berita/delete/(:num)', 'Admin::berita_delete/$1');
-    $routes->get('berita/(:segment)', 'Admin::berita_detail/$1');
+    $routes->get('berita/detail/(:num)', 'Admin::berita_detail/$1');
 
 });
 
