@@ -80,6 +80,7 @@
                         <?php 
                         $seleksi = json_decode($item['seleksi'] ?? '[]', true);
                         $jumlah_seleksi = is_array($seleksi) ? count($seleksi) : 0;
+                        $seleksi_array = is_array($seleksi) ? $seleksi : [];
                         ?>
                         <tr class="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200">
                             <td class="py-4 px-6">
@@ -109,12 +110,13 @@
                                     <span class="bg-primary-light/20 text-primary-dark px-3 py-1 rounded-full text-xs font-medium">
                                         <?= $jumlah_seleksi ?> Tahap
                                     </span>
-                                    <?php if ($jumlah_seleksi > 0): ?>
-                                    <button onclick="showSeleksi(<?= htmlspecialchars(json_encode($seleksi), ENT_QUOTES, 'UTF-8') ?>, '<?= esc($item['nama']) ?>')"
+                                    <?php if (!empty($seleksi_array)): ?>
+                                        <button 
+                                            onclick="showSeleksi(<?= htmlspecialchars(json_encode($seleksi_array), ENT_QUOTES, 'UTF-8') ?>, '<?= esc($item['nama']) ?>')"
                                             class="text-primary hover:text-primary-dark transition-colors duration-200 tooltip"
                                             data-tooltip="Lihat Tahap Seleksi">
-                                        <i class="fa fa-eye text-sm"></i>
-                                    </button>
+                                            <i class="fa fa-eye text-sm"></i>
+                                        </button>
                                     <?php endif; ?>
                                 </div>
                             </td>
@@ -165,72 +167,55 @@
     </div>
 </div>
 
-<!-- Modal Detail Seleksi -->
-<div id="seleksiModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex items-center justify-between">
-                <h3 class="text-xl font-bold text-primary-dark font-amiri" id="seleksiModalTitle">Tahap Seleksi</h3>
-                <button onclick="closeSeleksiModal()" class="text-gray-400 hover:text-gray-600 transition-colors duration-200">
-                    <i class="fa fa-times text-xl"></i>
-                </button>
-            </div>
-        </div>
-        <div class="p-6">
-            <div id="seleksiList" class="space-y-3">
-                <!-- List seleksi akan diisi oleh JavaScript -->
-            </div>
-        </div>
+<!-- Modal Seleksi -->
+<div id="modalSeleksi" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+  <div class="bg-white rounded-xl shadow-xl p-6 w-full max-w-lg">
+    <h3 id="modalTitle" class="text-xl font-bold text-[#017077] mb-4 flex items-center">
+      <i class="fas fa-list-ol mr-2"></i> Jadwal Tahap Seleksi
+    </h3>
+    <div id="modalContent" class="space-y-3 max-h-[60vh] overflow-y-auto"></div>
+    <div class="text-right mt-6">
+      <button onclick="closeModal()" class="px-5 py-2 bg-[#017077] text-white rounded-lg hover:bg-[#005359]">Tutup</button>
     </div>
+  </div>
 </div>
 
 <script>
 // Function to show seleksi details
-function showSeleksi(seleksi, namaGelombang) {
-    const seleksiList = document.getElementById('seleksiList');
-    const modalTitle = document.getElementById('seleksiModalTitle');
-    
-    modalTitle.textContent = `Tahap Seleksi - ${namaGelombang}`;
-    
-    if (seleksi && seleksi.length > 0) {
-        let html = '';
-        seleksi.forEach((item, index) => {
-            html += `
-                <div class="flex items-start space-x-3 p-3 border border-gray-200 rounded-lg">
-                    <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                        <span class="text-primary-dark text-sm font-medium">${index + 1}</span>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-medium text-gray-800">${item.nama || 'Tahap Seleksi'}</h4>
-                        <p class="text-sm text-gray-600 mt-1">
-                            ${item.tanggal ? `Tanggal: ${item.tanggal}` : ''}
-                            ${item.tempat ? ` | Tempat: ${item.tempat}` : ''}
-                        </p>
-                        ${item.keterangan ? `<p class="text-xs text-gray-500 mt-1">${item.keterangan}</p>` : ''}
-                    </div>
-                </div>
+function showSeleksi(data, nama) {
+    const modal = document.getElementById('modalSeleksi');
+    const title = document.getElementById('modalTitle');
+    const content = document.getElementById('modalContent');
+
+    title.innerHTML = `<i class="fas fa-list-ol mr-2"></i> Tahap Seleksi - ${nama}`;
+    content.innerHTML = '';
+
+    if (data && data.length > 0) {
+        data.forEach((item, i) => {
+            const el = document.createElement('div');
+            el.className = 'p-4 bg-gray-50 rounded-lg border border-gray-200 flex items-center space-x-3';
+            el.innerHTML = `
+                <div class="bg-[#017077] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">${i + 1}</div>
+                <div class="text-gray-800 font-medium">${item}</div>
             `;
+            content.appendChild(el);
         });
-        seleksiList.innerHTML = html;
     } else {
-        seleksiList.innerHTML = `
-            <div class="text-center py-8 text-gray-500">
-                <i class="fa fa-clipboard-list text-3xl mb-2"></i>
-                <p>Tidak ada tahap seleksi</p>
-            </div>
-        `;
+        content.innerHTML = '<p class="text-gray-500 text-center py-4">Tidak ada tahap seleksi</p>';
     }
-    
-    document.getElementById('seleksiModal').classList.remove('hidden');
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
 }
 
-function closeSeleksiModal() {
-    document.getElementById('seleksiModal').classList.add('hidden');
+function closeModal() {
+    const modal = document.getElementById('modalSeleksi');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
 }
 
-// Function to show detail gelombang (bisa dikembangkan)
+// Function to show detail gelombang
 function showDetail(id) {
-    // Redirect ke halaman detail atau tampilkan modal detail
     window.location.href = `<?= base_url('admin/gelombang/detail/') ?>${id}`;
 }
 
@@ -241,13 +226,13 @@ document.addEventListener('DOMContentLoaded', function() {
         tooltip.addEventListener('mouseenter', function(e) {
             const tooltipText = this.getAttribute('data-tooltip');
             const tooltipEl = document.createElement('div');
-            tooltipEl.className = 'absolute z-50 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg';
+            tooltipEl.className = 'fixed z-50 px-2 py-1 text-xs text-white bg-gray-800 rounded shadow-lg';
             tooltipEl.textContent = tooltipText;
             document.body.appendChild(tooltipEl);
             
             const rect = this.getBoundingClientRect();
-            tooltipEl.style.left = rect.left + 'px';
-            tooltipEl.style.top = (rect.top - 25) + 'px';
+            tooltipEl.style.left = (rect.left + window.scrollX) + 'px';
+            tooltipEl.style.top = (rect.top + window.scrollY - 30) + 'px';
             
             this._tooltip = tooltipEl;
         });
@@ -261,9 +246,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Close modal when clicking outside
-document.getElementById('seleksiModal').addEventListener('click', function(e) {
+document.getElementById('modalSeleksi').addEventListener('click', function(e) {
     if (e.target === this) {
-        closeSeleksiModal();
+        closeModal();
     }
 });
 </script>

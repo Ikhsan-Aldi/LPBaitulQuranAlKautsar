@@ -143,55 +143,63 @@
             <!-- Tahap Seleksi -->
             <?php
             $seleksi = json_decode($gelombang['seleksi'] ?? '[]', true);
-            if (!empty($seleksi)):
+            $jadwal = json_decode($gelombang['jadwal_seleksi'] ?? '[]', true);
+            $metode = json_decode($gelombang['metode'] ?? '[]', true);
+            $jumlah_seleksi = count($seleksi);
             ?>
+
             <div class="bg-white rounded-2xl shadow-lg p-6 mt-6">
-                <h3 class="text-lg font-semibold text-primary-dark border-b border-gray-200 pb-2 mb-4">Tahap Seleksi</h3>
-                
+                <div class="flex items-center justify-between border-b border-gray-200 pb-2 mb-4">
+                    <h3 class="text-lg font-semibold text-primary-dark flex items-center">
+                        <i class="fas fa-list-ol mr-2 text-primary"></i>
+                        Tahap Seleksi - <?= esc($gelombang['nama']) ?>
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        <span class="bg-primary/10 text-primary-dark px-3 py-1 rounded-full text-xs font-medium">
+                            <?= $jumlah_seleksi ?> Tahap
+                        </span>
+                    </div>
+                </div>
+
+                <?php if ($jumlah_seleksi > 0): ?>
                 <div class="space-y-4">
-                    <?php foreach ($seleksi as $index => $tahap): ?>
+                    <?php foreach ($seleksi as $i => $nama_tahap): ?>
                     <div class="flex items-start space-x-4 p-4 border border-gray-200 rounded-xl hover:border-primary transition-colors duration-200">
                         <div class="flex-shrink-0 w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                            <span class="text-primary-dark font-semibold"><?= $index + 1 ?></span>
+                            <span class="text-primary-dark font-semibold"><?= $i + 1 ?></span>
                         </div>
                         <div class="flex-1">
-                            <h4 class="font-semibold text-gray-800 text-lg"><?= esc($tahap['nama'] ?? 'Tahap Seleksi') ?></h4>
-                            
+                            <h4 class="font-semibold text-gray-800 text-lg"><?= esc($nama_tahap) ?></h4>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                                <?php if (!empty($tahap['tanggal'])): ?>
+                                <?php if (!empty($jadwal[$i])): ?>
                                 <div class="flex items-center space-x-2 text-sm text-gray-600">
                                     <i class="fa fa-calendar text-primary"></i>
-                                    <span><?= date('d F Y', strtotime($tahap['tanggal'])) ?></span>
+                                    <span><?= date('d F Y', strtotime($jadwal[$i])) ?></span>
                                 </div>
                                 <?php endif; ?>
-                                
-                                <?php if (!empty($tahap['tempat'])): ?>
+
+                                <?php if (!empty($metode[$i])): ?>
                                 <div class="flex items-center space-x-2 text-sm text-gray-600">
-                                    <i class="fa fa-map-marker-alt text-primary"></i>
-                                    <span><?= esc($tahap['tempat']) ?></span>
+                                    <i class="fa fa-chalkboard-teacher text-primary"></i>
+                                    <span><?= esc($metode[$i]) ?></span>
                                 </div>
                                 <?php endif; ?>
                             </div>
-                            
-                            <?php if (!empty($tahap['keterangan'])): ?>
-                            <div class="mt-3 p-3 bg-gray-50 rounded-lg">
-                                <p class="text-sm text-gray-700"><?= nl2br(esc($tahap['keterangan'])) ?></p>
-                            </div>
-                            <?php endif; ?>
                         </div>
                     </div>
                     <?php endforeach; ?>
                 </div>
-            </div>
-            <?php else: ?>
-            <div class="bg-white rounded-2xl shadow-lg p-6 mt-6">
+                <?php else: ?>
                 <div class="text-center py-8 text-gray-500">
                     <i class="fa fa-clipboard-list text-4xl mb-3"></i>
                     <h3 class="text-lg font-medium text-gray-600 mb-2">Belum ada tahap seleksi</h3>
                     <p class="text-gray-500">Tambah tahap seleksi untuk gelombang ini</p>
                 </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
+
+
         </div>
 
         <!-- Sidebar -->

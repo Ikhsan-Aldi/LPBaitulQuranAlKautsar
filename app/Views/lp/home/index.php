@@ -80,11 +80,6 @@
                 <p class="text-gray-600 text-center">
                     Program unggulan hafalan Al-Qur’an dengan bimbingan intensif dan metode yang efektif.
                 </p>
-                <div class="mt-6 text-center">
-                    <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
-                        Selengkapnya <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                </div>
             </div>
 
             <!-- Program 2 -->
@@ -96,11 +91,6 @@
                 <p class="text-gray-600 text-center">
                     Pendidikan formal SMP–SMA dan non formal Dirosah Islamiyah dalam sistem pesantren terpadu.
                 </p>
-                <div class="mt-6 text-center">
-                    <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
-                        Selengkapnya <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                </div>
             </div>
 
             <!-- Program 3 -->
@@ -112,11 +102,6 @@
                 <p class="text-gray-600 text-center">
                     Kajian kitab dan pembinaan karakter santri untuk membentuk pribadi Qur’ani dan mandiri.
                 </p>
-                <div class="mt-6 text-center">
-                    <a href="#" class="text-[#017077] hover:text-[#005359] font-medium inline-flex items-center">
-                        Selengkapnya <i class="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </div>

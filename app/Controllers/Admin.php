@@ -670,14 +670,25 @@ class Admin extends BaseController
     public function gelombang()
     {
         $gelombang = $this->gelombangModel->findAll();
-    
+
+        foreach ($gelombang as &$item) {
+            $item['seleksi_array'] = json_decode($item['seleksi'] ?? '[]', true);
+            $item['jadwal_seleksi_array'] = json_decode($item['jadwal_seleksi'] ?? '[]', true);
+            $item['metode_array'] = json_decode($item['metode'] ?? '[]', true);
+            $item['jumlah_seleksi'] = count($item['seleksi_array']);
+        }
+
+        // tes output
+        // dd($gelombang); // ← aktifkan baris ini sementara untuk lihat isi array di layar
+
         $data = [
             'title' => 'Manajemen Gelombang Pendaftaran',
             'gelombang' => $gelombang
         ];
-    
+
         return view('admin/gelombang/index', $data);
     }
+
 
     public function tambahGelombang()
     {
