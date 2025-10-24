@@ -4,9 +4,18 @@
     </h2>
 
     <?php 
+    // Filter gelombang yang tidak dibuka, urutkan by tanggal selesai DESC, ambil 4 terbaru
     $gelombang_lain = array_filter($gelombang, function($item) {
         return $item['status'] !== 'dibuka';
     });
+    
+    // Urutkan berdasarkan tanggal selesai (terbaru pertama)
+    usort($gelombang_lain, function($a, $b) {
+        return strtotime($b['tanggal_selesai']) - strtotime($a['tanggal_selesai']);
+    });
+    
+    // Ambil hanya 4 data terbaru
+    $gelombang_lain = array_slice($gelombang_lain, 0, 4);
     ?>
 
     <?php if (empty($gelombang_lain)): ?>
@@ -20,52 +29,53 @@
             </p>
         </div>
     <?php else: ?>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <?php foreach ($gelombang_lain as $item): ?>
-            <div class="bg-gray-50 rounded-xl border border-gray-300 overflow-hidden hover:shadow-md transition-all duration-300">
-                <!-- Header -->
-                <div class="bg-gradient-to-r from-gray-500 to-gray-600 p-5 text-white">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-xl font-bold mb-2"><?= esc($item['nama']) ?></h3>
-                            <div class="flex items-center space-x-2">
-                                <?php if ($item['status'] === 'ditutup'): ?>
-                                    <span class="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                        <i class="fas fa-pause-circle mr-1"></i>Ditutup
-                                    </span>
-                                <?php else: ?>
-                                    <span class="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                        <i class="fas fa-flag-checkered mr-1"></i>Berakhir
-                                    </span>
-                                <?php endif; ?>
-                            </div>
+            <div class="bg-gray-50 rounded-lg border border-gray-200 p-4 hover:shadow-md transition-all duration-300">
+                <!-- Header Minimalis -->
+                <div class="flex justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-1"><?= esc($item['nama']) ?></h3>
+                        <div class="flex items-center">
+                            <?php if ($item['status'] === 'ditutup'): ?>
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-medium">
+                                    <i class="fas fa-pause-circle mr-1"></i>Ditutup
+                                </span>
+                            <?php else: ?>
+                                <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs font-medium">
+                                    <i class="fas fa-flag-checkered mr-1"></i>Berakhir
+                                </span>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
-                <!-- Content -->
-                <div class="p-5">
-                    <!-- Rentang Waktu -->
-                    <div class="mb-4 p-3 bg-white rounded-lg border border-gray-200">
-                        <div class="text-center text-sm text-gray-600 mb-1">Periode Pendaftaran</div>
-                        <div class="text-center font-semibold text-gray-700">
-                            <?= date('d M Y', strtotime($item['tanggal_mulai'])) ?> - <?= date('d M Y', strtotime($item['tanggal_selesai'])) ?>
-                        </div>
+                <!-- Content Minimalis -->
+                <div class="space-y-2">
+                    <!-- Periode -->
+                    <div class="text-sm text-gray-600">
+                        <i class="fas fa-calendar-alt mr-2 text-[#017077]"></i>
+                        <?= date('d M Y', strtotime($item['tanggal_mulai'])) ?> - <?= date('d M Y', strtotime($item['tanggal_selesai'])) ?>
                     </div>
-
-                    <!-- Info -->
-                    <div class="text-center p-3 bg-gray-100 rounded-lg">
-                        <p class="text-sm text-gray-600">
-                            <?php if ($item['status'] === 'ditutup'): ?>
-                                <i class="fas fa-info-circle mr-1"></i>Gelombang ini telah ditutup
-                            <?php else: ?>
-                                <i class="fas fa-info-circle mr-1"></i>Gelombang ini telah berakhir
-                            <?php endif; ?>
-                        </p>
+                    
+                    <!-- Status Info -->
+                    <div class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                        <?php if ($item['status'] === 'ditutup'): ?>
+                            <i class="fas fa-info-circle mr-1"></i>Gelombang telah ditutup
+                        <?php else: ?>
+                            <i class="fas fa-info-circle mr-1"></i>Gelombang telah berakhir
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
             <?php endforeach; ?>
+        </div>
+        
+        <!-- Info jumlah gelombang yang ditampilkan -->
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-500">
+                Menampilkan <?= count($gelombang_lain) ?> gelombang terakhir yang telah berakhir
+            </p>
         </div>
     <?php endif; ?>
 </section>
