@@ -62,7 +62,6 @@
         }
         
         /* Update style untuk CTA button */
-/* Update style untuk CTA button */
 .cta-button-normal {
     background-color: rgba(255, 255, 255, 0.9);
     color: #017077;
@@ -81,11 +80,10 @@
     transform: translateY(-1px);
 }
 
-/* TAMBAHKAN INI - styling hover untuk CTA button di halaman non-home */
 .cta-button-scrolled:hover {
     background-color: #005359;
     border-color: #005359;
-    color: white; /* Pastikan teks tetap putih */
+    color: white;
     transform: translateY(-1px);
 }
         
@@ -107,7 +105,7 @@
         
         /* Style untuk konten halaman non-home - FIXED */
         .content-non-home {
-            padding-top: 5.5rem; /* Memberi jarak untuk navbar fixed yang lebih besar */
+            padding-top: 5.5rem;
             min-height: 100vh;
         }
 
@@ -121,23 +119,21 @@
             position: relative;
             z-index: 1;
         }
-        /* ---------- NAV COLORS (force, keep underline-only for active) ---------- */
 
-        /* Default transition for pseudo underline */
+        /* ---------- NAV COLORS ---------- */
         .nav-link {
         position: relative;
         transition: color .18s ease;
         }
 
-        /* Underline-only for active (keinginanmu) */
         .nav-link.active::after {
         content: '';
         position: absolute;
         left: 0;
         right: 0;
-        bottom: -6px; /* sesuaikan */
+        bottom: -6px;
         height: 3px;
-        background-color: #017077; /* teal utama */
+        background-color: #017077;
         border-radius: 2px;
         display: block;
         pointer-events: none;
@@ -145,41 +141,31 @@
         transform: scaleX(1);
         }
 
-        /* small default to avoid accidental visible pseudo on non-active */
         .nav-link::after { transition: all .18s ease; }
 
-        /* FORCE link colors depending on nav state.
-        We style links based on #nav class so JS color toggles are unnecessary for active links.
-        */
-
-        /* Home / transparent navbar => links (including active) should appear white */
+        /* FORCE link colors depending on nav state */
         #nav.bg-transparent .nav-link,
         #nav.bg-transparent .nav-link * {
         color: #ffffff !important;
         }
 
-        /* When navbar has bg-white (scrolled or non-home) => links should be dark gray */
         #nav.bg-white .nav-link,
         #nav.bg-white .nav-link * {
-        color: #374151 !important; /* text-gray-700 */
+        color: #374151 !important;
         }
 
-        /* Keep hover color behavior without forcing teal text — hover can be darker gray */
         #nav.bg-white .nav-link:hover,
         #nav.bg-white .nav-link:focus {
-        color: #111827 !important; /* text-gray-900 */
+        color: #111827 !important;
         }
 
-        /* For home transparent hover (light tweak) */
         #nav.bg-transparent .nav-link:hover,
         #nav.bg-transparent .nav-link:focus {
         color: rgba(255,255,255,0.92) !important;
         }
 
-        /* Ensure .active underline stays teal but text follows the rules above */
         .nav-link.active { color: inherit !important; }
 
-        /* If somewhere JS adds hover:text-teal-* forcibly, these inheritance rules above win because of !important */
         /* --- Prevent navbar flicker --- */
         #navbar {
             opacity: 0;
@@ -191,39 +177,88 @@
             transform: translateY(0);
         }
 
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .mobile-logo-text {
+                font-size: 0.875rem;
+            }
+            
+            .mobile-logo-subtext {
+                font-size: 1.125rem;
+            }
+            
+            .mobile-cta-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+            }
+            
+            .mobile-menu-button {
+                padding: 0.5rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .mobile-logo-text {
+                font-size: 0.75rem;
+            }
+            
+            .mobile-logo-subtext {
+                font-size: 1rem;
+            }
+            
+            .mobile-logo-img {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container-padding {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .mobile-logo-text {
+                display: none;
+            }
+            
+            .mobile-logo-subtext {
+                font-size: 0.875rem;
+            }
+        }
+
     </style>
 </head>
 <body class="bg-white text-gray-800">
     <!-- Header Section -->
     <header class="fixed w-full navbar-transition" id="navbar">
         <nav class="bg-transparent navbar-transition" id="nav">
-            <div class="max-w-7xl mx-auto px-6">
-                <div class="flex justify-between items-center py-4">
-                    <!-- Logo -->
-                    <div class="flex items-center">
+            <div class="max-w-7xl mx-auto container-padding px-4 sm:px-6">
+                <div class="flex justify-between items-center py-3 sm:py-4">
+                    <!-- Logo - Responsive -->
+                    <div class="flex items-center flex-shrink-0">
                         <a href="<?= base_url() ?>" 
                         class="flex items-center transition-colors duration-300 group" 
                         id="logo-link">
                             <img src="<?= base_url('assets/img/logo.png') ?>" 
                                 alt="Baitul Quran Al-Kautsar" 
-                                class="h-12 w-12 mr-3">
+                                class="mobile-logo-img h-10 w-10 sm:h-12 sm:w-12 mr-2 sm:mr-3">
 
                             <div class="flex flex-col leading-tight">
                                 <!-- Baitul Quran -->
-                                <span id="baitulText" class="text-sm font-semibold tracking-wide text-white group-hover:text-[#164c3e] transition-colors duration-300 ease-in-out">
+                                <span id="baitulText" class="mobile-logo-text text-xs sm:text-sm font-semibold tracking-wide text-white group-hover:text-[#164c3e] transition-colors duration-300 ease-in-out">
                                     Baitul Qur'an
                                 </span>
                                 <!-- Al-Kautsar -->
-                                <span id="alkautsarText" class="text-xl font-extrabold text-white group-hover:text-[#258659] transition-colors arabic-font">
+                                <span id="alkautsarText" class="mobile-logo-subtext text-lg sm:text-xl font-extrabold text-white group-hover:text-[#258659] transition-colors arabic-font">
                                     Al-Kautsar
                                 </span>
                             </div>
                         </a>
                     </div>
 
-                    
                     <!-- Desktop Navigation Menu -->
-                    <div class="hidden md:flex space-x-8 items-center">
+                    <div class="hidden lg:flex space-x-6 xl:space-x-8 items-center">
                         <a href="<?= base_url() ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url()) ? 'text-teal-200' : '' ?>">
                             Beranda
                             <?php if (current_url() == base_url()): ?>
@@ -266,7 +301,7 @@
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= base_url('pendaftaran') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('kontak')) ? 'text-teal-200' : '' ?>">
+                        <a href="<?= base_url('pendaftaran') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('pendaftaran')) ? 'text-teal-200' : '' ?>">
                             Pendaftaran
                             <?php if (current_url() == base_url('pendaftaran')): ?>
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
@@ -286,16 +321,16 @@
                         </a>
                     </div>
                     
-                    <!-- CTA Button Desktop -->
-                    <div class="hidden md:block">
-                        <a href="<?= base_url('kontak') ?>" id="cta-button" class="cta-button-normal px-5 py-2.5 rounded-lg font-medium transition-colors duration-300 shadow-lg hover:shadow-xl z-10 relative">
+                    <!-- CTA Button Desktop Only -->
+                    <div class="hidden lg:block">
+                        <a href="<?= base_url('kontak') ?>" id="cta-button" class="mobile-cta-button cta-button-normal px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg font-medium transition-colors duration-300 shadow-lg hover:shadow-xl z-10 relative">
                             <i class="fas fa-phone-alt mr-2"></i>Hubungi Kami
                         </a>
                     </div>
                     
-                    <!-- Mobile Menu Button -->
-                    <div class="md:hidden">
-                        <button id="mobile-menu-button" class="text-white hover:text-teal-200 focus:outline-none z-50 relative nav-button">
+                    <!-- Mobile & Tablet Menu Button -->
+                    <div class="lg:hidden">
+                        <button id="mobile-menu-button" class="mobile-menu-button text-white hover:text-teal-200 focus:outline-none z-50 relative nav-button p-2">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
                     </div>
@@ -303,8 +338,8 @@
             </div>
             
             <!-- Mobile Navigation Menu -->
-            <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-teal-100 shadow-lg absolute top-full left-0 right-0 z-40">
-                <div class="px-6 py-4 space-y-3">
+            <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-teal-100 shadow-lg absolute top-full left-0 right-0 z-40">
+                <div class="px-4 sm:px-6 py-4 space-y-3">
                     <a href="<?= base_url() ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url()) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-home mr-3 text-teal-600"></i>Beranda
                     </a>
@@ -359,16 +394,16 @@
     <footer class="bg-teal-900 text-white section-pattern">
         <!-- CTA Section -->
         <section class="py-16 bg-gradient-to-r from-[#017077] to-[#005359]">
-            <div class="max-w-7xl mx-auto px-6 text-center">
-                <h2 class="text-3xl font-bold text-white mb-4">Tertarik Bergabung?</h2>
-                <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Tertarik Bergabung?</h2>
+                <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
                     Jangan lewatkan kesempatan untuk menjadi bagian dari keluarga besar Baitul Quran Al-Kautsar
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="<?= base_url('pendaftaran') ?>" class="bg-white text-teal-700 font-bold px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
+                    <a href="<?= base_url('pendaftaran') ?>" class="bg-white text-teal-700 font-bold px-6 sm:px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
                         <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
                     </a>
-                    <a href="<?= base_url('program') ?>" class="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 inline-flex items-center justify-center">
+                    <a href="<?= base_url('program') ?>" class="border-2 border-white text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 inline-flex items-center justify-center">
                         <i class="fas fa-book-open mr-2"></i>Lihat Program
                     </a>
                 </div>
@@ -376,15 +411,15 @@
         </section>
         
         <!-- Footer Links -->
-        <div class="max-w-7xl mx-auto px-6 py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 <!-- Company Info -->
                 <div class="lg:col-span-1">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
                         <img src="<?= base_url('assets/img/logo.png') ?>" alt="Baitul Quran Al-Kautsar" class="h-8 w-8 mr-3">
                         <span>Baitul Quran Al-Kautsar</span>
                     </h3>
-                    <p class="text-teal-200 mb-6 leading-relaxed">
+                    <p class="text-teal-200 mb-6 leading-relaxed text-sm sm:text-base">
                         Pusat pendidikan Islam terpadu yang berkomitmen untuk mencetak generasi Qur'ani yang berakhlak mulia dan berilmu.
                     </p>
                     <div class="flex space-x-4">
@@ -489,28 +524,28 @@
                         <?php if(isset($kontak['alamat']) && !empty($kontak['alamat'])): ?>
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
-                            <span class="text-teal-200"><?= nl2br(htmlspecialchars($kontak['alamat'])) ?></span>
+                            <span class="text-teal-200 text-sm sm:text-base"><?= nl2br(htmlspecialchars($kontak['alamat'])) ?></span>
                         </li>
                         <?php endif; ?>
                         
                         <?php if(isset($kontak['telepon']) && !empty($kontak['telepon'])): ?>
                         <li class="flex items-center">
                             <i class="fas fa-phone text-teal-400 mr-3"></i>
-                            <span class="text-teal-200"><?= format_phone_number($kontak['telepon']) ?></span>
+                            <span class="text-teal-200 text-sm sm:text-base"><?= format_phone_number($kontak['telepon']) ?></span>
                         </li>
                         <?php endif; ?>
                         
                         <?php if(isset($kontak['email']) && !empty($kontak['email'])): ?>
                         <li class="flex items-center">
                             <i class="fas fa-envelope text-teal-400 mr-3"></i>
-                            <span class="text-teal-200"><?= htmlspecialchars($kontak['email']) ?></span>
+                            <span class="text-teal-200 text-sm sm:text-base"><?= htmlspecialchars($kontak['email']) ?></span>
                         </li>
                         <?php endif; ?>
                         
                         <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
                         <li class="flex items-center">
                             <i class="fab fa-whatsapp text-teal-400 mr-3"></i>
-                            <span class="text-teal-200"><?= format_phone_number($kontak['whatsapp']) ?></span>
+                            <span class="text-teal-200 text-sm sm:text-base"><?= format_phone_number($kontak['whatsapp']) ?></span>
                         </li>
                         <?php endif; ?>
                     </ul>
@@ -520,11 +555,11 @@
         
         <!-- Copyright -->
         <div class="border-t border-teal-800 py-6">
-            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-teal-300 text-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-teal-300 text-sm text-center md:text-left">
                     &copy; <?= date('Y') ?> Baitul Quran Al-Kautsar. All rights reserved.
                 </p>
-                <div class="flex space-x-6 mt-4 md:mt-0">
+                <div class="flex space-x-4 sm:space-x-6 mt-4 md:mt-0">
                     <a href="#" class="text-teal-300 hover:text-white text-sm transition-colors duration-300">
                         Kebijakan Privasi
                     </a>
@@ -540,13 +575,11 @@
     <script>
 /* --- FUNGSI AUTO TAB SWITCHING UNTUK TENTANG KAMI BERDASARKAN HASH --- */
 function setupTentangTabsFromHash() {
-    // Cek jika berada di halaman tentang
     if (window.location.pathname.includes('tentang')) {
         const hash = window.location.hash.replace('#', '');
         const validTabs = ['tentang', 'visi-misi', 'sejarah'];
         
         if (validTabs.includes(hash)) {
-            // Trigger tab switch setelah halaman load
             setTimeout(() => {
                 const event = new CustomEvent('hashchange');
                 window.dispatchEvent(event);
@@ -554,36 +587,33 @@ function setupTentangTabsFromHash() {
         }
     }
 }
+
 /* --- FUNGSI DETEKSI HALAMAN --- */
 function isHomePage() {
-    const path = window.location.pathname.replace(/\/+$/, ''); // hapus trailing slash
+    const path = window.location.pathname.replace(/\/+$/, '');
     const base = "<?= rtrim(parse_url(base_url(), PHP_URL_PATH), '/') ?>";
     return path === base || path === base + "/home" || path === "";
 }
 
-/* --- Tandai link aktif berdasarkan URL (jalankan sebelum setupNavbar) --- */
+/* --- Tandai link aktif berdasarkan URL --- */
 function markActiveNavLink() {
     const navLinks = document.querySelectorAll('.nav-link');
     const currentPath = window.location.pathname.replace(/\/+$/, '');
     navLinks.forEach(link => {
         try {
             const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/+$/, '');
-            // treat root equivalently
             if (linkPath === currentPath || (currentPath === '' && (linkPath === '/' || linkPath === ''))) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
             }
         } catch (e) {
-            // jika href relatif (mis. '#') -> ignore safely
+            // ignore relative hrefs
         }
     });
 }
 
 /* --- FUNGSI SETUP NAVBAR --- */
-/* NOTE: kita tidak memaksa warna link aktif di sini; CSS akan menangani warna berdasarkan #nav.bg-*.
-   Namun kita tetap menjaga beberapa kelas utility untuk fallback (CTA, tombol, dsb).
-*/
 function setupNavbar() {
     const navbar = document.getElementById('navbar');
     const nav = document.getElementById('nav');
@@ -597,16 +627,13 @@ function setupNavbar() {
 
     if (!navbar || !nav || !ctaButton || !mainContent) return;
 
-    // mark active link first, so we can skip it when toggling specific classes
     markActiveNavLink();
 
     if (isHomePage()) {
-        // HOME: transparan + tanpa padding
         nav.classList.remove('navbar-non-home', 'bg-white', 'shadow-md');
         nav.classList.add('bg-transparent');
         mainContent.classList.remove('content-non-home');
 
-        // Logo styling (we keep classes for logo)
         logoLink.classList.add('text-white', 'hover:text-teal-50');
         logoLink.classList.remove('text-gray-700', 'hover:text-teal-600');
         if (baitulText) {
@@ -618,28 +645,22 @@ function setupNavbar() {
             alkautsarText.classList.add('text-white');
         }
 
-        // For each link: if active -> DO NOT apply color utility classes that can override our CSS;
-        // only apply hover utilities for non-active links (but color will be controlled by CSS rules above).
         navLinks.forEach(link => {
             if (link.classList.contains('active')) {
-                // keep 'active' state; don't force color classes
-                // ensure any stale text-gray-700 is removed so CSS can take effect
                 link.classList.remove('text-gray-700', 'hover:text-teal-600', 'text-teal-200', 'text-white');
                 return;
             }
-            // non-active: remove non-home classes, let CSS set color by #nav state
             link.classList.remove('text-gray-700', 'hover:text-teal-600', 'text-teal-200', 'text-white');
         });
 
         navButtons.forEach(btn => {
             btn.classList.remove('text-gray-700', 'hover:text-teal-600');
-            btn.classList.add('text-white'); // mobile icons/buttons on hero should appear white
+            btn.classList.add('text-white');
         });
 
         ctaButton.classList.remove('cta-button-scrolled');
         ctaButton.classList.add('cta-button-normal');
     } else {
-        // NON-HOME: putih + shadow + padding
         nav.classList.add('navbar-non-home', 'bg-white', 'shadow-md');
         nav.classList.remove('bg-transparent');
         mainContent.classList.add('content-non-home');
@@ -658,12 +679,9 @@ function setupNavbar() {
 
         navLinks.forEach(link => {
             if (link.classList.contains('active')) {
-                // keep active but remove any classes that might force teal text
                 link.classList.remove('text-white', 'hover:text-teal-200', 'text-teal-200');
-                // do not add text-teal-*; CSS will make text gray via #nav.bg-white
                 return;
             }
-            // For non-active links ensure no leftover white classes remain
             link.classList.remove('text-white', 'hover:text-teal-200', 'text-teal-200');
         });
 
@@ -678,7 +696,6 @@ function setupNavbar() {
 }
 
 /* --- SCROLL HANDLER (HANYA HOME) --- */
-/* Kita menghindari memaksa warna pada .nav-link.active di sini juga — CSS menangani tampilan. */
 function handleScroll() {
     if (!isHomePage()) return;
 
@@ -690,13 +707,10 @@ function handleScroll() {
     const baitulText = document.getElementById('baitulText');
     const alkautsarText = document.getElementById('alkautsarText');
 
-
     if (window.scrollY > 100) {
-        // switch to white background
         nav.classList.remove('bg-transparent');
         nav.classList.add('bg-white', 'shadow-md');
 
-        // Tambahan: ubah warna baitulText ke hijau
         if (baitulText) {
             baitulText.classList.remove('text-white');
             baitulText.classList.add('text-[#258659]');
@@ -705,14 +719,12 @@ function handleScroll() {
             alkautsarText.classList.remove('text-white');
             alkautsarText.classList.add('text-[#164c3e]');
         }
-        // logo gray
+
         logoLink.classList.remove('text-white', 'hover:text-teal-50');
         logoLink.classList.add('text-gray-700', 'hover:text-gray-900');
 
-        // Do NOT change color classes of active links; remove conflicting classes if present
         navLinks.forEach(link => {
             link.classList.remove('text-white', 'text-teal-200', 'hover:text-teal-200');
-            // we don't add 'text-gray-700' here because CSS (#nav.bg-white ...) forces it.
         });
 
         navButtons.forEach(btn => {
@@ -723,11 +735,9 @@ function handleScroll() {
         ctaButton.classList.remove('cta-button-normal');
         ctaButton.classList.add('cta-button-scrolled');
     } else {
-        // switch back to transparent
         nav.classList.remove('bg-white', 'shadow-md');
         nav.classList.add('bg-transparent');
 
-        // Tambahan: ubah warna baitulText ke putih
         if (baitulText) {
             baitulText.classList.remove('text-[#258659]');
             baitulText.classList.add('text-white');
@@ -736,14 +746,12 @@ function handleScroll() {
             alkautsarText.classList.remove('text-[#164c3e]');
             alkautsarText.classList.add('text-white');
         }
-        // logo white
+
         logoLink.classList.add('text-white', 'hover:text-teal-50');
         logoLink.classList.remove('text-gray-700', 'hover:text-gray-900');
 
-        // remove classes that conflict with transparent state; CSS will make text white
         navLinks.forEach(link => {
             link.classList.remove('text-gray-700', 'hover:text-gray-900', 'text-teal-200');
-            // do not add text-white here — CSS (#nav.bg-transparent ...) forces white
         });
 
         navButtons.forEach(btn => {
@@ -769,7 +777,6 @@ document.addEventListener('DOMContentLoaded', function () {
             icon.classList.toggle('fa-times');
         });
 
-        // Tutup menu saat link diklik
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', function () {
                 mobileMenu.classList.add('hidden');
@@ -780,7 +787,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Tutup dropdown jika klik di luar
     document.addEventListener('click', function (event) {
         const dropdowns = document.querySelectorAll('.dropdown-group');
         dropdowns.forEach(dropdown => {
@@ -795,30 +801,24 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // INIT: tandai link aktif lalu setup navbar (penting urutannya)
     markActiveNavLink();
     setupNavbar();
     setupTentangTabsFromHash();
-    // --- Tambahkan efek anti-flicker ---
+    
     const navbar = document.getElementById('navbar');
     if (navbar) {
-        // Delay sedikit agar transisi smooth dan tidak flick
         requestAnimationFrame(() => {
             navbar.classList.add('nav-ready');
         });
     }
-    // Scroll hanya diperlukan untuk halaman home
+    
     if (isHomePage()) window.addEventListener('scroll', handleScroll);
 });
 
-/* --- REINIT saat kembali/back/forward (bfcache) --- */
 window.addEventListener('pageshow', function(e) {
-    // re-evaluate active link and navbar state
     markActiveNavLink();
     setupNavbar();
-    // re-attach scroll if home
     if (isHomePage()) {
-        // remove existing to be safe, then add
         window.removeEventListener('scroll', handleScroll);
         window.addEventListener('scroll', handleScroll);
     } else {
@@ -826,7 +826,6 @@ window.addEventListener('pageshow', function(e) {
     }
 });
 
-/* support for htmx or other SPA-ish swaps */
 document.addEventListener('htmx:afterSwap', function() {
     markActiveNavLink();
     setupNavbar();

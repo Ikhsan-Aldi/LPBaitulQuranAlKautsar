@@ -40,26 +40,13 @@
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <i class="fa fa-user text-gray-400"></i>
                         </div>
-                        <input type="text" name="nama_lengkap" value="<?= esc($santri['nama_lengkap']); ?>" 
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
-                            placeholder="Masukkan nama lengkap" required>
+                        <input type="text" name="nama" value="<?= esc($santri['nama']); ?>" 
+                               class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200" 
+                               placeholder="Masukkan nama lengkap" required>
                     </div>
                 </div>
             </div>
-<!-- Tambahkan field yang hilang -->
-<div class="space-y-2">
-    <label class="block text-sm font-medium text-gray-700">Jenis Kelamin *</label>
-    <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i class="fa fa-venus-mars text-gray-400"></i>
-        </div>
-        <select name="jenis_kelamin" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white" required>
-            <option value="">Pilih Jenis Kelamin</option>
-            <option value="Laki-laki" <?= $santri['jenis_kelamin'] == 'Laki-laki' ? 'selected' : ''; ?>>Laki-laki</option>
-            <option value="Perempuan" <?= $santri['jenis_kelamin'] == 'Perempuan' ? 'selected' : ''; ?>>Perempuan</option>
-        </select>
-    </div>
-</div>
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Jenjang -->
                 <div class="space-y-2">
