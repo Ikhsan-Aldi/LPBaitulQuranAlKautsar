@@ -59,10 +59,15 @@ class Admin extends BaseController
     {
         $data = [
             'title' => 'Data Pendaftar Santri Baru',
-            'pendaftar' => $this->pendaftaranModel->orderBy('tanggal_daftar', 'DESC')->findAll(),
+            'pendaftar' => $this->pendaftaranModel
+                ->select('pendaftaran.*, gelombang_pendaftaran.nama AS nama_gelombang')
+                ->join('gelombang_pendaftaran', 'gelombang_pendaftaran.id = pendaftaran.id_gelombang', 'left')
+                ->orderBy('pendaftaran.tanggal_daftar', 'DESC')
+                ->findAll(),
         ];
         return view('admin/pendaftaran/index', $data);
     }
+
 
     public function detail_pendaftaran($id)
     {

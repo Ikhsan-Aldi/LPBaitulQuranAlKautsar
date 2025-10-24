@@ -126,7 +126,7 @@
                         <th class="py-4 px-6 text-left font-semibold">Asal Sekolah</th>
                         <th class="py-4 px-6 text-left font-semibold">NISN</th>
                         <th class="py-4 px-6 text-left font-semibold">Status</th>
-                        <th class="py-4 px-6 text-left font-semibold">Tanggal Daftar</th>
+                        <th class="py-4 px-6 text-left font-semibold">Gelombang Pendaftaran</th>
                         <th class="py-4 px-6 text-left font-semibold">Aksi</th>
                     </tr>
                 </thead>
@@ -181,7 +181,7 @@
                             <td class="py-4 px-6">
                                 <div class="flex items-center space-x-2">
                                     <i class="fa fa-calendar text-gray-400 text-sm"></i>
-                                    <span class="text-sm text-gray-700"><?= date('d-m-Y H:i', strtotime($p['tanggal_daftar'])) ?></span>
+                                    <span class="text-sm text-gray-700"><?= esc($p['nama_gelombang'] ?? '-') ?></span>
                                 </div>
                             </td>
                             <td class="py-4 px-6">
@@ -190,20 +190,7 @@
                                        class="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 tooltip flex items-center space-x-1"
                                        data-tooltip="Lihat Detail">
                                         <i class="fa fa-eye text-sm"></i>
-                                        <span class="text-sm">Detail</span>
                                     </a>
-                                    <?php if ($p['status'] == 'Menunggu Verifikasi'): ?>
-                                        <button class="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
-                                                data-tooltip="Terima Pendaftaran"
-                                                onclick="updateStatus(<?= $p['id_pendaftaran'] ?>, 'Diterima')">
-                                            <i class="fa fa-check text-sm"></i>
-                                        </button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg transition-all duration-200 transform hover:scale-105 tooltip"
-                                                data-tooltip="Tolak Pendaftaran"
-                                                onclick="updateStatus(<?= $p['id_pendaftaran'] ?>, 'Ditolak')">
-                                            <i class="fa fa-times text-sm"></i>
-                                        </button>
-                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>

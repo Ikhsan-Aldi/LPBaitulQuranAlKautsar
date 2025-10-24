@@ -56,104 +56,127 @@
         <?php endif; ?>
 
         <!-- Form -->
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <form action="<?= base_url('pendaftaran/simpan') ?>" method="post" enctype="multipart/form-data" class="p-8">
-                <?= csrf_field() ?>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                    <form action="<?= base_url('pendaftaran/simpan') ?>" method="post" enctype="multipart/form-data" class="p-8">
+                        <?= csrf_field() ?>
 
-                <!-- Data Diri Calon Santri -->
-                <div class="mb-12">
-                    <h3 class="text-2xl font-bold text-[#017077] mb-6 pb-3 border-b border-gray-200 flex items-center">
-                        <i class="fas fa-user-graduate mr-3"></i>Data Diri Calon Santri
-                    </h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Nama Lengkap -->
-                        <div class="md:col-span-2">
-                            <label for="nama_lengkap" class="block text-sm font-medium text-gray-700 mb-2">
-                                Nama Lengkap <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="nama_lengkap" name="nama_lengkap" 
-                                   value="<?= old('nama_lengkap') ?>" 
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                   placeholder="Masukkan nama lengkap" required>
-                        </div>
+                        <!-- Data Diri Calon Santri -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-[#017077] mb-6 pb-3 border-b border-gray-200 flex items-center">
+                                <i class="fas fa-user-graduate mr-3"></i>Data Diri Calon Santri
+                            </h3>
 
-                        <!-- Jenis Kelamin -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Jenis Kelamin <span class="text-red-500">*</span>
-                            </label>
-                            <div class="grid grid-cols-2 gap-4">
-                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                                    <input type="radio" name="jenis_kelamin" value="Laki-laki" 
-                                           <?= old('jenis_kelamin') == 'Laki-laki' ? 'checked' : '' ?> 
-                                           class="text-[#017077] focus:ring-[#017077]" required>
-                                    <span class="ml-3 text-gray-700">Laki-laki</span>
-                                </label>
-                                <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-                                    <input type="radio" name="jenis_kelamin" value="Perempuan"
-                                           <?= old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' ?>
-                                           class="text-[#017077] focus:ring-[#017077]" required>
-                                    <span class="ml-3 text-gray-700">Perempuan</span>
-                                </label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                                <!-- Jenjang Pendidikan -->
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        Jenjang Pendidikan <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                            <input type="radio" name="jenjang" value="SMP"
+                                                <?= old('jenjang') == 'SMP' ? 'checked' : '' ?>
+                                                class="text-[#017077] focus:ring-[#017077]" required>
+                                            <span class="ml-3 text-gray-700">SMP</span>
+                                        </label>
+                                        <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                            <input type="radio" name="jenjang" value="SMA"
+                                                <?= old('jenjang') == 'SMA' ? 'checked' : '' ?>
+                                                class="text-[#017077] focus:ring-[#017077]" required>
+                                            <span class="ml-3 text-gray-700">SMA</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Nama Lengkap -->
+                                <div class="md:col-span-2">
+                                    <label for="nama_lengkap" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Nama Lengkap <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="nama_lengkap" name="nama_lengkap"
+                                        value="<?= old('nama_lengkap') ?>"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
+                                        placeholder="Masukkan nama lengkap" required>
+                                </div>
+
+                                <!-- Jenis Kelamin -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        Jenis Kelamin <span class="text-red-500">*</span>
+                                    </label>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                            <input type="radio" name="jenis_kelamin" value="Laki-laki"
+                                                <?= old('jenis_kelamin') == 'Laki-laki' ? 'checked' : '' ?>
+                                                class="text-[#017077] focus:ring-[#017077]" required>
+                                            <span class="ml-3 text-gray-700">Laki-laki</span>
+                                        </label>
+                                        <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                            <input type="radio" name="jenis_kelamin" value="Perempuan"
+                                                <?= old('jenis_kelamin') == 'Perempuan' ? 'checked' : '' ?>
+                                                class="text-[#017077] focus:ring-[#017077]" required>
+                                            <span class="ml-3 text-gray-700">Perempuan</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Tempat Lahir -->
+                                <div>
+                                    <label for="tempat_lahir" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Tempat Lahir <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="tempat_lahir" name="tempat_lahir"
+                                        value="<?= old('tempat_lahir') ?>"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
+                                        placeholder="Kota tempat lahir" required>
+                                </div>
+
+                                <!-- Tanggal Lahir -->
+                                <div>
+                                    <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Tanggal Lahir <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="date" id="tanggal_lahir" name="tanggal_lahir"
+                                        value="<?= old('tanggal_lahir') ?>"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
+                                        required>
+                                </div>
+
+                                <!-- Asal Sekolah -->
+                                <div class="md:col-span-2">
+                                    <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Asal Sekolah <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="asal_sekolah" name="asal_sekolah"
+                                        value="<?= old('asal_sekolah') ?>"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
+                                        placeholder="Nama sekolah asal" required>
+                                </div>
+
+                                <!-- NISN -->
+                                <div class="md:col-span-2">
+                                    <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">
+                                        NISN (Nomor Induk Siswa Nasional) <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="nisn" name="nisn"
+                                        value="<?= old('nisn') ?>"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
+                                        placeholder="Masukkan NISN" required>
+                                </div>
+
+                                <!-- Alamat -->
+                                <div class="md:col-span-2">
+                                    <label for="alamat" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Alamat Lengkap <span class="text-red-500">*</span>
+                                    </label>
+                                    <textarea id="alamat" name="alamat" rows="3"
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
+                                            placeholder="Masukkan alamat lengkap" required><?= old('alamat') ?></textarea>
+                                </div>
+
                             </div>
                         </div>
-
-                        <!-- Tempat Lahir -->
-                        <div>
-                            <label for="tempat_lahir" class="block text-sm font-medium text-gray-700 mb-2">
-                                Tempat Lahir <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="tempat_lahir" name="tempat_lahir"
-                                   value="<?= old('tempat_lahir') ?>"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                   placeholder="Kota tempat lahir" required>
-                        </div>
-
-                        <!-- Tanggal Lahir -->
-                        <div>
-                            <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700 mb-2">
-                                Tanggal Lahir <span class="text-red-500">*</span>
-                            </label>
-                            <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                   value="<?= old('tanggal_lahir') ?>"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                   required>
-                        </div>
-
-                        <!-- Asal Sekolah -->
-                        <div class="md:col-span-2">
-                            <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-2">
-                                Asal Sekolah <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="asal_sekolah" name="asal_sekolah"
-                                   value="<?= old('asal_sekolah') ?>"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                   placeholder="Nama sekolah asal" required>
-                        </div>
-
-                        <!-- NISN -->
-                        <div class="md:col-span-2">
-                            <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">
-                                NISN (Nomor Induk Siswa Nasional) <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="nisn" name="nisn"
-                                   value="<?= old('nisn') ?>"
-                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                   placeholder="Masukkan NISN" required>
-                        </div>
-
-                        <!-- Alamat -->
-                        <div class="md:col-span-2">
-                            <label for="alamat" class="block text-sm font-medium text-gray-700 mb-2">
-                                Alamat Lengkap <span class="text-red-500">*</span>
-                            </label>
-                            <textarea id="alamat" name="alamat" rows="3"
-                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                      placeholder="Masukkan alamat lengkap" required><?= old('alamat') ?></textarea>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Data Orang Tua -->
                 <div class="mb-12">
