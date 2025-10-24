@@ -616,7 +616,6 @@ class Admin extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Kegiatan dengan ID $id tidak ditemukan");
         }
 
-        // Ambil semua foto yang terkait kegiatan ini
         $data['kegiatan']['foto_list'] = $fotoModel->where('id_kegiatan', $id)->findAll();
 
         $data['title'] = 'Detail Kegiatan';
@@ -854,17 +853,28 @@ class Admin extends BaseController
             return redirect()->to(base_url('admin/gelombang'))->with('error', 'Data gelombang tidak ditemukan');
         }
 
-        // Hitung statistik
         $jumlah_pendaftar = $pendaftaranModel->where('id_pendaftaran', $id)->countAllResults();
         $jumlah_diterima = $pendaftaranModel->where('id_pendaftaran', $id)->where('status', 'Diterima')->countAllResults();
         $jumlah_menunggu = $pendaftaranModel->where('id_pendaftaran', $id)->where('status', 'Menunggu Verifikasi')->countAllResults();
 
+        $seleksi = json_decode($gelombang['seleksi'] ?? '[]', true);
+        
+        if (!is_array($seleksi) || empty($seleksi)) {
+            $seleksi = [];
+            
+            $jadwal_seleksi = json_decode($gelombang['jadwal_seleksi'] ?? '[]', true);
+            if (is_array($jadwal_seleksi) && !empty($jadwal_seleksi)) {
+                $seleksi = $jadwal_seleksi;
+            }
+        }
+
         $data = [
             'title' => 'Detail Gelombang - ' . $gelombang['nama'],
             'gelombang' => $gelombang,
+            'seleksi' => $seleksi, 
             'jumlah_pendaftar' => $jumlah_pendaftar,
             'jumlah_diterima' => $jumlah_diterima,
-            'jumlah_menunggu' => $jumlah_menunggu
+            'jumlah_menunggu' => $jumlah_menunggu,
         ];
 
         return view('admin/gelombang/detail', $data);
@@ -884,10 +894,8 @@ class Admin extends BaseController
         }
     }
 
-    ///=============
-    //HALAMAN PESAN
-    ///=============
-    // Pesan dari Pengunjung
+
+    // Pesan 
     public function pesan()
     {
         $data = [
@@ -897,7 +905,6 @@ class Admin extends BaseController
         return view('admin/pesan/index', $data);
     }
 
-    // Detail Pesan
     public function detailPesan($id)
     {
         $pesan = $this->pesanModel->find($id);
@@ -914,7 +921,6 @@ class Admin extends BaseController
         return view('admin/pesan/detail', $data);
     }
 
-    // Hapus Pesan
     public function hapusPesan($id)
     {
         $pesan = $this->pesanModel->find($id);
@@ -930,9 +936,8 @@ class Admin extends BaseController
         }
     }
 
-    // ==================== GALERI ====================
     
-    // List Galeri
+    // Galeri
     public function galeri()
     {
         $galeriModel = new \App\Models\GaleriModel();
@@ -946,7 +951,6 @@ class Admin extends BaseController
         return view('admin/galeri/index', $data);
     }
     
-    // Tambah Galeri
     public function galeri_tambah()
     {
         $data = [
@@ -956,7 +960,6 @@ class Admin extends BaseController
         return view('admin/galeri/tambah', $data);
     }
     
-    // Simpan Galeri
     public function galeri_simpan()
     {
         $galeriModel = new \App\Models\GaleriModel();
@@ -1004,7 +1007,6 @@ class Admin extends BaseController
         }
     }
     
-    // Edit Galeri
     public function galeri_edit($id)
     {
         $galeriModel = new \App\Models\GaleriModel();
@@ -1022,7 +1024,6 @@ class Admin extends BaseController
         return view('admin/galeri/edit', $data);
     }
     
-    // Update Galeri
     public function galeri_update($id)
     {
         $galeriModel = new \App\Models\GaleriModel();
@@ -1052,7 +1053,6 @@ class Admin extends BaseController
         
         $uploadedFile = $this->request->getFile('gambar');
         if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
-            // Hapus gambar lama jika ada
             if ($galeri['gambar'] && file_exists($uploadPath . $galeri['gambar'])) {
                 unlink($uploadPath . $galeri['gambar']);
             }
@@ -1061,7 +1061,7 @@ class Admin extends BaseController
             $uploadedFile->move($uploadPath, $newName);
             $fileData['gambar'] = $newName;
         } else {
-            $fileData['gambar'] = $galeri['gambar']; // Keep existing image
+            $fileData['gambar'] = $galeri['gambar']; 
         }
         
         $data = [
@@ -1080,7 +1080,6 @@ class Admin extends BaseController
         }
     }
     
-    // Hapus Galeri
     public function galeri_hapus($id)
     {
         $galeriModel = new \App\Models\GaleriModel();
@@ -1090,7 +1089,6 @@ class Admin extends BaseController
             return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
         }
         
-        // Hapus file gambar jika ada
         if ($galeri['gambar']) {
             $uploadPath = FCPATH . 'uploads/galeri/';
             if (file_exists($uploadPath . $galeri['gambar'])) {
@@ -1105,7 +1103,6 @@ class Admin extends BaseController
         }
     }
     
-    // Detail Galeri
     public function galeri_detail($id)
     {
         $galeriModel = new \App\Models\GaleriModel();

@@ -39,11 +39,9 @@
                                 <span class="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium">
                                     Periode <?= date('Y', strtotime($gelombang['tanggal_mulai'])) ?>
                                 </span>
-                                <?php if ($gelombang['kuota']): ?>
                                 <span class="px-3 py-1 bg-white/20 text-white rounded-full text-sm font-medium">
-                                    Kuota: <?= $gelombang['kuota'] ?> santri
+                                    Kuota: Tidak Terbatas
                                 </span>
-                                <?php endif; ?>
                                 <span class="px-3 py-1 rounded-full text-sm font-medium 
                                     <?= $gelombang['status'] == 'dibuka' ? 'bg-green-500 text-white' : 
                                        ($gelombang['status'] == 'ditutup' ? 'bg-yellow-500 text-white' : 
@@ -265,20 +263,6 @@
                         <i class="fa fa-edit"></i>
                         <span>Edit Gelombang</span>
                     </a>
-                    
-                    <?php if ($gelombang['status'] == 'dibuka'): ?>
-                    <button onclick="updateStatus('ditutup')" 
-                            class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2">
-                        <i class="fa fa-pause"></i>
-                        <span>Tutup Sementara</span>
-                    </button>
-                    <?php elseif ($gelombang['status'] == 'ditutup'): ?>
-                    <button onclick="updateStatus('dibuka')" 
-                            class="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2">
-                        <i class="fa fa-play"></i>
-                        <span>Buka Kembali</span>
-                    </button>
-                    <?php endif; ?>
                     
                     <a href="<?= base_url('admin/pendaftaran?gelombang=' . $gelombang['id']); ?>" 
                        class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2">
