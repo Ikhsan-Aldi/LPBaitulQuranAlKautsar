@@ -46,28 +46,36 @@
                     <?php foreach ($galeri as $item): ?>
                         <div class="gallery-item group" data-category="<?= $item['kategori'] ?>">
                             <div class="relative overflow-hidden bg-gray-200 transition-all duration-500 group-hover:shadow-2xl rounded-lg">
-                                <!-- Image Container dengan click event -->
+                                 <?php 
+                                    $folder = ($item['kategori'] === 'kegiatan') 
+                                        ? 'uploads/kegiatan/' 
+                                        : 'uploads/galeri/';
+                                    $imagePath = base_url($folder . $item['gambar']);
+                                ?>
+
                                 <div class="relative aspect-[16/9] overflow-hidden cursor-zoom-in"
-                                     onclick="openLightbox(this)"
-                                     data-image="<?= base_url('uploads/galeri/' . $item['gambar']) ?>"
-                                     data-title="<?= esc($item['judul']) ?>"
-                                     data-description="<?= esc($item['deskripsi'] ?: 'Tidak ada deskripsi') ?>"
-                                     data-date="<?= date('d M Y', strtotime($item['tanggal'])) ?>"
-                                     data-category="<?= $item['kategori'] ?>">
-                                    <?php if ($item['gambar'] && file_exists(ROOTPATH . 'public/uploads/galeri/' . $item['gambar'])): ?>
+                                    onclick="openLightbox(this)"
+                                    data-image="<?= esc($imagePath) ?>"
+                                    data-title="<?= esc($item['judul']) ?>"
+                                    data-description="<?= esc($item['deskripsi'] ?: 'Tidak ada deskripsi') ?>"
+                                    data-date="<?= isset($item['tanggal']) ? date('d M Y', strtotime($item['tanggal'])) : '-' ?>"
+                                    data-category="<?= esc($item['kategori']) ?>">
+
+                                    <?php if (!empty($item['gambar'])): ?>
                                         <img 
-                                            src="<?= base_url('uploads/galeri/' . $item['gambar']) ?>" 
+                                            src="<?= $imagePath ?>" 
                                             alt="<?= esc($item['judul']) ?>"
                                             class="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
                                             loading="lazy"
-                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                            onerror="this.parentElement.querySelector('.img-fallback').classList.remove('hidden'); this.remove();"
                                         >
-                                        <!-- Fallback jika gambar error -->
-                                        <div class="absolute inset-0 bg-gradient-to-br from-[#017077] to-[#005359] hidden flex-col items-center justify-center text-white">
+                                        <!-- Fallback: jika gambar rusak -->
+                                        <div class="img-fallback absolute inset-0 bg-gradient-to-br from-[#017077] to-[#005359] hidden flex flex-col items-center justify-center text-white">
                                             <i class="fas fa-image text-4xl mb-3 opacity-80"></i>
                                             <span class="text-sm">Gambar tidak tersedia</span>
                                         </div>
                                     <?php else: ?>
+                                        <!-- Jika memang tidak ada gambar -->
                                         <div class="w-full h-full bg-gradient-to-br from-[#017077] to-[#005359] flex flex-col items-center justify-center text-white">
                                             <i class="fas fa-image text-4xl mb-3 opacity-80"></i>
                                             <span class="text-sm">Tidak ada gambar</span>

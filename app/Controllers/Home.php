@@ -70,16 +70,49 @@ class Home extends BaseController
     public function galeri()
     {
         $galeriModel = new \App\Models\GaleriModel();
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+
+        // Ambil galeri aktif
         $galeri = $galeriModel->getAktif();
-        
-        $data = [
-            'title' => 'Galeri - Baitul Quran Al-Kautsar',
-            'galeri' => $galeri
-        ];
+
+        // Ambil semua kegiatan
+        $kegiatan = $kegiatanModel->findAll();
+        $kegiatanItems = [];
+
+        foreach ($kegiatan as $row) {
+            // Ambil semua foto untuk setiap kegiatan
+            $fotos = $fotoModel->where('id_kegiatan', $row['id'])->findAll();
+
+            if (!empty($fotos)) {
+                foreach ($fotos as $foto) {
+                    $kegiatanItems[] = [
+                        'kategori'   => 'kegiatan',
+                        'judul'      => $row['judul'],
+                        'deskripsi'  => $row['deskripsi'],
+                        'tanggal'    => $row['tanggal'],
+                        'gambar'     => $foto['file_name'],
+                    ];
+                }
+            } else {
+                // Kalau tidak ada foto, tetap tampilkan placeholder
+                $kegiatanItems[] = [
+                    'kategori'   => 'kegiatan',
+                    'judul'      => $row['judul'],
+                    'deskripsi'  => $row['deskripsi'],
+                    'tanggal'    => $row['tanggal'],
+                    'gambar'     => null,
+                ];
+            }
+        }
+
+        // Gabungkan galeri lama + kegiatan
+        $data['galeri'] = array_merge($galeri, $kegiatanItems);
+        $data['title'] = 'Galeri - Baitul Quran Al-Kautsar';
+
         return view('lp/galeri/index', $data);
     }
-
-
+        
         // Method untuk form pendaftaran
         public function formPendaftaran()
         {
