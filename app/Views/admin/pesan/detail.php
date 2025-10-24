@@ -204,10 +204,10 @@ Kami akan menindaklanjuti pertanyaan/permohonan Anda secepatnya. Biasanya kami m
 
 %0D%0A%0D%0A
 Hormat kami,%0D%0A
-[Tim Admin]%0D%0A
-[Nama Institusi/Perusahaan]%0D%0A
-[No. Telepon]%0D%0A
-[Alamat Email]`;
+Tim Admin%0D%0A
+Baitul Quran Al-Kautsar%0D%0A
++6281234002350%0D%0A
+info@alkautsar.sch.id`;
 
     // Encode URI components untuk URL Gmail
     const encodedSubjek = encodeURIComponent(subjekBalasan);
