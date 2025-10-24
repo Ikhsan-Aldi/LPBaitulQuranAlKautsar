@@ -104,6 +104,9 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->post('galeri/update/(:num)', 'Admin::galeri_update/$1');
     $routes->get('galeri/hapus/(:num)', 'Admin::galeri_hapus/$1');
     $routes->get('galeri/detail/(:num)', 'Admin::galeri_detail/$1');
+
+    $routes->get('pengaturan', 'Admin::pengaturan');
+    $routes->post('pengaturan/update', 'Admin::update_pengaturan');
 });
 
 

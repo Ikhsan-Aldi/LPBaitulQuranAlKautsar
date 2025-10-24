@@ -68,11 +68,21 @@
                     Hubungi kami untuk konsultasi dan informasi pendaftaran
                 </p>
                 <div class="space-y-2">
-                    <a href="https://wa.me/6281234002350" 
-                       class="block bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-300">
-                        <i class="fab fa-whatsapp mr-2"></i>+62 812 3400 2350
-                    </a>
-                    <p class="text-sm text-gray-500">Klik untuk chat WhatsApp</p>
+                    <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
+                        <?php 
+                        $whatsappClean = str_replace(['+', ' ', '-'], '', $kontak['whatsapp']);
+                        $whatsappDisplay = format_phone_number($kontak['whatsapp']);
+                        ?>
+                        <a href="https://wa.me/<?= $whatsappClean ?>" 
+                           class="block bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition-colors duration-300">
+                            <i class="fab fa-whatsapp mr-2"></i><?= $whatsappDisplay ?>
+                        </a>
+                        <p class="text-sm text-gray-500">Klik untuk chat WhatsApp</p>
+                    <?php else: ?>
+                        <div class="bg-gray-200 text-gray-500 font-medium py-3 px-6 rounded-lg">
+                            <i class="fab fa-whatsapp mr-2"></i>Belum tersedia
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -86,11 +96,17 @@
                     Kirim pertanyaan dan dokumen melalui email resmi kami
                 </p>
                 <div class="space-y-2">
-                    <a href="mailto:info@baitulquran-alkautsar.org" 
-                       class="block bg-[#017077] text-white font-medium py-3 px-6 rounded-lg hover:bg-[#005359] transition-colors duration-300">
-                        <i class="fas fa-envelope mr-2"></i>info@baitulquran-alkautsar.org
-                    </a>
-                    <p class="text-sm text-gray-500">Hubungi Kami</p>
+                    <?php if(isset($kontak['email']) && !empty($kontak['email'])): ?>
+                        <a href="mailto:<?= $kontak['email'] ?>" 
+                           class="block bg-[#017077] text-white font-medium py-3 px-6 rounded-lg hover:bg-[#005359] transition-colors duration-300">
+                            <i class="fas fa-envelope mr-2"></i><?= htmlspecialchars($kontak['email']) ?>
+                        </a>
+                        <p class="text-sm text-gray-500">Hubungi Kami</p>
+                    <?php else: ?>
+                        <div class="bg-gray-200 text-gray-500 font-medium py-3 px-6 rounded-lg">
+                            <i class="fas fa-envelope mr-2"></i>Belum tersedia
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -104,11 +120,69 @@
                     Ikuti update terbaru dan kegiatan pesantren di media sosial
                 </p>
                 <div class="space-y-3">
-                    <a href="https://instagram.com/alkautsar_madiun" 
-                       class="block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-colors duration-300">
-                        <i class="fab fa-instagram mr-2"></i>@alkautsar_madiun
-                    </a>
-                    <p class="text-sm text-gray-500">Instagram Official</p>
+                    <?php 
+                    $socialMediaAvailable = false;
+                    
+                    // Instagram
+                    if(isset($kontak['instagram']) && !empty($kontak['instagram'])): 
+                        $socialMediaAvailable = true;
+                        $instagramUrl = $kontak['instagram'];
+                        $instagramUsername = $instagramUrl;
+                        
+                        // Extract username from URL
+                        if (filter_var($instagramUrl, FILTER_VALIDATE_URL)) {
+                            $path = parse_url($instagramUrl, PHP_URL_PATH);
+                            $instagramUsername = ltrim($path, '/');
+                            // Remove trailing slash if exists
+                            $instagramUsername = rtrim($instagramUsername, '/');
+                        }
+                    ?>
+                        <a href="<?= $instagramUrl ?>" target="_blank"
+                        class="block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-colors duration-300">
+                            <i class="fab fa-instagram mr-2"></i><?= $instagramUsername ?>
+                        </a>
+                        <p class="text-sm text-gray-500">Instagram Official</p>
+                    <?php endif; ?>
+                    
+                    <!-- Facebook -->
+                    <?php if(isset($kontak['facebook']) && !empty($kontak['facebook'])): 
+                        $socialMediaAvailable = true;
+                    ?>
+                        <a href="<?= $kontak['facebook'] ?>" target="_blank"
+                        class="block bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                            <i class="fab fa-facebook mr-2"></i>Facebook
+                        </a>
+                        <p class="text-sm text-gray-500">Facebook Page</p>
+                    <?php endif; ?>
+                    
+                    <!-- TikTok -->
+                    <?php if(isset($kontak['tiktok']) && !empty($kontak['tiktok'])): 
+                        $socialMediaAvailable = true;
+                        $tiktokUrl = $kontak['tiktok'];
+                        $tiktokUsername = $tiktokUrl;
+                        
+                        // Extract username from URL
+                        if (filter_var($tiktokUrl, FILTER_VALIDATE_URL)) {
+                            $path = parse_url($tiktokUrl, PHP_URL_PATH);
+                            $tiktokUsername = ltrim($path, '/');
+                            $tiktokUsername = rtrim($tiktokUsername, '/');
+                            // Remove @ if exists
+                            $tiktokUsername = ltrim($tiktokUsername, '@');
+                        }
+                    ?>
+                        <a href="<?= $tiktokUrl ?>" target="_blank"
+                        class="block bg-gray-800 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+                            <i class="fab fa-tiktok mr-2"></i><?= $tiktokUsername ?>
+                        </a>
+                        <p class="text-sm text-gray-500">TikTok Official</p>
+                    <?php endif; ?>
+                    
+                    <!-- Jika tidak ada social media sama sekali -->
+                    <?php if(!$socialMediaAvailable): ?>
+                        <div class="bg-gray-200 text-gray-500 font-medium py-3 px-6 rounded-lg">
+                            <i class="fab fa-instagram mr-2"></i>Belum tersedia
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -128,18 +202,19 @@
                     </p>
 
                     <form action="<?= base_url('kirim-pesan') ?>" method="post" class="space-y-6">
+                        <?= csrf_field() ?>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
                                 <input type="text" id="name" name="name"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                    placeholder="Masukkan nama lengkap" value="<?= old('name') ?>">
+                                    placeholder="Masukkan nama lengkap" value="<?= old('name') ?>" required>
                             </div>
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
                                 <input type="email" id="email" name="email"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                    placeholder="email@contoh.com" value="<?= old('email') ?>">
+                                    placeholder="email@contoh.com" value="<?= old('email') ?>" required>
                             </div>
                         </div>
                         
@@ -147,13 +222,13 @@
                             <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
                             <input type="tel" id="phone" name="phone"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                placeholder="+62 xxx xxxx xxxx" value="<?= old('phone') ?>">
+                                placeholder="+62 xxx xxxx xxxx" value="<?= old('phone') ?>" required>
                         </div>
                         
                         <div>
                             <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subjek</label>
                             <select id="subject" name="subject"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300">
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300" required>
                                 <option value="">Pilih subjek pesan</option>
                                 <option value="pendaftaran" <?= old('subject') == 'pendaftaran' ? 'selected' : '' ?>>Informasi Pendaftaran</option>
                                 <option value="program" <?= old('subject') == 'program' ? 'selected' : '' ?>>Informasi Program</option>
@@ -166,7 +241,7 @@
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Pesan</label>
                             <textarea id="message" name="message" rows="5"
                                     class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#017077] focus:border-transparent transition-all duration-300"
-                                    placeholder="Tulis pesan Anda di sini..."><?= old('message') ?></textarea>
+                                    placeholder="Tulis pesan Anda di sini..." required><?= old('message') ?></textarea>
                         </div>
 
                         <!-- ✅ Tambahkan reCAPTCHA di sini -->
@@ -194,13 +269,25 @@
                     </h3>
                     
                     <div class="space-y-4">
+                        <?php if(isset($kontak['alamat']) && !empty($kontak['alamat'])): ?>
                         <div class="flex items-start">
                             <i class="fas fa-map-pin text-[#017077] mt-1 mr-3"></i>
                             <div>
                                 <p class="text-gray-700 font-medium">Alamat Lengkap</p>
-                                <p class="text-gray-600 text-sm">Jl. Ring Road Barat - Kel.Manguharjo<br>Kec.Manguharjo, Kota Madiun<br>Jawa Timur</p>
+                                <p class="text-gray-600 text-sm"><?= nl2br(htmlspecialchars($kontak['alamat'])) ?></p>
                             </div>
                         </div>
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['telepon']) && !empty($kontak['telepon'])): ?>
+                        <div class="flex items-start">
+                            <i class="fas fa-phone text-[#017077] mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-gray-700 font-medium">Telepon</p>
+                                <p class="text-gray-600 text-sm"><?= format_phone_number($kontak['telepon']) ?></p>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                         
                         <div class="flex items-start">
                             <i class="fas fa-clock text-[#017077] mt-1 mr-3"></i>
@@ -212,7 +299,7 @@
                     </div>
                     
                     <!-- Map Placeholder -->
-                    <div class="mt-6 bg-gradient-to-br from-[#017077] to-[#005359] rounded-lg p-8 text-white text-center">
+                    <!-- <div class="mt-6 bg-gradient-to-br from-[#017077] to-[#005359] rounded-lg p-8 text-white text-center">
                         <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-map text-2xl"></i>
                         </div>
@@ -221,7 +308,7 @@
                         <button class="bg-white text-[#017077] font-medium py-2 px-6 rounded-lg hover:bg-gray-100 transition-colors duration-300">
                             Buka di Google Maps
                         </button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Quick Response Card -->
@@ -233,20 +320,15 @@
                         Untuk pertanyaan mendesak, langsung hubungi nomor WhatsApp kami.
                     </p>
                     <div class="space-y-3">
+                        <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
                         <div class="flex items-center justify-between bg-white/20 rounded-lg p-4">
                             <div class="flex items-center">
                                 <i class="fab fa-whatsapp text-green-300 text-xl mr-3"></i>
                                 <span>WhatsApp Response</span>
                             </div>
-                            <!-- <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">24/7</span> -->
                         </div>
-                        <div class="flex items-center justify-between bg-white/20 rounded-lg p-4">
-                            <div class="flex items-center">
-                                <i class="fas fa-envelope text-blue-300 text-xl mr-3"></i>
-                                <span>Email Response</span>
-                            </div>
-                            <!-- <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-medium">1x24 jam</span> -->
-                        </div>
+                        <?php endif; ?>
+                        
                     </div>
                 </div>
             </div>
@@ -303,26 +385,6 @@
         </div>
     </div>
 </section>
-
-<!-- CTA Section -->
-<!-- <section class="py-16 bg-gradient-to-r from-[#017077] to-[#005359]">
-    <div class="max-w-7xl mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold text-white mb-4">Siap Bergabung dengan Kami?</h2>
-        <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Jangan ragu untuk menghubungi kami. Tim admin siap membantu Anda dengan informasi lengkap tentang program dan pendaftaran.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <a href="https://wa.me/6281234002350" 
-               class="bg-white text-[#017077] font-bold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
-                <i class="fab fa-whatsapp mr-2"></i>Chat WhatsApp
-            </a>
-            <a href="mailto:info@baitulquran-alkautsar.org" 
-               class="border-2 border-white text-white font-bold px-8 py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 inline-flex items-center justify-center">
-                <i class="fas fa-envelope mr-2"></i>Kirim Email
-            </a>
-        </div>
-    </div>
-</section> -->
 
 <style>
 .arabic-font {
