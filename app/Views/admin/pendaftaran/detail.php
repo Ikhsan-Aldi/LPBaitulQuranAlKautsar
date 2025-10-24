@@ -26,10 +26,17 @@
                         </div>
                         <div>
                             <h2 class="text-2xl font-bold text-white font-amiri"><?= esc($pendaftar['nama_lengkap']) ?></h2>
-                            <p class="text-white/80">
-                                <?= esc($pendaftar['jenis_kelamin']) ?> • 
-                                <?= esc($pendaftar['nisn']) ?>
-                            </p>
+                            <div class="flex flex-wrap items-center gap-2 mt-2">
+                                <span class="px-2 py-1 bg-white/20 text-white rounded-full text-sm">
+                                    <?= esc($pendaftar['jenis_kelamin']) ?>
+                                </span>
+                                <span class="px-2 py-1 bg-white/20 text-white rounded-full text-sm">
+                                    NISN: <?= esc($pendaftar['nisn']) ?>
+                                </span>
+                                <span class="px-2 py-1 bg-white/20 text-white rounded-full text-sm font-medium">
+                                    Jenjang: <?= esc($pendaftar['jenjang']) ?>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,6 +67,34 @@
                                     <p class="font-medium text-gray-800">
                                         <?= esc($pendaftar['tempat_lahir']) ?>, <?= esc($pendaftar['tanggal_lahir']) ?>
                                     </p>
+                                </div>
+                            </div>
+
+                            <!-- TAMBAHAN: Jenjang yang Dipilih -->
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2 bg-primary/10 rounded-lg">
+                                    <i class="fa fa-graduation-cap text-primary text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Jenjang yang Dipilih</p>
+                                    <p class="font-medium text-gray-800">
+                                        <?= esc($pendaftar['jenjang']) ?>
+                                        <?php if ($pendaftar['jenjang'] == 'SMP'): ?>
+                                            <span class="text-blue-600 text-sm ml-2">(Sekolah Menengah Pertama)</span>
+                                        <?php elseif ($pendaftar['jenjang'] == 'SMA'): ?>
+                                            <span class="text-green-600 text-sm ml-2">(Sekolah Menengah Atas)</span>
+                                        <?php endif; ?>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2 bg-primary/10 rounded-lg">
+                                    <i class="fa fa-school text-primary text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Asal Sekolah</p>
+                                    <p class="font-medium text-gray-800"><?= esc($pendaftar['asal_sekolah']) ?></p>
                                 </div>
                             </div>
 
@@ -109,6 +144,59 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Informasi Tambahan -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Informasi Pendaftaran -->
+                        <div class="space-y-3 p-4 bg-gray-50 rounded-xl">
+                            <h4 class="font-semibold text-gray-800 flex items-center space-x-2">
+                                <i class="fa fa-calendar text-primary"></i>
+                                <span>Informasi Pendaftaran</span>
+                            </h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-600">Tanggal Daftar:</span>
+                                    <span class="text-sm font-medium text-gray-800">
+                                        <?= $pendaftar['tanggal_daftar'] ? date('d/m/Y H:i', strtotime($pendaftar['tanggal_daftar'])) : '-' ?>
+                                    </span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-600">Gelombang:</span>
+                                    <span class="text-sm font-medium text-gray-800">
+                                        <?= $gelombang_nama ?? 'Tidak tersedia' ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informasi Jenjang -->
+                        <div class="space-y-3 p-4 bg-blue-50 rounded-xl border-l-4 border-blue-500">
+                            <h4 class="font-semibold text-gray-800 flex items-center space-x-2">
+                                <i class="fa fa-info-circle text-blue-600"></i>
+                                <span>Informasi Jenjang</span>
+                            </h4>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-600">Jenjang Dipilih:</span>
+                                    <span class="text-sm font-medium text-blue-700">
+                                        <?= esc($pendaftar['jenjang']) ?>
+                                    </span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-sm text-gray-600">Tingkat:</span>
+                                    <span class="text-sm font-medium text-blue-700">
+                                        <?php if ($pendaftar['jenjang'] == 'SMP'): ?>
+                                            Kelas 7, 8, 9
+                                        <?php elseif ($pendaftar['jenjang'] == 'SMA'): ?>
+                                            Kelas 10, 11, 12
+                                        <?php else: ?>
+                                            -
+                                        <?php endif; ?>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,6 +231,38 @@
                         </div>
                     </div>
                 <?php endif; ?>
+            </div>
+
+            <!-- Jenjang Card -->
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-primary-dark mb-4">Jenjang Pendidikan</h3>
+                <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200">
+                    <div class="flex items-center space-x-3">
+                        <div class="p-3 bg-blue-100 rounded-lg">
+                            <i class="fa fa-graduation-cap text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-blue-800 text-lg"><?= esc($pendaftar['jenjang']) ?></p>
+                            <p class="text-sm text-blue-600">
+                                <?php if ($pendaftar['jenjang'] == 'SMP'): ?>
+                                    Sekolah Menengah Pertama
+                                <?php elseif ($pendaftar['jenjang'] == 'SMA'): ?>
+                                    Sekolah Menengah Atas
+                                <?php else: ?>
+                                    Pendidikan Menengah
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            Dipilih
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-3 text-xs text-gray-500">
+                    <p>Calon santri mendaftar untuk jenjang <?= esc($pendaftar['jenjang']) ?> di Pondok Pesantren</p>
+                </div>
             </div>
 
             <!-- Berkas Card -->
@@ -213,14 +333,14 @@
                 <div class="space-y-3">
                     <a href="<?= base_url('admin/pendaftaran/verifikasi/'.$pendaftar['id_pendaftaran'].'/Diterima') ?>" 
                        class="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2"
-                       onclick="return confirm('Yakin ingin menerima pendaftaran <?= esc($pendaftar['nama_lengkap']) ?>?')">
+                       onclick="return confirm('Yakin ingin menerima pendaftaran <?= esc($pendaftar['nama_lengkap']) ?> untuk jenjang <?= esc($pendaftar['jenjang']) ?>?')">
                         <i class="fa fa-check-circle"></i>
                         <span>Terima Pendaftaran</span>
                     </a>
                     
                     <a href="<?= base_url('admin/pendaftaran/verifikasi/'.$pendaftar['id_pendaftaran'].'/Ditolak') ?>" 
                        class="w-full bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center space-x-2"
-                       onclick="return confirm('Yakin ingin menolak pendaftaran <?= esc($pendaftar['nama_lengkap']) ?>?')">
+                       onclick="return confirm('Yakin ingin menolak pendaftaran <?= esc($pendaftar['nama_lengkap']) ?> untuk jenjang <?= esc($pendaftar['jenjang']) ?>?')">
                         <i class="fa fa-times-circle"></i>
                         <span>Tolak Pendaftaran</span>
                     </a>

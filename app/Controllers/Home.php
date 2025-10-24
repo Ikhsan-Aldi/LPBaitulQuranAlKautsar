@@ -51,13 +51,10 @@ class Home extends BaseController
         return view('lp/kontak/index', $data);
     }
 
-    // Method baru untuk halaman pendaftaran
     public function pendaftaran()
     {
-        // Ambil semua gelombang pendaftaran
         $gelombang = $this->gelombangModel->findAll();
         
-        // Decode data JSON untuk setiap gelombang
         foreach ($gelombang as &$item) {
             $item['seleksi_array'] = json_decode($item['seleksi'] ?? '[]', true);
             $item['jadwal_seleksi_array'] = json_decode($item['jadwal_seleksi'] ?? '[]', true);
@@ -103,7 +100,15 @@ class Home extends BaseController
         // Method untuk menyimpan pendaftaran
         public function simpanPendaftaran()
         {
+            // Ambil gelombang yang sedang dibuka
+            $gelombang_dibuka = $this->gelombangModel->where('status', 'dibuka')->first();
+
+            if (!$gelombang_dibuka) {
+                return redirect()->to('/pendaftaran')->with('error', 'Tidak ada gelombang pendaftaran yang dibuka saat ini.');
+            }
+
             $rules = [
+                'jenjang' => 'required|in_list[SMP,SMA]',
                 'nama_lengkap' => 'required|min_length[3]|max_length[100]',
                 'jenis_kelamin' => 'required|in_list[Laki-laki,Perempuan]',
                 'tempat_lahir' => 'required|min_length[3]|max_length[50]',
@@ -115,20 +120,17 @@ class Home extends BaseController
                 'nama_ibu' => 'required|min_length[3]|max_length[100]',
                 'no_hp_ortu' => 'required|min_length[10]|max_length[15]'
             ];
-        
+
             if (!$this->validate($rules)) {
                 return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
             }
-        
-            $fileData = [];
-            $uploadPath = FCPATH . 'uploads/pendaftaran/'; //
-        
-            if (!is_dir($uploadPath)) {
-                mkdir($uploadPath, 0777, true);
-            }
-        
+
+            $uploadPath = FCPATH . 'uploads/pendaftaran/';
+            if (!is_dir($uploadPath)) mkdir($uploadPath, 0777, true);
+
             $files = ['ktp_ortu', 'akta_kk', 'surat_ket_lulus', 'ijazah_terakhir', 'foto'];
-            
+            $fileData = [];
+
             foreach ($files as $file) {
                 $uploadedFile = $this->request->getFile($file);
                 if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
@@ -139,8 +141,10 @@ class Home extends BaseController
                     $fileData[$file] = null;
                 }
             }
-        
+
             $data = [
+                'id_gelombang' => $gelombang_dibuka['id'],
+                'jenjang' => $this->request->getPost('jenjang'),
                 'nama_lengkap' => $this->request->getPost('nama_lengkap'),
                 'jenis_kelamin' => $this->request->getPost('jenis_kelamin'),
                 'tempat_lahir' => $this->request->getPost('tempat_lahir'),
@@ -156,19 +160,19 @@ class Home extends BaseController
                 'surat_ket_lulus' => $fileData['surat_ket_lulus'],
                 'ijazah_terakhir' => $fileData['ijazah_terakhir'],
                 'foto' => $fileData['foto'],
-                'status' => 'pending'
+                'status' => 'Menunggu Verifikasi'
             ];
-        
+
             if ($this->pendaftaranModel->save($data)) {
                 return redirect()->to('/pendaftaran/success')
-                    ->with('success', 'Pendaftaran berhasil dikirim. Kami akan menghubungi Anda untuk proses selanjutnya.');
+                    ->with('success', 'Pendaftaran berhasil dikirim untuk gelombang: ' . $gelombang_dibuka['nama']);
             } else {
-                return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat mengirim pendaftaran. Silakan coba lagi.');
+                return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat mengirim pendaftaran.');
             }
         }
+
         
     
-        // Method untuk halaman success
         public function successPendaftaran()
         {
             if (!session()->getFlashdata('success')) {
@@ -199,11 +203,9 @@ class Home extends BaseController
                 return redirect()->to(base_url('kontak'))->withInput();
             }
         
-            // ✅ Verifikasi Google reCAPTCHA
             $recaptchaResponse = $this->request->getPost('g-recaptcha-response');
-            $secretKey = '6LeO6vMrAAAAAAHvRXJedp2tWqvukrsSP6OXYikR'; // contoh: 6LfX0A0pAAAAABCD...
+            $secretKey = '6LeO6vMrAAAAAAHvRXJedp2tWqvukrsSP6OXYikR'; 
         
-            // Kirim request ke Google API
             $verifyResponse = file_get_contents(
                 "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}"
             );
@@ -214,7 +216,6 @@ class Home extends BaseController
                 return redirect()->to(base_url('kontak'))->withInput();
             }
         
-            // ✅ Simpan pesan ke database
             $model = new \App\Models\PesanModel();
             $model->insert([
                 'nama_lengkap' => $this->request->getPost('name'),

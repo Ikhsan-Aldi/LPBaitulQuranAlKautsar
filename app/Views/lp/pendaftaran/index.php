@@ -44,7 +44,6 @@
             <aside class="lg:w-1/3 space-y-8">
                 <?= view('lp/pendaftaran/partials/info_beasiswa') ?>
                 <?= view('lp/pendaftaran/partials/syarat_pendaftaran') ?>
-                <?= view('lp/pendaftaran/partials/keunggulan') ?>
                 <?= view('lp/pendaftaran/partials/cta_sidebar') ?>
             </aside>
         </div>
