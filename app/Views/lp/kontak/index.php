@@ -120,30 +120,65 @@
                     Ikuti update terbaru dan kegiatan pesantren di media sosial
                 </p>
                 <div class="space-y-3">
-                    <?php if(isset($kontak['instagram']) && !empty($kontak['instagram'])): ?>
-                        <?php
-                        // Extract username from Instagram URL
+                    <?php 
+                    $socialMediaAvailable = false;
+                    
+                    // Instagram
+                    if(isset($kontak['instagram']) && !empty($kontak['instagram'])): 
+                        $socialMediaAvailable = true;
                         $instagramUrl = $kontak['instagram'];
                         $instagramUsername = $instagramUrl;
                         
-                        // Try to extract username from URL
+                        // Extract username from URL
                         if (filter_var($instagramUrl, FILTER_VALIDATE_URL)) {
                             $path = parse_url($instagramUrl, PHP_URL_PATH);
                             $instagramUsername = ltrim($path, '/');
+                            // Remove trailing slash if exists
+                            $instagramUsername = rtrim($instagramUsername, '/');
                         }
-                        ?>
+                    ?>
                         <a href="<?= $instagramUrl ?>" target="_blank"
-                           class="block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-colors duration-300">
+                        class="block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-colors duration-300">
                             <i class="fab fa-instagram mr-2"></i><?= $instagramUsername ?>
                         </a>
                         <p class="text-sm text-gray-500">Instagram Official</p>
-                    <?php elseif(isset($kontak['facebook']) && !empty($kontak['facebook'])): ?>
+                    <?php endif; ?>
+                    
+                    <!-- Facebook -->
+                    <?php if(isset($kontak['facebook']) && !empty($kontak['facebook'])): 
+                        $socialMediaAvailable = true;
+                    ?>
                         <a href="<?= $kontak['facebook'] ?>" target="_blank"
-                           class="block bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                        class="block bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">
                             <i class="fab fa-facebook mr-2"></i>Facebook
                         </a>
                         <p class="text-sm text-gray-500">Facebook Page</p>
-                    <?php else: ?>
+                    <?php endif; ?>
+                    
+                    <!-- TikTok -->
+                    <?php if(isset($kontak['tiktok']) && !empty($kontak['tiktok'])): 
+                        $socialMediaAvailable = true;
+                        $tiktokUrl = $kontak['tiktok'];
+                        $tiktokUsername = $tiktokUrl;
+                        
+                        // Extract username from URL
+                        if (filter_var($tiktokUrl, FILTER_VALIDATE_URL)) {
+                            $path = parse_url($tiktokUrl, PHP_URL_PATH);
+                            $tiktokUsername = ltrim($path, '/');
+                            $tiktokUsername = rtrim($tiktokUsername, '/');
+                            // Remove @ if exists
+                            $tiktokUsername = ltrim($tiktokUsername, '@');
+                        }
+                    ?>
+                        <a href="<?= $tiktokUrl ?>" target="_blank"
+                        class="block bg-gray-800 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-900 transition-colors duration-300">
+                            <i class="fab fa-tiktok mr-2"></i><?= $tiktokUsername ?>
+                        </a>
+                        <p class="text-sm text-gray-500">TikTok Official</p>
+                    <?php endif; ?>
+                    
+                    <!-- Jika tidak ada social media sama sekali -->
+                    <?php if(!$socialMediaAvailable): ?>
                         <div class="bg-gray-200 text-gray-500 font-medium py-3 px-6 rounded-lg">
                             <i class="fab fa-instagram mr-2"></i>Belum tersedia
                         </div>
