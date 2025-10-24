@@ -17,7 +17,7 @@ class Home extends BaseController
     public function index()
     {
         $data = [
-            'title' => 'Beranda - BQ Al-Kautsar'
+            'title' => 'Beranda - Baitul Quran Al-Kautsar'
         ];
         return view('lp/home/index', $data);
     }
@@ -25,7 +25,7 @@ class Home extends BaseController
     public function tentang()
     {
         $data = [
-            'title' => 'Tentang Kami - BQ Al-Kautsar'
+            'title' => 'Tentang Kami - Baitul Quran Al-Kautsar'
         ];
         return view('lp/tentang/index', $data);
     }
@@ -46,7 +46,7 @@ class Home extends BaseController
     public function kontak()
     {
         $data = [
-            'title' => 'Kontak - BQ Al-Kautsar'
+            'title' => 'Kontak - Baitul Quran Al-Kautsar'
         ];
         return view('lp/kontak/index', $data);
     }

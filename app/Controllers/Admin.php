@@ -1148,7 +1148,7 @@ class Admin extends BaseController
         $kontak = $kontakModel->first();
         
         $data = [
-            'title' => 'Pengaturan Informasi Perusahaan',
+            'title' => 'Pengaturan - Kontak',
             'kontak' => $kontak
         ];
         
