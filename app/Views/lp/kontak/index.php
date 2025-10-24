@@ -299,7 +299,7 @@
                     </div>
                     
                     <!-- Map Placeholder -->
-                    <div class="mt-6 bg-gradient-to-br from-[#017077] to-[#005359] rounded-lg p-8 text-white text-center">
+                    <!-- <div class="mt-6 bg-gradient-to-br from-[#017077] to-[#005359] rounded-lg p-8 text-white text-center">
                         <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                             <i class="fas fa-map text-2xl"></i>
                         </div>
@@ -308,7 +308,7 @@
                         <button class="bg-white text-[#017077] font-medium py-2 px-6 rounded-lg hover:bg-gray-100 transition-colors duration-300">
                             Buka di Google Maps
                         </button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Quick Response Card -->
@@ -329,14 +329,6 @@
                         </div>
                         <?php endif; ?>
                         
-                        <?php if(isset($kontak['email']) && !empty($kontak['email'])): ?>
-                        <div class="flex items-center justify-between bg-white/20 rounded-lg p-4">
-                            <div class="flex items-center">
-                                <i class="fas fa-envelope text-blue-300 text-xl mr-3"></i>
-                                <span>Email Response</span>
-                            </div>
-                        </div>
-                        <?php endif; ?>
                     </div>
                 </div>
             </div>

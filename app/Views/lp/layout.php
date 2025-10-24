@@ -61,29 +61,32 @@
         }
         
         /* Update style untuk CTA button */
-        .cta-button-normal {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #017077;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(4px);
-        }
+/* Update style untuk CTA button */
+.cta-button-normal {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #017077;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+}
 
-        .cta-button-scrolled {
-            background-color: #017077;
-            color: white;
-            border: 2px solid #017077;
-        }
+.cta-button-scrolled {
+    background-color: #017077;
+    color: white;
+    border: 2px solid #017077;
+}
 
-        .cta-button-normal:hover {
-            background-color: rgba(255, 255, 255, 1);
-            transform: translateY(-1px);
-        }
+.cta-button-normal:hover {
+    background-color: rgba(255, 255, 255, 1);
+    transform: translateY(-1px);
+}
 
-        .cta-button-scrolled:hover {
-            background-color: #005359;
-            border-color: #005359;
-            transform: translateY(-1px);
-        }
+/* TAMBAHKAN INI - styling hover untuk CTA button di halaman non-home */
+.cta-button-scrolled:hover {
+    background-color: #005359;
+    border-color: #005359;
+    color: white; /* Pastikan teks tetap putih */
+    transform: translateY(-1px);
+}
         
         /* Style untuk navbar di halaman non-home */
         .navbar-non-home {
@@ -278,7 +281,7 @@
                     
                     <!-- CTA Button Desktop -->
                     <div class="hidden md:block">
-                        <a href="<?= base_url('kontak') ?>" id="cta-button" class="cta-button-normal px-5 py-2.5 rounded-lg font-medium hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl z-10 relative">
+                        <a href="<?= base_url('kontak') ?>" id="cta-button" class="cta-button-normal px-5 py-2.5 rounded-lg font-medium transition-colors duration-300 shadow-lg hover:shadow-xl z-10 relative">
                             <i class="fas fa-phone-alt mr-2"></i>Hubungi Kami
                         </a>
                     </div>
@@ -378,18 +381,35 @@
                         Pusat pendidikan Islam terpadu yang berkomitmen untuk mencetak generasi Qur'ani yang berakhlak mulia dan berilmu.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
+                        <?php if(isset($kontak['facebook']) && !empty($kontak['facebook'])): ?>
+                        <a href="<?= $kontak['facebook'] ?>" target="_blank" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
                             <i class="fab fa-facebook-f text-lg"></i>
                         </a>
-                        <a href="#" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['instagram']) && !empty($kontak['instagram'])): ?>
+                        <a href="<?= $kontak['instagram'] ?>" target="_blank" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
                             <i class="fab fa-instagram text-lg"></i>
                         </a>
-                        <a href="#" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['youtube']) && !empty($kontak['youtube'])): ?>
+                        <a href="<?= $kontak['youtube'] ?>" target="_blank" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
                             <i class="fab fa-youtube text-lg"></i>
                         </a>
-                        <a href="#" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['tiktok']) && !empty($kontak['tiktok'])): ?>
+                        <a href="<?= $kontak['tiktok'] ?>" target="_blank" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-tiktok text-lg"></i>
+                        </a>
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
+                        <a href="https://wa.me/<?= str_replace(['+', ' ', '-'], '', $kontak['whatsapp']) ?>" target="_blank" class="text-teal-300 hover:text-white transition-colors duration-300 bg-teal-800 w-10 h-10 rounded-full flex items-center justify-center">
                             <i class="fab fa-whatsapp text-lg"></i>
                         </a>
+                        <?php endif; ?>
                     </div>
                 </div>
                 
@@ -455,39 +475,39 @@
                     </ul>
                 </div>
                 
-            <!-- Contact Info -->
-            <div>
-                <h3 class="text-lg font-bold mb-4">Kontak</h3>
-                <ul class="space-y-4">
-                    <?php if(isset($kontak['alamat']) && !empty($kontak['alamat'])): ?>
-                    <li class="flex items-start">
-                        <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
-                        <span class="text-teal-200"><?= nl2br(htmlspecialchars($kontak['alamat'])) ?></span>
-                    </li>
-                    <?php endif; ?>
-                    
-                    <?php if(isset($kontak['telepon']) && !empty($kontak['telepon'])): ?>
-                    <li class="flex items-center">
-                        <i class="fas fa-phone text-teal-400 mr-3"></i>
-                        <span class="text-teal-200"><?= format_phone_number($kontak['telepon']) ?></span>
-                    </li>
-                    <?php endif; ?>
-                    
-                    <?php if(isset($kontak['email']) && !empty($kontak['email'])): ?>
-                    <li class="flex items-center">
-                        <i class="fas fa-envelope text-teal-400 mr-3"></i>
-                        <span class="text-teal-200"><?= htmlspecialchars($kontak['email']) ?></span>
-                    </li>
-                    <?php endif; ?>
-                    
-                    <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
-                    <li class="flex items-center">
-                        <i class="fab fa-whatsapp text-teal-400 mr-3"></i>
-                        <span class="text-teal-200"><?= format_phone_number($kontak['whatsapp']) ?></span>
-                    </li>
-                    <?php endif; ?>
-                </ul>
-            </div>
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Kontak</h3>
+                    <ul class="space-y-4">
+                        <?php if(isset($kontak['alamat']) && !empty($kontak['alamat'])): ?>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
+                            <span class="text-teal-200"><?= nl2br(htmlspecialchars($kontak['alamat'])) ?></span>
+                        </li>
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['telepon']) && !empty($kontak['telepon'])): ?>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone text-teal-400 mr-3"></i>
+                            <span class="text-teal-200"><?= format_phone_number($kontak['telepon']) ?></span>
+                        </li>
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['email']) && !empty($kontak['email'])): ?>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope text-teal-400 mr-3"></i>
+                            <span class="text-teal-200"><?= htmlspecialchars($kontak['email']) ?></span>
+                        </li>
+                        <?php endif; ?>
+                        
+                        <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
+                        <li class="flex items-center">
+                            <i class="fab fa-whatsapp text-teal-400 mr-3"></i>
+                            <span class="text-teal-200"><?= format_phone_number($kontak['whatsapp']) ?></span>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
             </div>
         </div>
         
