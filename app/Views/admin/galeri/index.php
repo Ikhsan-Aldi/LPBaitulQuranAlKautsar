@@ -1,7 +1,6 @@
 <?= $this->extend('admin/layout/admin_layout') ?>
 
 <?= $this->section('content') ?>
-<div class="container mx-auto px-4 py-6">
 <!-- Header Section -->
 <div class="mb-8">
     <h1 class="text-3xl font-bold text-primary-dark mb-2">Pondok Pesantren Al-Kautsar</h1>
@@ -210,5 +209,4 @@ document.getElementById('resetFilter').addEventListener('click', function() {
     });
 });
 </script>
-</div>
 <?= $this->endSection() ?>
