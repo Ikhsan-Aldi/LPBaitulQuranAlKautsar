@@ -9,6 +9,7 @@ use App\Models\SantriModel;
 use App\Models\KegiatanModel;
 use App\Models\GelombangModel;
 use App\Models\PesanModel;
+use App\Models\KontakModel;
 
 
 class Admin extends BaseController
@@ -16,12 +17,14 @@ class Admin extends BaseController
     protected $pendaftaranModel;
     protected $gelombangModel;
     protected $pesanModel;
+    protected $kontakModel;
 
     public function __construct()
     {
         $this->pendaftaranModel = new PendaftaranModel();
         $this->gelombangModel = new GelombangModel();
-        $this->pesanModel = new PesanModel(); // Tambahkan ini
+        $this->pesanModel = new PesanModel();
+        $this->kontakModel = new KontakModel();
     }
 
     // Dashboard
@@ -1118,5 +1121,75 @@ class Admin extends BaseController
         ];
         
         return view('admin/galeri/detail', $data);
+    }
+
+    //PENGATURAN KONTAK
+    public function pengaturan()
+    {
+        $kontakModel = new KontakModel();
+        
+        // Ambil data kontak yang pertama (asumsi hanya ada satu record)
+        $kontak = $kontakModel->first();
+        
+        $data = [
+            'title' => 'Pengaturan Informasi Perusahaan',
+            'kontak' => $kontak
+        ];
+        
+        return view('admin/pengaturan/index', $data);
+    }
+
+    public function update_pengaturan()
+    {
+        $kontakModel = new KontakModel();
+        
+        // Ambil data yang ada
+        $existingData = $kontakModel->first();
+        
+        // Format nomor telepon dan WhatsApp
+        $telepon = $this->request->getPost('telepon');
+        $whatsapp = $this->request->getPost('whatsapp');
+        
+        // Fungsi untuk memformat nomor
+        $formatNomor = function($nomor) {
+            if (empty($nomor)) return $nomor;
+            
+            // Hapus semua spasi
+            $nomor = str_replace(' ', '', $nomor);
+            
+            // Jika diawali dengan 0, ganti dengan +62
+            if (substr($nomor, 0, 1) === '0') {
+                $nomor = '+62' . substr($nomor, 1);
+            }
+            // Jika diawali dengan 62, tambahkan +
+            elseif (substr($nomor, 0, 2) === '62') {
+                $nomor = '+' . $nomor;
+            }
+            // Jika belum ada +62, tambahkan
+            elseif (substr($nomor, 0, 3) !== '+62') {
+                $nomor = '+62' . $nomor;
+            }
+            
+            return $nomor;
+        };
+        
+        $data = [
+            'telepon'   => $formatNomor($telepon),
+            'whatsapp'  => $formatNomor($whatsapp),
+            'email'     => $this->request->getPost('email'),
+            'facebook'  => $this->request->getPost('facebook'),
+            'instagram' => $this->request->getPost('instagram'),
+            'tiktok'    => $this->request->getPost('tiktok'),
+            'alamat'    => $this->request->getPost('alamat')
+        ];
+        
+        // Jika data sudah ada, update. Jika belum, insert baru
+        if ($existingData) {
+            $kontakModel->update($existingData['id'], $data);
+        } else {
+            $kontakModel->insert($data);
+        }
+        
+        return redirect()->to('/admin/pengaturan')->with('success', 'Informasi perusahaan berhasil diperbarui');
     }
 }

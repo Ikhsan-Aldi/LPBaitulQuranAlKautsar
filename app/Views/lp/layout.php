@@ -455,28 +455,39 @@
                     </ul>
                 </div>
                 
-                <!-- Contact Info -->
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Kontak</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-start">
-                            <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
-                            <span class="text-teal-200">Jl. Ring Road Barat - Kel.Manguharjo Kec.Manguharjo, Kota Madiun, Jawa Timur</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone text-teal-400 mr-3"></i>
-                            <span class="text-teal-200">+62 812 3400 2350</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope text-teal-400 mr-3"></i>
-                            <span class="text-teal-200">info@baitulquran-alkautsar.org</span>
-                        </li>
-                        <!-- <li class="flex items-center">
-                            <i class="fas fa-clock text-teal-400 mr-3"></i>
-                            <span class="text-teal-200">Senin - Jumat: 08:00 - 17:00</span>
-                        </li> -->
-                    </ul>
-                </div>
+            <!-- Contact Info -->
+            <div>
+                <h3 class="text-lg font-bold mb-4">Kontak</h3>
+                <ul class="space-y-4">
+                    <?php if(isset($kontak['alamat']) && !empty($kontak['alamat'])): ?>
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt text-teal-400 mt-1 mr-3"></i>
+                        <span class="text-teal-200"><?= nl2br(htmlspecialchars($kontak['alamat'])) ?></span>
+                    </li>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($kontak['telepon']) && !empty($kontak['telepon'])): ?>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone text-teal-400 mr-3"></i>
+                        <span class="text-teal-200"><?= format_phone_number($kontak['telepon']) ?></span>
+                    </li>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($kontak['email']) && !empty($kontak['email'])): ?>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope text-teal-400 mr-3"></i>
+                        <span class="text-teal-200"><?= htmlspecialchars($kontak['email']) ?></span>
+                    </li>
+                    <?php endif; ?>
+                    
+                    <?php if(isset($kontak['whatsapp']) && !empty($kontak['whatsapp'])): ?>
+                    <li class="flex items-center">
+                        <i class="fab fa-whatsapp text-teal-400 mr-3"></i>
+                        <span class="text-teal-200"><?= format_phone_number($kontak['whatsapp']) ?></span>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
             </div>
         </div>
         
