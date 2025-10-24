@@ -13,6 +13,7 @@ class SantriModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
+        'id',
         'id_pendaftaran',
         'nama_lengkap',
         'jenis_kelamin',

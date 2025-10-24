@@ -269,7 +269,7 @@
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <h3 class="text-lg font-semibold text-primary-dark mb-4">Berkas Pendaftaran</h3>
                 <div class="space-y-3">
-                    <a href="<?= base_url('uploads/berkas/'.$pendaftar['ktp_ortu']) ?>" target="_blank" 
+                    <a href="<?= base_url('uploads/pendaftaran/'.$pendaftar['ktp_ortu']) ?>" target="_blank" 
                        class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
                         <div class="flex items-center space-x-3">
                             <div class="p-2 bg-blue-100 rounded-lg">
@@ -280,7 +280,7 @@
                         <i class="fa fa-external-link text-gray-400 group-hover:text-primary"></i>
                     </a>
 
-                    <a href="<?= base_url('uploads/berkas/'.$pendaftar['akta_kk']) ?>" target="_blank" 
+                    <a href="<?= base_url('uploads/pendaftaran/'.$pendaftar['akta_kk']) ?>" target="_blank" 
                        class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
                         <div class="flex items-center space-x-3">
                             <div class="p-2 bg-green-100 rounded-lg">
@@ -291,7 +291,7 @@
                         <i class="fa fa-external-link text-gray-400 group-hover:text-primary"></i>
                     </a>
 
-                    <a href="<?= base_url('uploads/berkas/'.$pendaftar['surat_ket_lulus']) ?>" target="_blank" 
+                    <a href="<?= base_url('uploads/pendaftaran/'.$pendaftar['surat_ket_lulus']) ?>" target="_blank" 
                        class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
                         <div class="flex items-center space-x-3">
                             <div class="p-2 bg-purple-100 rounded-lg">
@@ -302,7 +302,7 @@
                         <i class="fa fa-external-link text-gray-400 group-hover:text-primary"></i>
                     </a>
 
-                    <a href="<?= base_url('uploads/berkas/'.$pendaftar['ijazah_terakhir']) ?>" target="_blank" 
+                    <a href="<?= base_url('uploads/pendaftaran/'.$pendaftar['ijazah_terakhir']) ?>" target="_blank" 
                        class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
                         <div class="flex items-center space-x-3">
                             <div class="p-2 bg-orange-100 rounded-lg">
@@ -313,7 +313,7 @@
                         <i class="fa fa-external-link text-gray-400 group-hover:text-primary"></i>
                     </a>
 
-                    <a href="<?= base_url('uploads/berkas/'.$pendaftar['foto']) ?>" target="_blank" 
+                    <a href="<?= base_url('uploads/pendaftaran/'.$pendaftar['foto']) ?>" target="_blank" 
                        class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200 group">
                         <div class="flex items-center space-x-3">
                             <div class="p-2 bg-pink-100 rounded-lg">

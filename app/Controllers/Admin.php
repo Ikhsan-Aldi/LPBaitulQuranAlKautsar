@@ -302,10 +302,25 @@ class Admin extends BaseController
     public function santri_tambah()
     {
         $pendaftaranModel = new PendaftaranModel();
-        $data['pendaftaran'] = $pendaftaranModel->findAll();
+        $santriModel = new SantriModel();
+
+        $sudahJadiSantri = $santriModel->select('id_pendaftaran')
+                                    ->where('id_pendaftaran IS NOT NULL')
+                                    ->findColumn('id_pendaftaran');
+
+        $query = $pendaftaranModel->where('status', 'diterima');
+
+        if (!empty($sudahJadiSantri)) {
+            $query->whereNotIn('id_pendaftaran', $sudahJadiSantri);
+        }
+
+        $data['pendaftaran'] = $query->findAll();
         $data['title'] = 'Tambah Santri';
+
         return view('admin/santri/tambah', $data);
     }
+
+
 
     public function santri_simpan()
     {
@@ -315,33 +330,36 @@ class Admin extends BaseController
         $mode = $this->request->getPost('pilih_mode');
 
         if ($mode === 'pendaftaran' && !empty($id_pendaftaran)) {
-            // Mode: Import dari pendaftaran menggunakan method dari model
             $result = $santriModel->importFromPendaftaran($id_pendaftaran);
             
             if (!$result) {
                 return redirect()->back()->with('error', 'Gagal mengimpor data dari pendaftaran');
             }
             
-            // Update NIS dan status jika diinput manual
             $nis = $this->request->getPost('nis');
             $status = $this->request->getPost('status');
             
             if (!empty($nis) || !empty($status)) {
-                $updateData = [];
-                if (!empty($nis)) {
-                    // Validasi NIS unik
-                    if ($santriModel->isNISExist($nis, $result['id'])) {
-                        $santriModel->delete($result['id']); // Hapus data yang baru dibuat
-                        return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
-                    }
-                    $updateData['nis'] = $nis;
+            $updateData = [];
+            $santriId = $result['id'] ?? null; 
+
+            if (!empty($nis)) {
+                if ($santriId && $santriModel->isNISExist($nis, $santriId)) {
+                    $santriModel->delete($santriId); 
+                    return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
                 }
-                if (!empty($status)) {
-                    $updateData['status'] = $status;
-                }
-                
-                $santriModel->update($result['id'], $updateData);
+                $updateData['nis'] = $nis;
             }
+
+            if (!empty($status)) {
+                $updateData['status'] = $status;
+            }
+
+            if ($santriId) {
+                $santriModel->update($santriId, $updateData);
+            }
+        }
+
             
         } else {
             // Mode: Input manual
@@ -370,7 +388,6 @@ class Admin extends BaseController
             ];
 
             try {
-                // Validasi NIS unik
                 if ($santriModel->isNISExist($data['nis'])) {
                     return redirect()->back()->withInput()->with('error', 'NIS sudah digunakan oleh santri lain');
                 }
