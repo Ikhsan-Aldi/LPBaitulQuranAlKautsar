@@ -201,6 +201,21 @@
                         Isi form berikut untuk mengirim pertanyaan atau permintaan informasi
                     </p>
 
+
+                    <!-- Flash Message -->
+                    <?php if (session()->getFlashdata('error')): ?>
+                        <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                            <strong class="font-semibold">Gagal!</strong><br>
+                            <?= session()->getFlashdata('error') ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (session()->getFlashdata('success')): ?>
+                        <div class="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                            <strong class="font-semibold">Berhasil!</strong><br>
+                            <?= session()->getFlashdata('success') ?>
+                        </div>
+                    <?php endif; ?>
                     <form action="<?= base_url('kirim-pesan') ?>" method="post" class="space-y-6">
                         <?= csrf_field() ?>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
