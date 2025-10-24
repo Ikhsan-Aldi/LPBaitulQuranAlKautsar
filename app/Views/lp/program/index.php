@@ -215,7 +215,7 @@
                                 <div class="group text-center">
                                     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#017077]/30">
                                         <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#017077]/20 transition-colors duration-300">
-                                            <i class="fas fa-<?= esc($item['icon']) ?> text-[#017077] text-lg"></i>
+                                            <i class="<?= esc($item['icon'])?> text-[#017077]"></i>
                                         </div>
                                         <h4 class="font-semibold text-gray-800 text-sm group-hover:text-[#017077] transition-colors duration-300">
                                             <?= esc($item['nama_ekstrakurikuler']) ?>
