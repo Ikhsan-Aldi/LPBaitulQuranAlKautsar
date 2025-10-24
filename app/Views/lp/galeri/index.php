@@ -47,17 +47,15 @@
                         <div class="gallery-item group" data-category="<?= $item['kategori'] ?>">
                             <div class="relative overflow-hidden bg-gray-200 transition-all duration-500 group-hover:shadow-2xl rounded-lg">
                                  <?php 
-                                    // Tentukan folder sesuai kategori
                                     $folder = ($item['kategori'] === 'kegiatan') 
                                         ? 'uploads/kegiatan/' 
                                         : 'uploads/galeri/';
-                                    
-                                    $imagePath = !empty($item['gambar']) ? base_url($folder . $item['gambar']) : null;
+                                    $imagePath = base_url($folder . $item['gambar']);
                                 ?>
 
                                 <div class="relative aspect-[16/9] overflow-hidden cursor-zoom-in"
                                     onclick="openLightbox(this)"
-                                    data-image="<?= esc($imagePath ?? '') ?>"
+                                    data-image="<?= esc($imagePath) ?>"
                                     data-title="<?= esc($item['judul']) ?>"
                                     data-description="<?= esc($item['deskripsi'] ?: 'Tidak ada deskripsi') ?>"
                                     data-date="<?= isset($item['tanggal']) ? date('d M Y', strtotime($item['tanggal'])) : '-' ?>"
