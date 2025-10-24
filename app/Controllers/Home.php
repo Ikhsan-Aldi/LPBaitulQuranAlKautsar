@@ -70,15 +70,31 @@ class Home extends BaseController
     public function galeri()
     {
         $galeriModel = new \App\Models\GaleriModel();
+        $kegiatanModel = new \App\Models\KegiatanModel();
+        $fotoModel = new \App\Models\KegiatanFotoModel();
+
+        // Ambil galeri aktif seperti biasa
         $galeri = $galeriModel->getAktif();
-        
+
+        // Ambil kegiatan beserta foto utama
+        $kegiatan = $kegiatanModel->findAll();
+
+        foreach ($kegiatan as &$row) {
+            $foto = $fotoModel->where('id_kegiatan', $row['id'])->first();
+            $row['gambar'] = $foto ? $foto['file_name'] : null;
+            $row['kategori'] = 'kegiatan';
+            $row['judul'] = $row['judul'];
+            $row['deskripsi'] = $row['deskripsi'];
+        }
+
+        // Gabungkan data galeri dan kegiatan
         $data = [
             'title' => 'Galeri - Baitul Quran Al-Kautsar',
-            'galeri' => $galeri
+            'galeri' => array_merge($galeri, $kegiatan)
         ];
+
         return view('lp/galeri/index', $data);
     }
-
 
         // Method untuk form pendaftaran
         public function formPendaftaran()
