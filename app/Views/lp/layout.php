@@ -13,7 +13,9 @@
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <!-- Include GLightbox CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+<script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <style>
         /* Custom styles */
         .navbar-transition {
@@ -189,7 +191,7 @@
 </head>
 <body class="bg-white text-gray-800">
     <!-- Header Section -->
-    <header class="fixed w-full z-50 navbar-transition" id="navbar">
+    <header class="fixed w-full navbar-transition" id="navbar">
         <nav class="bg-transparent navbar-transition" id="nav">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex justify-between items-center py-4">
