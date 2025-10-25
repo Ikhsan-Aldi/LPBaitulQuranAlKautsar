@@ -2,18 +2,18 @@
 
 <?= $this->section('content') ?>
 <!-- Hero Section -->
-<section class="relative min-h-[40vh] flex items-center overflow-hidden bg-gradient-to-r from-[#017077] to-[#005359]">
+<section class="relative min-h-[30vh] sm:min-h-[40vh] flex items-center overflow-hidden bg-gradient-to-r from-[#017077] to-[#005359]">
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-black/40"></div>
         <img src="<?= base_url('assets/img/hero-2.jpg') ?>" alt="Program Pesantren" class="w-full h-full object-cover">
     </div>
     
-    <div class="max-w-7xl mx-auto px-6 py-20 relative z-10 w-full text-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20 relative z-10 w-full text-center">
         <div class="max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 arabic-font">
+            <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white mb-3 sm:mb-4 arabic-font">
                 Program Pesantren
             </h1>
-            <p class="text-xl text-white/90 leading-relaxed">
+            <p class="text-sm sm:text-base md:text-lg lg:text-xl text-white/90 leading-relaxed">
                 Program terpadu untuk membentuk generasi Qur'ani yang berakhlak mulia dan berprestasi
             </p>
         </div>
@@ -21,162 +21,161 @@
 </section>
 
 <!-- Program Unggulan Section -->
-<section class="py-4 bg-white">
-    <div class="max-w-7xl mx-auto px-6">
-        
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Program 1 -->
-        <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
-            <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                <i class="fas fa-quran text-[#017077] text-2xl"></i>
+<section class="py-8 sm:py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+            <!-- Program 1 -->
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
+                <div class="bg-[#017077]/10 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto">
+                    <i class="fas fa-quran text-[#017077] text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl"></i>
+                </div>
+                <h3 class="text-base sm:text-lg md:text-lg lg:text-xl font-bold text-[#017077] mb-3 sm:mb-4 text-center">Tahfizh Qur'an</h3>
+                <p class="text-gray-600 text-xs sm:text-sm md:text-sm lg:text-base text-center">
+                    Program unggulan hafalan Al-Qur'an dengan bimbingan intensif dan metode yang efektif.
+                </p>
             </div>
-            <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Tahfizh Qur’an</h3>
-            <p class="text-gray-600 text-center">
-                Program unggulan hafalan Al-Qur’an dengan bimbingan intensif dan metode yang efektif.
-            </p>
-        </div>
 
-        <!-- Program 2 -->
-        <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
-            <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                <i class="fas fa-graduation-cap text-[#017077] text-2xl"></i>
+            <!-- Program 2 -->
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
+                <div class="bg-[#017077]/10 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto">
+                    <i class="fas fa-graduation-cap text-[#017077] text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl"></i>
+                </div>
+                <h3 class="text-base sm:text-lg md:text-lg lg:text-xl font-bold text-[#017077] mb-3 sm:mb-4 text-center">Pendidikan Formal & Non Formal</h3>
+                <p class="text-gray-600 text-xs sm:text-sm md:text-sm lg:text-base text-center">
+                    Pendidikan formal SMP-SMA dan non formal Dirosah Islamiyah dalam sistem pesantren terpadu.
+                </p>
             </div>
-            <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Pendidikan Formal & Non Formal</h3>
-            <p class="text-gray-600 text-center">
-                Pendidikan formal SMP–SMA dan non formal Dirosah Islamiyah dalam sistem pesantren terpadu.
-            </p>
-        </div>
 
-        <!-- Program 3 -->
-        <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
-            <div class="bg-[#017077]/10 w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                <i class="fas fa-book-reader text-[#017077] text-2xl"></i>
+            <!-- Program 3 -->
+            <div class="bg-white rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 md:p-8 hover:shadow-xl transition-shadow duration-300 border border-[#017077]/10">
+                <div class="bg-[#017077]/10 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 sm:mb-6 mx-auto">
+                    <i class="fas fa-book-reader text-[#017077] text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl"></i>
+                </div>
+                <h3 class="text-base sm:text-lg md:text-lg lg:text-xl font-bold text-[#017077] mb-3 sm:mb-4 text-center">Kajian & Pembinaan</h3>
+                <p class="text-gray-600 text-xs sm:text-sm md:text-sm lg:text-base text-center">
+                    Kajian kitab dan pembinaan karakter santri untuk membentuk pribadi Qur'ani dan mandiri.
+                </p>
             </div>
-            <h3 class="text-xl font-bold text-[#017077] mb-4 text-center">Kajian & Pembinaan</h3>
-            <p class="text-gray-600 text-center">
-                Kajian kitab dan pembinaan karakter santri untuk membentuk pribadi Qur’ani dan mandiri.
-            </p>
         </div>
-    </div>
     </div>
 </section>
 
 <!-- Detail Program Section -->
-<section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6">
+<section class="py-8 sm:py-12 md:py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <!-- Tab Navigation -->
-        <div class="flex flex-wrap justify-center gap-2">
-            <button class="tab-button w-48 px-6 py-4 rounded-lg bg-white text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-50 text-center border border-gray-200 shadow-sm" data-tab="kegiatan-harian">
-                <i class="fas fa-clock mr-3"></i>Kegiatan Harian
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-8">
+            <button class="tab-button w-full sm:w-40 md:w-48 px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-600 font-semibold text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-50 text-center border border-gray-200 shadow-sm" data-tab="kegiatan-harian">
+                <i class="fas fa-clock mr-2 sm:mr-3"></i>Kegiatan Harian
             </button>
-            <button class="tab-button w-48 px-6 py-4 rounded-lg bg-white text-gray-600 font-semibold text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-50 text-center border border-gray-200 shadow-sm" data-tab="ekstrakurikuler">
-                <i class="fas fa-futbol mr-3"></i>Ekstrakurikuler
+            <button class="tab-button w-full sm:w-40 md:w-48 px-4 py-3 sm:py-4 rounded-lg bg-white text-gray-600 font-semibold text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 hover:bg-gray-50 text-center border border-gray-200 shadow-sm" data-tab="ekstrakurikuler">
+                <i class="fas fa-futbol mr-2 sm:mr-3"></i>Ekstrakurikuler
             </button>
         </div>
 
         <!-- Tab Content Container -->
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl overflow-hidden">
             
             <!-- Kegiatan Harian Tab -->
-            <div class="tab-content p-8 md:p-12" id="kegiatan-harian-tab">
+            <div class="tab-content p-4 sm:p-6 md:p-8 lg:p-12" id="kegiatan-harian-tab">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-10">
-                        <p class="text-[#017077] max-w-2xl mx-auto text-lg">
+                    <div class="text-center mb-6 sm:mb-8 md:mb-10">
+                        <p class="text-[#017077] max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg">
                             Jadwal terstruktur 24 jam untuk membentuk disiplin, karakter, dan spiritualitas santri
                         </p>
                     </div>
 
                     <!-- Daily Schedule Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                         <!-- Morning Activities -->
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold text-[#017077] mb-4 flex items-center">
-                                <i class="fas fa-sun mr-2"></i>Pagi Hari
+                        <div class="space-y-3 sm:space-y-4">
+                            <h3 class="text-sm sm:text-base md:text-lg font-bold text-[#017077] mb-3 sm:mb-4 flex items-center justify-center sm:justify-start">
+                                <i class="fas fa-sun mr-2 text-xs sm:text-sm md:text-base"></i>Pagi Hari
                             </h3>
-                            <div class="space-y-3">
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">03.00 - 03.30</span>
+                            <div class="space-y-2 sm:space-y-3">
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">03.00 - 03.30</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Bangun tidur & persiapan tahajjud</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Bangun tidur & persiapan tahajjud</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">03.30 - 04.30</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">03.30 - 04.30</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Tahajjud, Sholat Shubuh berjama'ah</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Tahajjud, Sholat Shubuh berjama'ah</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">04.30 - 06.00</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">04.30 - 06.00</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Halaqah Tahfidz I</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Halaqah Tahfidz I</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">07.30 - 11.30</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">07.30 - 11.30</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Kegiatan Belajar Mengajar Formal</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Kegiatan Belajar Mengajar Formal</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Afternoon Activities -->
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold text-[#017077] mb-4 flex items-center">
-                                <i class="fas fa-cloud-sun mr-2"></i>Siang & Sore
+                        <div class="space-y-3 sm:space-y-4">
+                            <h3 class="text-sm sm:text-base md:text-lg font-bold text-[#017077] mb-3 sm:mb-4 flex items-center justify-center sm:justify-start">
+                                <i class="fas fa-cloud-sun mr-2 text-xs sm:text-sm md:text-base"></i>Siang & Sore
                             </h3>
-                            <div class="space-y-3">
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">11.30 - 13.00</span>
+                            <div class="space-y-2 sm:space-y-3">
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">11.30 - 13.00</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Sholat Dhuhur, Muroja'ah Tahfidz</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Sholat Dhuhur, Muroja'ah Tahfidz</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">13.00 - 14.45</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">13.00 - 14.45</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Makan siang, Istirahat Siang</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Makan siang, Istirahat Siang</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">15.30 - 17.00</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">15.30 - 17.00</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Halaqoh Tahfidz II / Ekstrakurikuler</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Halaqoh Tahfidz II / Ekstrakurikuler</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Evening Activities -->
-                        <div class="space-y-4">
-                            <h3 class="text-lg font-bold text-[#017077] mb-4 flex items-center">
-                                <i class="fas fa-moon mr-2"></i>Malam Hari
+                        <div class="space-y-3 sm:space-y-4">
+                            <h3 class="text-sm sm:text-base md:text-lg font-bold text-[#017077] mb-3 sm:mb-4 flex items-center justify-center sm:justify-start">
+                                <i class="fas fa-moon mr-2 text-xs sm:text-sm md:text-base"></i>Malam Hari
                             </h3>
-                            <div class="space-y-3">
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">17.30 - 18.45</span>
+                            <div class="space-y-2 sm:space-y-3">
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">17.30 - 18.45</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Sholat Maghrib, Kajian Kitab</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Sholat Maghrib, Kajian Kitab</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">18.45 - 20.00</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">18.45 - 20.00</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Sholat Isya', Makan malam</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Sholat Isya', Makan malam</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">20.00 - 21.30</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">20.00 - 21.30</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Belajar malam / Halaqah Tahfidz</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Belajar malam / Halaqah Tahfidz</p>
                                 </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <span class="text-sm font-semibold text-[#017077]">21.30 - 03.00</span>
+                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">21.30 - 03.00</span>
                                     </div>
-                                    <p class="text-gray-700 text-sm">Istirahat malam</p>
+                                    <p class="text-gray-700 text-xs sm:text-sm">Istirahat malam</p>
                                 </div>
                             </div>
                         </div>
@@ -185,68 +184,68 @@
             </div>
 
             <!-- Ekstrakurikuler Tab -->
-            <div class="tab-content hidden p-8 md:p-12" id="ekstrakurikuler-tab">
+            <div class="tab-content hidden p-4 sm:p-6 md:p-8 lg:p-12" id="ekstrakurikuler-tab">
                 <div class="max-w-6xl mx-auto">
-                    <div class="text-center mb-10">
-                        <p class="text-[#017077] max-w-2xl mx-auto text-lg">
+                    <div class="text-center mb-6 sm:mb-8 md:mb-10">
+                        <p class="text-[#017077] max-w-2xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg">
                             Berbagai kegiatan untuk mengembangkan bakat, minat, dan life skills santri
                         </p>
                     </div>
 
                     <!-- Ekstrakurikuler Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
                         <?php if (!empty($ekstrakurikuler)): ?>
                             <?php foreach ($ekstrakurikuler as $item): ?>
                                 <div class="group text-center">
-                                    <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#017077]/30">
-                                        <div class="bg-[#017077]/10 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 group-hover:bg-[#017077]/20 transition-colors duration-300">
-                                            <i class="<?= esc($item['icon'])?> text-[#017077]"></i>
+                                    <div class="bg-white rounded-lg sm:rounded-xl shadow-sm border border-gray-200 p-2 sm:p-3 md:p-4 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:border-[#017077]/30">
+                                        <div class="bg-[#017077]/10 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center mx-auto mb-2 sm:mb-3 group-hover:bg-[#017077]/20 transition-colors duration-300">
+                                            <i class="<?= esc($item['icon'])?> text-[#017077] text-xs sm:text-sm md:text-base"></i>
                                         </div>
-                                        <h4 class="font-semibold text-gray-800 text-sm group-hover:text-[#017077] transition-colors duration-300">
+                                        <h4 class="font-semibold text-gray-800 text-xs sm:text-sm group-hover:text-[#017077] transition-colors duration-300 leading-tight">
                                             <?= esc($item['nama_ekstrakurikuler']) ?>
                                         </h4>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <div class="col-span-full text-center text-gray-500 py-8">
+                            <div class="col-span-full text-center text-gray-500 py-6 sm:py-8 text-xs sm:text-sm md:text-base">
                                 Belum ada data ekstrakurikuler.
                             </div>
                         <?php endif; ?>
                     </div>
 
                     <!-- Benefits Section -->
-                    <div class="mt-12 bg-gradient-to-r from-[#017077] to-[#005359] rounded-2xl p-8 text-white">
-                        <div class="text-center mb-8">
-                            <h3 class="text-2xl font-bold mb-4">Manfaat Ekstrakurikuler</h3>
-                            <p class="text-white/80 max-w-2xl mx-auto">
+                    <div class="mt-8 sm:mt-10 md:mt-12 bg-gradient-to-r from-[#017077] to-[#005359] rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-white">
+                        <div class="text-center mb-6 sm:mb-8">
+                            <h3 class="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-3 sm:mb-4">Manfaat Ekstrakurikuler</h3>
+                            <p class="text-white/80 max-w-2xl mx-auto text-xs sm:text-sm md:text-base">
                                 Mengembangkan potensi santri secara holistik melalui berbagai kegiatan positif
                             </p>
                         </div>
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                             <div class="text-center">
-                                <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-brain text-2xl"></i>
+                                <div class="bg-white/20 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                                    <i class="fas fa-brain text-base sm:text-lg md:text-xl lg:text-2xl"></i>
                                 </div>
-                                <h4 class="font-bold text-lg mb-2">Pengembangan Bakat</h4>
-                                <p class="text-white/80 text-sm">Mengasah talenta dan minat santri</p>
+                                <h4 class="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Pengembangan Bakat</h4>
+                                <p class="text-white/80 text-xs sm:text-sm">Mengasah talenta dan minat santri</p>
                             </div>
                             
                             <div class="text-center">
-                                <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-users text-2xl"></i>
+                                <div class="bg-white/20 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                                    <i class="fas fa-users text-base sm:text-lg md:text-xl lg:text-2xl"></i>
                                 </div>
-                                <h4 class="font-bold text-lg mb-2">Sosialisasi</h4>
-                                <p class="text-white/80 text-sm">Membangun jaringan dan kerja sama</p>
+                                <h4 class="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Sosialisasi</h4>
+                                <p class="text-white/80 text-xs sm:text-sm">Membangun jaringan dan kerja sama</p>
                             </div>
                             
                             <div class="text-center">
-                                <div class="bg-white/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <i class="fas fa-trophy text-2xl"></i>
+                                <div class="bg-white/20 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                                    <i class="fas fa-trophy text-base sm:text-lg md:text-xl lg:text-2xl"></i>
                                 </div>
-                                <h4 class="font-bold text-lg mb-2">Prestasi</h4>
-                                <p class="text-white/80 text-sm">Mencapai prestasi di berbagai bidang</p>
+                                <h4 class="font-bold text-sm sm:text-base md:text-lg mb-1 sm:mb-2">Prestasi</h4>
+                                <p class="text-white/80 text-xs sm:text-sm">Mencapai prestasi di berbagai bidang</p>
                             </div>
                         </div>
                     </div>
@@ -255,6 +254,7 @@
         </div>
     </div>
 </section>
+
 <script>
 // Fungsi untuk switch tab
 function switchTab(targetTab) {
@@ -358,6 +358,19 @@ document.head.appendChild(style);
 /* Smooth hover effects */
 .group:hover .group-hover\:scale-105 {
     transform: scale(1.05);
+}
+
+/* Responsive text adjustments */
+@media (max-width: 640px) {
+    .arabic-font {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .arabic-font {
+        font-size: 1.25rem;
+    }
 }
 </style>
 <?= $this->endSection() ?>
