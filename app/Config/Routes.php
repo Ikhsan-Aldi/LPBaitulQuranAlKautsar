@@ -97,6 +97,7 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     // Pesan
     $routes->get('pesan', 'Admin::pesan');
     $routes->get('pesan/detail/(:num)', 'Admin::detailPesan/$1');
+    $routes->post('pesan/update-status/(:num)', 'Admin::updateStatus/$1');
     $routes->get('pesan/hapus/(:num)', 'Admin::hapusPesan/$1');
 
     // Galeri
