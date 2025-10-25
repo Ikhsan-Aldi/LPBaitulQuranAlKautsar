@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Models\GelombangModel;
 use App\Models\EkstrakurikulerModel;
+use App\Models\BeritaModel;
 
 class Home extends BaseController
 {
@@ -112,7 +113,7 @@ class Home extends BaseController
 
         return view('lp/galeri/index', $data);
     }
-        
+
         // Method untuk form pendaftaran
         public function formPendaftaran()
         {
@@ -298,5 +299,28 @@ class Home extends BaseController
             session()->setFlashdata('success', 'Pesan Anda berhasil dikirim.');
             return redirect()->to(base_url('kontak'));
         }
+
+        public function berita()
+    {
+        $model = new BeritaModel();
+        $data['berita'] = $model->orderBy('created_at', 'DESC')->findAll();
+        $data['title'] = 'Berita Terbaru';
+        return view('lp/berita/index', $data);
+    }
+
+    public function berita_detail($slug)
+    {
+        $model = new BeritaModel();
+        $berita = $model->where('slug', $slug)->first();
+
+        if (!$berita) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("Berita tidak ditemukan.");
+        }
+
+        $data['berita'] = $berita;
+        $data['title'] = $berita['judul'];
+
+        return view('lp/berita/detail', $data);
+    }
 
 }

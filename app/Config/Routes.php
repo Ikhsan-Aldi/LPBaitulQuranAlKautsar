@@ -19,6 +19,9 @@ $routes->get('pendaftaran', 'Home::pendaftaran');
 $routes->get('pendaftaran/form', 'Home::formPendaftaran');
 $routes->post('pendaftaran/simpan', 'Home::simpanPendaftaran');
 $routes->get('pendaftaran/success', 'Home::successPendaftaran');
+$routes->get('berita', 'Home::berita');
+$routes->get('berita/(:segment)', 'Home::berita_detail/$1');
+
 
 // ADMIN ROUTES
 
@@ -105,8 +108,19 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('galeri/hapus/(:num)', 'Admin::galeri_hapus/$1');
     $routes->get('galeri/detail/(:num)', 'Admin::galeri_detail/$1');
 
+    // Pengaturan
     $routes->get('pengaturan', 'Admin::pengaturan');
     $routes->post('pengaturan/update', 'Admin::update_pengaturan');
+
+    // Berita
+    $routes->get('berita', 'Admin::berita');
+    $routes->get('berita/create', 'Admin::berita_create');
+    $routes->post('berita/store', 'Admin::berita_store');
+    $routes->get('berita/edit/(:num)', 'Admin::berita_edit/$1');
+    $routes->post('berita/update/(:num)', 'Admin::berita_update/$1');
+    $routes->get('berita/delete/(:num)', 'Admin::berita_delete/$1');
+    $routes->get('berita/detail/(:num)', 'Admin::berita_detail/$1');
+
 });
 
 
