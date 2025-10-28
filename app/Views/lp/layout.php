@@ -391,25 +391,7 @@
     </main>
 
     <!-- Footer Section -->
-    <footer class="bg-teal-900 text-white section-pattern">
-        <!-- CTA Section -->
-        <section class="py-16 bg-gradient-to-r from-[#017077] to-[#005359]">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Tertarik Bergabung?</h2>
-                <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                    Jangan lewatkan kesempatan untuk menjadi bagian dari keluarga besar Baitul Quran Al-Kautsar
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="<?= base_url('pendaftaran') ?>" class="bg-white text-teal-700 font-bold px-6 sm:px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
-                        <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
-                    </a>
-                    <a href="<?= base_url('program') ?>" class="border-2 border-white text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 inline-flex items-center justify-center">
-                        <i class="fas fa-book-open mr-2"></i>Lihat Program
-                    </a>
-                </div>
-            </div>
-        </section>
-        
+    <footer class="bg-teal-900 text-white section-pattern">        
         <!-- Footer Links -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">

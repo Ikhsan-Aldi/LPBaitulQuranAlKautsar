@@ -9,19 +9,24 @@ class Home extends BaseController
 {
     protected $gelombangModel;
     protected $pendaftaranModel;
+    protected $beritaModel;
 
     public function __construct()
     {
         $this->gelombangModel = new \App\Models\GelombangModel();
         $this->pendaftaranModel = new \App\Models\PendaftaranModel();
+        $this->beritaModel = new \App\Models\BeritaModel(); 
     }
+
     public function index()
     {
         $data = [
-            'title' => 'Beranda - Baitul Quran Al-Kautsar'
+            'title' => 'Beranda - Baitul Quran Al-Kautsar',
+            'berita' => $this->beritaModel->getRecent(3)
         ];
         return view('lp/home/index', $data);
     }
+
 
     public function tentang()
     {

@@ -123,6 +123,20 @@
     }
 }
 
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 </style>
 
 <!-- Hero Section dengan Gambar Full Height -->
@@ -233,6 +247,125 @@
                 <span>Lihat Semua Program</span>
             </a>
         </div>
+    </div>
+</section>
+
+        
+<section class="py-16 bg-gradient-to-r from-[#017077] to-[#005359]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Tertarik Bergabung?</h2>
+                <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+                    Jangan lewatkan kesempatan untuk menjadi bagian dari keluarga besar Baitul Quran Al-Kautsar
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="<?= base_url('pendaftaran') ?>" class="bg-white text-teal-700 font-bold px-6 sm:px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
+                        <i class="fas fa-user-plus mr-2"></i>Daftar Sekarang
+                    </a>
+                    <a href="<?= base_url('program') ?>" class="border-2 border-white text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 inline-flex items-center justify-center">
+                        <i class="fas fa-book-open mr-2"></i>Lihat Program
+                    </a>
+                </div>
+            </div>
+</section>
+
+<!-- Latest News Section -->
+<section class="section-padding py-16 sm:py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto container-padding px-4 sm:px-6">
+        <div class="text-center mb-12 sm:mb-16">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#017077] mb-4">Berita Terbaru</h2>
+            <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+                Informasi terkini seputar kegiatan dan perkembangan Pondok Pesantren Al-Kautsar
+            </p>
+        </div>
+        
+        <?php if (!empty($berita)): ?>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <?php foreach ($berita as $item): ?>
+            <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+                <!-- Image Container -->
+                <div class="relative overflow-hidden">
+                    <?php if (!empty($item['foto'])): ?>
+                    <img src="<?= base_url('uploads/berita/'.$item['foto']) ?>" 
+                         alt="<?= esc($item['judul']) ?>" 
+                         class="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500">
+                    <?php else: ?>
+                    <div class="w-full h-48 sm:h-56 bg-gradient-to-br from-[#017077]/20 to-[#017077]/10 flex items-center justify-center">
+                        <i class="fa fa-newspaper text-[#017077] text-4xl opacity-50"></i>
+                    </div>
+                    <?php endif; ?>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="absolute top-4 left-4">
+                        <span class="bg-[#017077] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                            Berita
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-6">
+                    <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#017077] transition-colors duration-200 leading-tight">
+                        <a href="<?= base_url('berita/'.$item['slug']) ?>" class="hover:underline">
+                            <?= esc($item['judul']) ?>
+                        </a>
+                    </h3>
+                    
+                    <?php if (!empty($item['excerpt'])): ?>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                        <?= esc(strip_tags($item['excerpt'])) ?>
+                    </p>
+                    <?php else: ?>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                        <?= esc(strip_tags(mb_substr($item['isi'], 0, 120))) ?>...
+                    </p>
+                    <?php endif; ?>
+
+                    <!-- Meta Info -->
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <div class="flex items-center space-x-3 text-xs text-gray-500">
+                            <div class="flex items-center space-x-1">
+                                <i class="fa fa-user text-[#017077] text-xs"></i>
+                                <span><?= esc($item['penulis']) ?></span>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                <i class="fa fa-calendar text-[#017077] text-xs"></i>
+                                <span><?= date('d M Y', strtotime($item['created_at'] ?? $item['tanggal'])) ?></span>
+                            </div>
+                        </div>
+                        
+                        <a href="<?= base_url('berita/'.$item['slug']) ?>" 
+                           class="inline-flex items-center text-[#017077] hover:text-[#005359] font-semibold text-sm transition-colors duration-200 group/link">
+                            Baca
+                            <i class="fa fa-arrow-right ml-1 transform group-hover/link:translate-x-1 transition-transform duration-200 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- View All News Button -->
+        <div class="text-center mt-12 sm:mt-16">
+            <a href="<?= base_url('berita') ?>" 
+               class="inline-flex items-center border-2 border-[#017077] text-[#017077] font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-[#017077] hover:text-white transition-colors duration-300">
+                <i class="fas fa-newspaper mr-2 sm:mr-3"></i>
+                <span>Lihat Semua Berita</span>
+            </a>
+        </div>
+        <?php else: ?>
+        <!-- Empty State -->
+        <div class="text-center py-12 sm:py-16">
+            <div class="bg-white rounded-2xl shadow-sm p-8 max-w-md mx-auto">
+                <i class="fa fa-newspaper text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Belum Ada Berita</h3>
+                <p class="text-gray-500 mb-4">Saat ini belum ada berita yang dipublikasikan.</p>
+                <a href="<?= base_url('admin/berita') ?>" 
+                   class="inline-flex items-center text-[#017077] hover:text-[#005359] font-semibold text-sm">
+                    <i class="fa fa-plus mr-2"></i>
+                    <span>Tambah Berita</span>
+                </a>
+            </div>
+        </div>
+        <?php endif; ?>
     </div>
 </section>
 
