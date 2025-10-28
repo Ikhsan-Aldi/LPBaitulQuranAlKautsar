@@ -981,15 +981,15 @@ class Admin extends BaseController
         $status = $this->request->getPost('status');
         
         if (!in_array($status, ['dibaca', 'belum_dibaca'])) {
-            return $this->response->setJSON(['success' => false, 'message' => 'Status tidak valid']);
+            return redirect()->back()->with('error', 'Status tidak valid');
         }
         
         $updated = $this->pesanModel->update($id, ['status' => $status]);
         
         if ($updated) {
-            return $this->response->setJSON(['success' => true, 'message' => 'Status berhasil diupdate']);
+            return redirect()->back()->with('success', 'Status berhasil diupdate');
         } else {
-            return $this->response->setJSON(['success' => false, 'message' => 'Gagal update status']);
+            return redirect()->back()->with('error', 'Gagal update status');
         }
     }
 

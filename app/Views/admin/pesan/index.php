@@ -42,7 +42,15 @@
 
     <!-- Filter & Search -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Filter Status</label>
+                <select id="filterStatus" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <option value="">Semua Status</option>
+                    <option value="dibaca" <?= $current_status === 'dibaca' ? 'selected' : '' ?>>Sudah Dibaca</option>
+                    <option value="belum_dibaca" <?= $current_status === 'belum_dibaca' ? 'selected' : '' ?>>Belum Dibaca</option>
+                </select>
+            </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Filter Subjek</label>
                 <select id="filterSubjek" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
@@ -73,6 +81,7 @@
                 <thead class="bg-primary-dark text-white">
                     <tr>
                         <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider w-12">No</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider w-8">Status</th>
                         <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider w-40">Pengirim</th>
                         <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider w-40">Kontak</th>
                         <th class="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider w-28">Subjek</th>
@@ -84,7 +93,7 @@
                 <tbody class="bg-white divide-y divide-gray-200" id="pesanTable">
                     <?php if (empty($pesan)): ?>
                         <tr>
-                            <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                            <td colspan="8" class="px-6 py-8 text-center text-gray-500">
                                 <div class="flex flex-col items-center">
                                     <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
                                     <p class="text-lg font-medium text-gray-500">Belum ada pesan</p>
@@ -95,8 +104,24 @@
                     <?php else: ?>
                         <?php $no = 1; ?>
                         <?php foreach ($pesan as $item): ?>
-                            <tr class="hover:bg-gray-50 transition-colors duration-150 pesan-item" data-subjek="<?= $item['subjek'] ?>">
+                            <tr class="hover:bg-gray-50 transition-colors duration-150 pesan-item <?= $item['status'] === 'belum_dibaca' ? 'bg-blue-50' : '' ?>" 
+                                data-subjek="<?= $item['subjek'] ?>" 
+                                data-status="<?= $item['status'] ?>">
                                 <td class="px-4 py-3 text-center text-sm text-gray-900 w-12"><?= $no++ ?></td>
+                                <td class="px-4 py-3 text-center w-8">
+                                    <div class="relative group">
+                                        <?php if ($item['status'] === 'belum_dibaca'): ?>
+                                            <i class="fas fa-envelope text-red-500" title="Belum Dibaca"></i>
+                                        <?php else: ?>
+                                            <i class="fas fa-envelope-open text-green-500" title="Sudah Dibaca"></i>
+                                        <?php endif; ?>
+                                        <!-- Tooltip -->
+                                        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-10">
+                                            <?= $item['status'] === 'belum_dibaca' ? 'Belum Dibaca' : 'Sudah Dibaca' ?>
+                                            <div class="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800"></div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="px-4 py-3 truncate w-40">
                                     <div class="flex items-center min-w-0">
                                         <div class="bg-primary text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0">
@@ -168,23 +193,27 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const filterStatus = document.getElementById('filterStatus');
     const filterSubjek = document.getElementById('filterSubjek');
     const searchPesan = document.getElementById('searchPesan');
     const resetFilter = document.getElementById('resetFilter');
     const pesanItems = document.querySelectorAll('.pesan-item');
 
     function filterPesan() {
+        const statusValue = filterStatus.value.toLowerCase();
         const subjekValue = filterSubjek.value.toLowerCase();
         const searchValue = searchPesan.value.toLowerCase();
 
         pesanItems.forEach(item => {
+            const itemStatus = item.getAttribute('data-status');
             const itemSubjek = item.getAttribute('data-subjek');
             const itemText = item.textContent.toLowerCase();
 
+            const statusMatch = !statusValue || itemStatus === statusValue;
             const subjekMatch = !subjekValue || itemSubjek === subjekValue;
             const searchMatch = !searchValue || itemText.includes(searchValue);
 
-            if (subjekMatch && searchMatch) {
+            if (statusMatch && subjekMatch && searchMatch) {
                 item.style.display = '';
             } else {
                 item.style.display = 'none';
@@ -192,14 +221,19 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    filterStatus.addEventListener('change', filterPesan);
     filterSubjek.addEventListener('change', filterPesan);
     searchPesan.addEventListener('input', filterPesan);
 
     resetFilter.addEventListener('click', function() {
+        filterStatus.value = '';
         filterSubjek.value = '';
         searchPesan.value = '';
         filterPesan();
     });
+
+    // Apply filter saat halaman pertama kali load
+    filterPesan();
 });
 </script>
 
@@ -211,10 +245,20 @@ document.addEventListener('DOMContentLoaded', function() {
     overflow: hidden;
 }
 
+/* Highlight untuk pesan belum dibaca */
+.bg-blue-50 {
+    background-color: #eff6ff;
+}
+
 /* Pastikan tabel tidak melebihi container */
 .table-container {
     max-width: 100%;
     overflow-x: auto;
+}
+
+/* Tooltip styling */
+.group:hover .absolute {
+    opacity: 1;
 }
 </style>
 <?= $this->endSection() ?>

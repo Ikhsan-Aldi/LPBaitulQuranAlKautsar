@@ -9,6 +9,17 @@
             <p class="text-gray-600 mt-2">Informasi lengkap pesan dari pengunjung</p>
         </div>
         <div class="flex space-x-3 mt-4 md:mt-0">
+            <!-- Status Toggle Form -->
+            <form action="<?= base_url('admin/pesan/update-status/' . $pesan['id']) ?>" method="post" class="inline">
+                <?= csrf_field() ?>
+                <input type="hidden" name="status" value="<?= $pesan['status'] === 'dibaca' ? 'belum_dibaca' : 'dibaca' ?>">
+                <button type="submit" 
+                        class="flex items-center px-4 py-2 rounded-lg font-medium transition-colors duration-200 
+                               <?= $pesan['status'] === 'dibaca' ? 'bg-green-100 text-green-800 hover:bg-green-200' : 'bg-red-100 text-red-800 hover:bg-red-200' ?>">
+                    <i class="fas <?= $pesan['status'] === 'dibaca' ? 'fa-envelope-open' : 'fa-envelope' ?> mr-2"></i>
+                    <span>Tandai sebagai <?= $pesan['status'] === 'dibaca' ? 'Belum Dibaca' : 'Sudah Dibaca' ?></span>
+                </button>
+            </form>
             <a href="<?= base_url('admin/pesan') ?>" 
                class="bg-gray-500 text-white font-medium py-2 px-4 rounded-lg hover:bg-gray-600 transition-colors duration-200 flex items-center">
                 <i class="fas fa-arrow-left mr-2"></i>
@@ -25,6 +36,18 @@
                 <?= session()->getFlashdata('success') ?>
             </div>
             <button type="button" class="text-green-700 hover:text-green-900" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 flex justify-between items-center">
+            <div>
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <?= session()->getFlashdata('error') ?>
+            </div>
+            <button type="button" class="text-red-700 hover:text-red-900" onclick="this.parentElement.remove()">
                 <i class="fas fa-times"></i>
             </button>
         </div>
@@ -80,6 +103,19 @@
                     </div>
                     
                     <div>
+                        <label class="block text-sm font-medium text-gray-500 mb-1">Status Pesan</label>
+                        <div class="flex items-center">
+                            <?php if ($pesan['status'] === 'dibaca'): ?>
+                                <i class="fas fa-envelope-open text-green-500 mr-2"></i>
+                                <span class="text-green-700 font-medium">Sudah Dibaca</span>
+                            <?php else: ?>
+                                <i class="fas fa-envelope text-red-500 mr-2"></i>
+                                <span class="text-red-700 font-medium">Belum Dibaca</span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <div>
                         <label class="block text-sm font-medium text-gray-500 mb-1">Tanggal Kirim</label>
                         <p class="text-gray-900">
                             <?= date('d F Y', strtotime($pesan['created_at'])) ?>
@@ -101,7 +137,7 @@
                     <p class="text-gray-700 leading-relaxed whitespace-pre-line"><?= esc($pesan['pesan']) ?></p>
                 </div>
                 
-                <!-- Quick Actions - REVISI: Lebih minimalis dan compact -->
+                <!-- Quick Actions -->
                 <div class="mt-6 pt-6 border-t border-gray-200">
                     <h4 class="text-md font-semibold text-primary-dark mb-4">Tindakan Cepat</h4>
                     <div class="flex flex-wrap items-center gap-2">
@@ -158,10 +194,7 @@
 <script>
 // Fungsi untuk membuka Gmail dengan template balasan standar
 function balasEmail(email, subjekAsli, namaPengirim) {
-    // Format subjek untuk balasan
     const subjekBalasan = `Balas: ${subjekAsli}`;
-    
-    // Format body email dengan template yang profesional
     const bodyEmail = `Halo ${namaPengirim},
 
 Terima kasih telah menghubungi kami melalui form kontak website.
@@ -172,23 +205,16 @@ Pesan asli:%0D%0A
 Subjek: ${subjekAsli}%0D%0A
 Dari: ${namaPengirim} (${email})`;
 
-    // Encode URI components untuk URL Gmail
     const encodedSubjek = encodeURIComponent(subjekBalasan);
     const encodedBody = bodyEmail;
 
-    // Membuat URL Gmail
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodedSubjek}&body=${encodedBody}`;
-    
-    // Buka jendela baru untuk Gmail
     window.open(gmailUrl, '_blank');
 }
 
 // Fungsi untuk template balasan yang lebih lengkap
 function balasEmailWithTemplate(email, subjekAsli, namaPengirim) {
-    // Format subjek untuk balasan
     const subjekBalasan = `Balas: ${subjekAsli}`;
-    
-    // Template balasan yang lebih lengkap
     const bodyEmail = `Kepada Yth. ${namaPengirim},
 
 Terima kasih telah menghubungi kami melalui form kontak website. Kami telah menerima pesan Anda dengan detail sebagai berikut:
@@ -209,24 +235,18 @@ Baitul Quran Al-Kautsar%0D%0A
 +6281234002350%0D%0A
 info@alkautsar.sch.id`;
 
-    // Encode URI components untuk URL Gmail
     const encodedSubjek = encodeURIComponent(subjekBalasan);
     const encodedBody = bodyEmail;
 
-    // Membuat URL Gmail
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodedSubjek}&body=${encodedBody}`;
-    
-    // Buka jendela baru untuk Gmail
     window.open(gmailUrl, '_blank');
 }
 
 // Fungsi untuk copy email address ke clipboard
 function salinEmail(email) {
     navigator.clipboard.writeText(email).then(function() {
-        // Tampilkan notifikasi sukses
         alert('Email berhasil disalin: ' + email);
     }).catch(function(err) {
-        // Fallback untuk browser lama
         const textArea = document.createElement("textarea");
         textArea.value = email;
         document.body.appendChild(textArea);
@@ -252,6 +272,15 @@ button:hover {
 
 .bg-white:hover {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Smooth transition untuk status toggle */
+button[type="submit"] {
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    transform: scale(1.05);
 }
 </style>
 <?= $this->endSection() ?>
