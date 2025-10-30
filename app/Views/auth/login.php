@@ -161,7 +161,7 @@
         <div class="mt-8 pt-6 border-t border-gray-200 text-center">
           <p class="text-sm text-gray-600">
             <i class="fa fa-info-circle mr-1 text-primary"></i>
-            Sistem Manajemen Pondok Pesantren Al-Kautsar
+            Sistem Manajemen Pesantren <br> Baitul Qur'an AlKautsar
           </p>
         </div>
       </div>
@@ -170,7 +170,7 @@
     <!-- Copyright -->
     <div class="text-center mt-6">
       <p class="text-white/90 text-sm">
-        &copy; <?= date('Y') ?> Pondok Pesantren Al-Kautsar. All rights reserved.
+        &copy; <?= date('Y') ?> Pesantren Baitul Qur'an AlKautsar. All rights reserved.
       </p>
     </div>
   </div>

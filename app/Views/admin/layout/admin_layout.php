@@ -170,7 +170,7 @@
             <!-- Top Navigation -->
             <header class="bg-gradient-to-r from-primary-dark to-primary text-white shadow-lg">
                 <div class="flex items-center justify-between p-6">
-                    <h1 class="font-amiri text-2xl font-bold">Pondok Pesantren AlKautsar</h1>
+                    <h1 class="font-amiri text-2xl font-bold">Pesantren Baitul Qur'an AlKautsar</h1>
                     <div class="flex items-center space-x-4 bg-white/20 px-4 py-2 rounded-full">
                         <i class="fa fa-user-circle"></i>
                         <span class="font-medium"><?= esc(session()->get('username') ?? 'Admin') ?></span>
@@ -188,10 +188,7 @@
             <!-- Footer -->
             <footer class="bg-white border-t border-primary-medium/20 py-6 text-center">
                 <p class="text-primary-medium font-medium">
-                    &copy; <?= date('Y') ?> Pondok Pesantren AlKautsar. All rights reserved.
-                </p>
-                <p class="text-sm text-gray-600 mt-2">
-                    Sistem Manajemen Pondok Pesantren - Versi 1.0
+                    &copy; <?= date('Y') ?> Pesantren Baitul Qur'an AlKautsar. All rights reserved.
                 </p>
             </footer>
         </div>
