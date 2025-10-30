@@ -55,7 +55,7 @@
                 Hubungi Kami
             </h1>
             <p class="text-sm xs:text-base sm:text-lg md:text-xl text-white/90 leading-relaxed px-2">
-                Mari berdiskusi dan bergabung bersama keluarga besar Baitul Qur'an Al-Kautsar
+                Mari berdiskusi dan bergabung bersama keluarga besar <br> Pesantren Baitul Qur'an Alkautsar
             </p>
         </div>
     </div>

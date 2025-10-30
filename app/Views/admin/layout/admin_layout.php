@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="<?= base_url('assets/img/logo.png'); ?>">
-    <title><?= esc($title ?? 'Dashboard Admin') ?> | Ponpes Al-Kautsar</title>
+    <title><?= esc($title ?? 'Dashboard Admin') ?> | Ponpes AlKautsar</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -89,7 +89,7 @@
             </div>
             <div>
                 <h1 class="font-amiri text-xl font-bold">Admin Panel</h1>
-                <p class="text-xs text-white/80">Ponpes Al-Kautsar</p>
+                <p class="text-xs text-white/80">Ponpes AlKautsar</p>
             </div>
         </div>
     </div>
@@ -170,7 +170,7 @@
             <!-- Top Navigation -->
             <header class="bg-gradient-to-r from-primary-dark to-primary text-white shadow-lg">
                 <div class="flex items-center justify-between p-6">
-                    <h1 class="font-amiri text-2xl font-bold">Pondok Pesantren Al-Kautsar</h1>
+                    <h1 class="font-amiri text-2xl font-bold">Pondok Pesantren AlKautsar</h1>
                     <div class="flex items-center space-x-4 bg-white/20 px-4 py-2 rounded-full">
                         <i class="fa fa-user-circle"></i>
                         <span class="font-medium"><?= esc(session()->get('username') ?? 'Admin') ?></span>
@@ -188,7 +188,7 @@
             <!-- Footer -->
             <footer class="bg-white border-t border-primary-medium/20 py-6 text-center">
                 <p class="text-primary-medium font-medium">
-                    &copy; <?= date('Y') ?> Pondok Pesantren Al-Kautsar. All rights reserved.
+                    &copy; <?= date('Y') ?> Pondok Pesantren AlKautsar. All rights reserved.
                 </p>
                 <p class="text-sm text-gray-600 mt-2">
                     Sistem Manajemen Pondok Pesantren - Versi 1.0

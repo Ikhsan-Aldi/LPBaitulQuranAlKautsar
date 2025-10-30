@@ -159,12 +159,12 @@
                 <div class="w-full md:w-1/2 text-center md:text-left group">
                     <!-- Baitul Qur'an -->
                     <span class="hero-subtitle block text-base sm:text-lg md:text-xl font-semibold tracking-wide text-white transition-colors duration-300 ease-in-out">
-                        Baitul Qur'an
+                        Pesantren Baitul Qur'an
                     </span>
 
-                    <!-- Al-Kautsar -->
+                    <!-- AlKautsar -->
                     <h1 class="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight group-hover:text-white transition-colors duration-300 arabic-font mt-2">
-                        Al-Kautsar
+                        AlKautsar
                     </h1>
 
                     <!-- Deskripsi -->
@@ -174,15 +174,10 @@
 
                     <!-- Tombol CTA -->
                     <div class="hero-buttons flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                        <a href="<?= base_url('program') ?>" 
+                        <a href="<?= base_url('pendaftaran') ?>" 
                            class="hero-button bg-[#017077] text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-[#005359] transition-colors duration-300 shadow-lg hover:shadow-xl text-center inline-flex items-center justify-center">
-                            <i class="fas fa-book-open mr-2 sm:mr-3"></i>
-                            <span>Program Kami</span>
-                        </a>
-                        <a href="<?= base_url('tentang') ?>" 
-                           class="hero-button border-2 border-white text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-white hover:text-[#017077] transition-colors duration-300 text-center inline-flex items-center justify-center">
-                            <i class="fas fa-info-circle mr-2 sm:mr-3"></i>
-                            <span>Tentang Kami</span>
+                            <i class="fas fa-user-plus mr-2 sm:mr-3"></i>
+                            <span>Daftar Sekarang</span>
                         </a>
                     </div>
                 </div>
@@ -255,7 +250,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
                 <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Tertarik Bergabung?</h2>
                 <p class="text-lg sm:text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                    Jangan lewatkan kesempatan untuk menjadi bagian dari keluarga besar Baitul Quran Al-Kautsar
+                    Jangan lewatkan kesempatan untuk menjadi bagian dari keluarga besar Pesantren Baitul Quran AlKautsar
                 </p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <a href="<?= base_url('pendaftaran') ?>" class="bg-white text-teal-700 font-bold px-6 sm:px-8 py-3 rounded-lg hover:bg-teal-50 transition-colors duration-300 shadow-lg hover:shadow-xl inline-flex items-center justify-center">
@@ -274,7 +269,7 @@
         <div class="text-center mb-12 sm:mb-16">
             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#017077] mb-4">Berita Terbaru</h2>
             <p class="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-                Informasi terkini seputar kegiatan dan perkembangan Pondok Pesantren Al-Kautsar
+                Informasi terkini seputar kegiatan dan perkembangan <br> Pesantren Baitul Qur'an Alkautsar
             </p>
         </div>
         

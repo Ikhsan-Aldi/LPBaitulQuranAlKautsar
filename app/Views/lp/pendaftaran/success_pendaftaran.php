@@ -17,7 +17,7 @@
                 Pendaftaran Berhasil!
             </h1>
             <p class="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-                Terima kasih telah mendaftar di Baitul Quran Al-Kautsar
+                Terima kasih telah mendaftar di Pesantren Baitul Qur'an Alkautsar
             </p>
         </div>
     </div>

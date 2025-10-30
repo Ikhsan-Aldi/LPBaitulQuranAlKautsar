@@ -24,7 +24,7 @@
                 Tentang Kami
             </h1>
             <p class="text-base sm:text-lg md:text-xl text-white/90 leading-relaxed mb-4 sm:mb-6">
-                Mengenal lebih dekat visi, misi, dan perjalanan Baitul Quran Al-Kautsar dalam membentuk generasi Qur'ani yang berakhlak mulia.
+                Mengenal lebih dekat visi, misi, dan perjalanan Pesantren Baitul Qur'an Alkautsar dalam membentuk generasi Qur'ani yang berakhlak mulia.
             </p>
         </div>
     </div>
@@ -57,7 +57,7 @@
                     <!-- Logo HANYA di tab Tentang -->
                     <div class="inline-flex items-center justify-center w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 bg-white mb-4 sm:mb-6 overflow-hidden shadow-sm mx-auto">
                         <img src="<?= base_url('assets/img/logo.png') ?>" 
-                            alt="Logo Baitul Qur'an Al-Kautsar" 
+                            alt="Logo Baitul Qur'an AlKautsar" 
                             class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain">
                     </div>
                     <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-[#017077] mb-2 sm:mb-4">Tentang Kami</h2>
@@ -66,8 +66,8 @@
                 
                 <div class="bg-gray-50 rounded-lg sm:rounded-xl p-4 sm:p-6 md:p-8 border-l-4 border-[#017077] mb-6 sm:mb-8">
                     <p class="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed text-justify">
-                        Pesantren Baitul Qur'an Al-Kautsar merupakan lembaga pendidikan dibawah naungan yayasan
-                        Al-Kautsar Madiun, yang memadukan pendidikan formal dalam bentuk SMP dan SMA dengan non
+                        Pesantren Baitul Qur'an AlKautsar merupakan lembaga pendidikan dibawah naungan yayasan
+                        AlKautsar Madiun, yang memadukan pendidikan formal dalam bentuk SMP dan SMA dengan non
                         formal dalam bentuk Dirosah Islamiyah. Pembinaan 24 jam yang dikemas dalam sistem
                         Islamic Boarding School (Pesantren Modern).
                     </p>
@@ -185,7 +185,7 @@
                     <div class="space-y-4 sm:space-y-6">
                         <div class="bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 border border-gray-200 shadow-sm">
                             <p class="text-gray-700 leading-relaxed mb-3 sm:mb-4 text-sm sm:text-base">
-                                Baitul Quran Al-Kautsar didirikan pada tahun 2010 dengan visi untuk 
+                                Pesantren Baitul Quran AlKautsar didirikan pada tahun 2010 dengan visi untuk 
                                 menjadi pusat pendidikan Islam yang mengintegrasikan ilmu agama 
                                 dan ilmu umum secara seimbang.
                             </p>

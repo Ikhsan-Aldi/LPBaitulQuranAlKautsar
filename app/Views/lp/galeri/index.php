@@ -14,7 +14,7 @@
                 Galeri
             </h1>
             <p class="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 mb-4 sm:mb-6 md:mb-8 leading-relaxed px-2">
-                Dokumentasi kegiatan dan kehidupan di Pondok Pesantren Baitul Quran Al-Kautsar
+                Dokumentasi kegiatan dan kehidupan di <br> Pesantren Baitul Quran AlKautsar
             </p>
         </div>
     </div>

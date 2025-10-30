@@ -5,7 +5,7 @@
     
     <h3 class="text-xl font-bold mb-3">Siap Bergabung?</h3>
     <p class="text-white/90 text-sm mb-6">
-        Jangan lewatkan kesempatan emas untuk menjadi bagian dari keluarga besar Baitul Quran Al-Kautsar
+        Jangan lewatkan kesempatan emas untuk menjadi bagian dari keluarga besar Baitul Quran AlKautsar
     </p>
     
     <div class="space-y-3">

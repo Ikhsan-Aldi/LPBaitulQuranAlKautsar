@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="<?= base_url('assets/img/logo.png'); ?>">
-    <title><?= $title ?? 'Baitul Quran Al-Kautsar - Pusat Pendidikan Islam Terpadu' ?></title>
+    <title><?= $title ?? 'Pesantren Baitul Quran Alkautsar - Pusat Pendidikan Islam Terpadu' ?></title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -241,17 +241,17 @@
                         class="flex items-center transition-colors duration-300 group" 
                         id="logo-link">
                             <img src="<?= base_url('assets/img/logo.png') ?>" 
-                                alt="Baitul Quran Al-Kautsar" 
+                                alt="Pesantren Baitul Quran Alkautsar" 
                                 class="mobile-logo-img h-10 w-10 sm:h-12 sm:w-12 mr-2 sm:mr-3">
 
                             <div class="flex flex-col leading-tight">
                                 <!-- Baitul Quran -->
                                 <span id="baitulText" class="mobile-logo-text text-xs sm:text-sm font-semibold tracking-wide text-white group-hover:text-[#164c3e] transition-colors duration-300 ease-in-out">
-                                    Baitul Qur'an
+                                    Pesantren Baitul Qur'an
                                 </span>
-                                <!-- Al-Kautsar -->
+                                <!-- AlKautsar -->
                                 <span id="alkautsarText" class="mobile-logo-subtext text-lg sm:text-xl font-extrabold text-white group-hover:text-[#258659] transition-colors arabic-font">
-                                    Al-Kautsar
+                                    AlKautsar
                                 </span>
                             </div>
                         </a>
@@ -398,8 +398,8 @@
                 <!-- Company Info -->
                 <div class="lg:col-span-1">
                     <h3 class="text-xl font-bold mb-4 flex items-center">
-                        <img src="<?= base_url('assets/img/logo.png') ?>" alt="Baitul Quran Al-Kautsar" class="h-8 w-8 mr-3">
-                        <span>Baitul Quran Al-Kautsar</span>
+                        <img src="<?= base_url('assets/img/logo.png') ?>" alt="Pesantren Baitul Quran Alkautsar" class="h-8 w-8 mr-3">
+                        <span>Pesantren Baitul Quran Alkautsar</span>
                     </h3>
                     <p class="text-teal-200 mb-6 leading-relaxed text-sm sm:text-base">
                         Pusat pendidikan Islam terpadu yang berkomitmen untuk mencetak generasi Qur'ani yang berakhlak mulia dan berilmu.
@@ -539,7 +539,7 @@
         <div class="border-t border-teal-800 py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-teal-300 text-sm text-center md:text-left">
-                    &copy; <?= date('Y') ?> Baitul Quran Al-Kautsar. All rights reserved.
+                    &copy; <?= date('Y') ?> Pesantren Baitul Qur'an Alkautsar. All rights reserved.
                 </p>
                 <div class="flex space-x-4 sm:space-x-6 mt-4 md:mt-0">
                     <a href="#" class="text-teal-300 hover:text-white text-sm transition-colors duration-300">

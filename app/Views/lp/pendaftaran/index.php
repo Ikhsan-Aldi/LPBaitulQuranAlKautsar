@@ -14,7 +14,7 @@
                 Pendaftaran
             </h1>
             <p class="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 leading-relaxed mb-6 sm:mb-8 md:mb-10 px-2">
-                Bergabunglah bersama keluarga besar Baitul Quran Al-Kautsar
+                Bergabunglah bersama keluarga besar Pesantren Baitul Qur'an Alkautsar
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 md:gap-8 px-2">
                 <a href="#gelombang-dibuka" 
