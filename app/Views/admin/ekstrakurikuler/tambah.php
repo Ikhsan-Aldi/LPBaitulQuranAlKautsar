@@ -80,8 +80,8 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa fa-icons text-gray-400"></i>
                     </div>
-                    <select name="icon" 
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white">
+                    <select name="icon"
+                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white">
                         <option value="">— Pilih Ikon —</option>
                         <option value="fas fa-swimming-pool">🏊‍♂️ Berenang</option>
                         <option value="fas fa-book">📖 Tahfidz</option>
@@ -90,10 +90,17 @@
                         <option value="fas fa-paint-brush">🎨 Kaligrafi</option>
                         <option value="fas fa-code">💻 Teknologi</option>
                         <option value="fas fa-mosque">🕌 Kajian</option>
+                        <option value="fas fa-horse">🐎 Berkuda</option>
+                        <option value="fas fa-briefcase">💼 Enterpreneur</option>
+                        <option value="fas fa-newspaper">📰 Jurnalistik</option>
+                        <option value="fas fa-medal">🏅 Olimpiade</option>
+                        <option value="fas fa-bullseye">🏹 Memanah</option>
                         <option value="fas fa-dumbbell">💪 Pencak Silat</option>
-                        <option value="fas fa-microphone">🎤 Pidato</option>
+                        <option value="fas fa-mountain">🏔️ SAPALA (Pecinta Alam)</option>
                         <option value="fas fa-seedling">🌿 Berkebun</option>
+                        <option value="fas fa-microphone">🎤 Pidato</option>
                     </select>
+
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <i class="fa fa-chevron-down text-gray-400"></i>
                     </div>

@@ -322,10 +322,20 @@ class Home extends BaseController
             throw new \CodeIgniter\Exceptions\PageNotFoundException("Berita tidak ditemukan.");
         }
 
-        $data['berita'] = $berita;
-        $data['title'] = $berita['judul'];
+        $related_news = $model
+            ->where('slug !=', $slug)
+            ->orderBy('created_at', 'DESC')
+            ->limit(3)
+            ->find();
+
+        $data = [
+            'berita' => $berita,
+            'related_news' => $related_news,
+            'title' => $berita['judul']
+        ];
 
         return view('lp/berita/detail', $data);
     }
+
 
 }

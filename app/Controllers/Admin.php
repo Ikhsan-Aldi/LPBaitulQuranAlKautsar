@@ -110,14 +110,24 @@ class Admin extends BaseController
         $model = new EkstrakurikulerModel();
 
         $iconList = [
-            'berenang' => 'fas fa-swimming-pool',
-            'tahfidz'  => 'fas fa-book',
-            'futsal'   => 'fas fa-futbol',
-            'hadrah'   => 'fas fa-music',
-            'kaligrafi'=> 'fas fa-paint-brush',
-            'teknologi'=> 'fas fa-code',
-            'kajian'   => 'fas fa-mosque',
-        ];
+        'berenang'          => 'fas fa-swimming-pool',
+        'tahfidz'           => 'fas fa-book',
+        'futsal'            => 'fas fa-futbol',
+        'hadrah'            => 'fas fa-music',
+        'kaligrafi'         => 'fas fa-paint-brush',
+        'teknologi'         => 'fas fa-code',
+        'kajian'            => 'fas fa-mosque',
+        'berkuda'           => 'fas fa-horse',
+        'enterpreneur'      => 'fas fa-briefcase',
+        'jurnalistik'       => 'fas fa-newspaper',
+        'olimpiade'         => 'fas fa-medal',
+        'memanah'           => 'fas fa-bullseye',
+        'pencak_silat'      => 'fas fa-dumbbell',
+        'sapala'            => 'fas fa-mountain',
+        'berkebun'          => 'fas fa-seedling',
+        'pidato'            => 'fas fa-microphone',
+    ];
+
 
         $nama = strtolower($this->request->getPost('nama_ekstrakurikuler'));
         $icon = $this->request->getPost('icon') ?: ($iconList[$nama] ?? 'fas fa-star');
@@ -147,14 +157,24 @@ class Admin extends BaseController
         $ekstra = $model->find($id);
 
         $iconList = [
-            'berenang' => 'fas fa-swimming-pool',
-            'tahfidz'  => 'fas fa-book',
-            'futsal'   => 'fas fa-futbol',
-            'hadrah'   => 'fas fa-music',
-            'kaligrafi'=> 'fas fa-paint-brush',
-            'teknologi'=> 'fas fa-code',
-            'kajian'   => 'fas fa-mosque',
-        ];
+        'berenang'          => 'fas fa-swimming-pool',
+        'tahfidz'           => 'fas fa-book',
+        'futsal'            => 'fas fa-futbol',
+        'hadrah'            => 'fas fa-music',
+        'kaligrafi'         => 'fas fa-paint-brush',
+        'teknologi'         => 'fas fa-code',
+        'kajian'            => 'fas fa-mosque',
+        'berkuda'           => 'fas fa-horse',
+        'enterpreneur'      => 'fas fa-briefcase',
+        'jurnalistik'       => 'fas fa-newspaper',
+        'olimpiade'         => 'fas fa-medal',
+        'memanah'           => 'fas fa-bullseye',
+        'pencak_silat'      => 'fas fa-dumbbell',
+        'sapala'            => 'fas fa-mountain',
+        'berkebun'          => 'fas fa-seedling',
+        'pidato'            => 'fas fa-microphone',
+    ];
+
 
         $nama = strtolower($this->request->getPost('nama_ekstrakurikuler'));
         $icon = $this->request->getPost('icon') ?: ($iconList[$nama] ?? $ekstra['icon']);

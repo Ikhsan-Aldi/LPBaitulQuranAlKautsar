@@ -81,7 +81,7 @@
                         <i class="fa fa-icons text-gray-400"></i>
                     </div>
                     <select name="icon" 
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white">
+                        class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary-light focus:border-primary-light transition-all duration-200 appearance-none bg-white">
                         <option value="">— Pilih Ikon —</option>
                         <option value="fas fa-swimming-pool" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-swimming-pool' ? 'selected' : '' ?>>🏊‍♂️ Berenang</option>
                         <option value="fas fa-book" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-book' ? 'selected' : '' ?>>📖 Tahfidz</option>
@@ -90,10 +90,17 @@
                         <option value="fas fa-paint-brush" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-paint-brush' ? 'selected' : '' ?>>🎨 Kaligrafi</option>
                         <option value="fas fa-code" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-code' ? 'selected' : '' ?>>💻 Teknologi</option>
                         <option value="fas fa-mosque" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-mosque' ? 'selected' : '' ?>>🕌 Kajian</option>
+                        <option value="fas fa-horse" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-horse' ? 'selected' : '' ?>>🐎 Berkuda</option>
+                        <option value="fas fa-briefcase" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-briefcase' ? 'selected' : '' ?>>💼 Enterpreneur</option>
+                        <option value="fas fa-newspaper" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-newspaper' ? 'selected' : '' ?>>📰 Jurnalistik</option>
+                        <option value="fas fa-medal" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-medal' ? 'selected' : '' ?>>🏅 Olimpiade</option>
+                        <option value="fas fa-bullseye" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-bullseye' ? 'selected' : '' ?>>🏹 Memanah</option>
                         <option value="fas fa-dumbbell" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-dumbbell' ? 'selected' : '' ?>>💪 Pencak Silat</option>
-                        <option value="fas fa-microphone" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-microphone' ? 'selected' : '' ?>>🎤 Pidato</option>
+                        <option value="fas fa-mountain" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-mountain' ? 'selected' : '' ?>>🏔️ SAPALA (Pecinta Alam)</option>
                         <option value="fas fa-seedling" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-seedling' ? 'selected' : '' ?>>🌿 Berkebun</option>
+                        <option value="fas fa-microphone" <?= isset($ekstra['icon']) && $ekstra['icon'] == 'fas fa-microphone' ? 'selected' : '' ?>>🎤 Pidato</option>
                     </select>
+
                     <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                         <i class="fa fa-chevron-down text-gray-400"></i>
                     </div>
