@@ -114,6 +114,21 @@
         </div>
     </div>
 
+    <div class="mb-6 flex space-x-2">
+        <a href="<?= base_url('admin/pendaftaran/export/pdf') ?>" 
+           class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 inline-flex items-center space-x-2 mr-2 tooltip"
+           data-tooltip="Export to PDF">
+            <i class="fa fa-file-pdf"></i>
+            <span>Export PDF</span>
+        </a>
+        <a href="<?= base_url('admin/pendaftaran/export/excel') ?>" 
+           class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 inline-flex items-center space-x-2 tooltip"
+           data-tooltip="Export to Excel">
+            <i class="fa fa-file-excel"></i>
+            <span>Export Excel</span>
+        </a>
+    </div>
+
     <!-- Table -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="overflow-x-auto">

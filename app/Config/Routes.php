@@ -21,6 +21,9 @@ $routes->post('pendaftaran/simpan', 'Home::simpanPendaftaran');
 $routes->get('pendaftaran/success', 'Home::successPendaftaran');
 $routes->get('berita', 'Home::berita');
 $routes->get('berita/(:segment)', 'Home::berita_detail/$1');
+$routes->get('pendaftaran/pengumuman', 'Home::pengumuman');
+$routes->post('pendaftaran/pengumuman', 'Home::cariPengumuman');
+
 
 
 // ADMIN ROUTES
@@ -43,6 +46,8 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('pendaftaran', 'Admin::pendaftaran');
     $routes->get('pendaftaran/detail/(:num)', 'Admin::detail_pendaftaran/$1');
     $routes->get('pendaftaran/verifikasi/(:num)/(:any)', 'Admin::verifikasi_pendaftaran/$1/$2');
+    $routes->get('pendaftaran/export/pdf', 'Admin::exportPendaftarPdf');
+    $routes->get('pendaftaran/export/excel', 'Admin::exportPendaftarExcel');
 
     // Ekstrakurikuler
     $routes->get('ekstrakurikuler', 'Admin::ekstrakurikuler');

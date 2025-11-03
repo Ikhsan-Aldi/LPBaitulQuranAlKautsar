@@ -11,7 +11,9 @@ use App\Models\GelombangModel;
 use App\Models\PesanModel;
 use App\Models\KontakModel;
 use App\Models\BeritaModel;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Dompdf\Dompdf;
 
 class Admin extends BaseController
 {
@@ -1537,6 +1539,66 @@ class Admin extends BaseController
         return $this->response
             ->setHeader('Content-Type', $mime)
             ->setBody(file_get_contents($path));
+    }
+
+    public function exportPendaftarPdf()
+    {
+        $data['pendaftar'] = $this->pendaftaranModel
+            ->select('pendaftaran.*, gelombang_pendaftaran.nama AS nama_gelombang')
+            ->join('gelombang_pendaftaran', 'gelombang_pendaftaran.id = pendaftaran.id_gelombang', 'left')
+            ->where('pendaftaran.status', 'Diterima')
+            ->orderBy('gelombang_pendaftaran.nama', 'ASC')
+            ->findAll();
+
+        $html = view('admin/pendaftaran/export_pdf', $data);
+
+        // Inisialisasi Dompdf
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream('daftar_santri_diterima.pdf', ["Attachment" => true]);
+    }
+
+
+    public function exportPendaftarExcel()
+    {
+        $data = $this->pendaftaranModel
+            ->select('pendaftaran.*, gelombang_pendaftaran.nama AS nama_gelombang')
+            ->join('gelombang_pendaftaran', 'gelombang_pendaftaran.id = pendaftaran.id_gelombang', 'left')
+            ->where('pendaftaran.status', 'Diterima')
+            ->orderBy('gelombang_pendaftaran.nama', 'ASC')
+            ->findAll();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Santri Diterima');
+
+        // Header
+        $sheet->setCellValue('A1', 'No');
+        $sheet->setCellValue('B1', 'Nama Lengkap');
+        $sheet->setCellValue('C1', 'Jenjang');
+        $sheet->setCellValue('D1', 'Gelombang');
+        $sheet->setCellValue('E1', 'Tanggal Daftar');
+
+        $row = 2;
+        $no = 1;
+        foreach ($data as $d) {
+            $sheet->setCellValue('A'.$row, $no++);
+            $sheet->setCellValue('B'.$row, $d['nama_lengkap']);
+            $sheet->setCellValue('C'.$row, $d['jenjang']);
+            $sheet->setCellValue('D'.$row, $d['nama_gelombang']);
+            $sheet->setCellValue('E'.$row, date('d-m-Y', strtotime($d['tanggal_daftar'])));
+            $row++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'daftar_santri_diterima.xlsx';
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="'. $filename .'"');
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit;
     }
 
 }

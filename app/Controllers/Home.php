@@ -73,7 +73,7 @@ class Home extends BaseController
         ];
         return view('lp/pendaftaran/index', $data);
     }
-    
+
     public function galeri()
     {
         $galeriModel = new \App\Models\GaleriModel();
@@ -352,6 +352,51 @@ class Home extends BaseController
 
         return view('lp/berita/detail', $data);
     }
+
+    public function pengumuman()
+    {
+        $keyword = $this->request->getPost('keyword');
+        $pendaftar = null;
+
+        if ($keyword) {
+            $pendaftar = $this->pendaftaranModel
+                ->select('pendaftaran.*, gelombang_pendaftaran.nama AS nama_gelombang')
+                ->join('gelombang_pendaftaran', 'gelombang_pendaftaran.id = pendaftaran.id_gelombang', 'left')
+                ->groupStart()
+                    ->like('pendaftaran.nama_lengkap', $keyword)
+                    ->orLike('pendaftaran.nisn', $keyword)
+                ->groupEnd()
+                ->first();
+        }
+
+        return view('user/pendaftaran/pengumuman', [
+            'title' => 'Pengumuman Hasil Pendaftaran',
+            'pendaftar' => $pendaftar,
+            'keyword' => $keyword
+        ]);
+    }
+
+
+    public function cariPengumuman()
+    {
+        $keyword = $this->request->getPost('keyword');
+
+        $pendaftar = $this->pendaftaranModel
+            ->select('pendaftaran.*, gelombang_pendaftaran.nama AS nama_gelombang')
+            ->join('gelombang_pendaftaran', 'gelombang_pendaftaran.id = pendaftaran.id_gelombang', 'left')
+            ->groupStart()
+                ->like('nama_lengkap', $keyword)
+                ->orLike('nisn', $keyword)
+            ->groupEnd()
+            ->first();
+
+        return view('lp\pendaftaran\pengumuman', [
+            'title' => 'Cek Pengumuman Pendaftaran',
+            'pendaftar' => $pendaftar,
+            'keyword' => $keyword
+        ]);
+    }
+
 
 
 }
