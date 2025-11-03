@@ -73,14 +73,28 @@ class Home extends BaseController
         ];
         return view('lp/pendaftaran/index', $data);
     }
+    
     public function galeri()
     {
         $galeriModel = new \App\Models\GaleriModel();
         $kegiatanModel = new \App\Models\KegiatanModel();
         $fotoModel = new \App\Models\KegiatanFotoModel();
 
-        // Ambil galeri aktif
+        // Ambil semua data galeri aktif
         $galeri = $galeriModel->getAktif();
+
+        // Perbaiki path untuk galeri
+        $galeriItems = [];
+        foreach ($galeri as $g) {
+            $path = WRITEPATH . 'galeri/' . $g['gambar'];
+            $galeriItems[] = [
+                'kategori'   => 'galeri',
+                'judul'      => $g['judul'],
+                'deskripsi'  => $g['deskripsi'] ?? null,
+                'tanggal'    => $g['tanggal'] ?? null,
+                'gambar'     => (!empty($g['gambar']) && file_exists($path)) ? $g['gambar'] : null,
+            ];
+        }
 
         // Ambil semua kegiatan
         $kegiatan = $kegiatanModel->findAll();
@@ -92,12 +106,13 @@ class Home extends BaseController
 
             if (!empty($fotos)) {
                 foreach ($fotos as $foto) {
+                    $path = WRITEPATH . 'kegiatan/' . $foto['file_name'];
                     $kegiatanItems[] = [
                         'kategori'   => 'kegiatan',
                         'judul'      => $row['judul'],
-                        'deskripsi'  => $row['deskripsi'],
-                        'tanggal'    => $row['tanggal'],
-                        'gambar'     => $foto['file_name'],
+                        'deskripsi'  => $row['deskripsi'] ?? null,
+                        'tanggal'    => $row['tanggal'] ?? null,
+                        'gambar'     => (!empty($foto['file_name']) && file_exists($path)) ? $foto['file_name'] : null,
                     ];
                 }
             } else {
@@ -105,19 +120,20 @@ class Home extends BaseController
                 $kegiatanItems[] = [
                     'kategori'   => 'kegiatan',
                     'judul'      => $row['judul'],
-                    'deskripsi'  => $row['deskripsi'],
-                    'tanggal'    => $row['tanggal'],
+                    'deskripsi'  => $row['deskripsi'] ?? null,
+                    'tanggal'    => $row['tanggal'] ?? null,
                     'gambar'     => null,
                 ];
             }
         }
 
-        // Gabungkan galeri lama + kegiatan
-        $data['galeri'] = array_merge($galeri, $kegiatanItems);
+        // Gabungkan galeri + kegiatan
+        $data['galeri'] = array_merge($galeriItems, $kegiatanItems);
         $data['title'] = 'Galeri - Baitul Quran Al-Kautsar';
 
         return view('lp/galeri/index', $data);
     }
+
 
         // Method untuk form pendaftaran
         public function formPendaftaran()
@@ -164,7 +180,7 @@ class Home extends BaseController
                 return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
             }
 
-            $uploadPath = FCPATH . 'uploads/pendaftaran/';
+            $uploadPath = FCPATH . 'writable/pendaftaran/';
             if (!is_dir($uploadPath)) mkdir($uploadPath, 0777, true);
 
             $files = ['ktp_ortu', 'akta_kk', 'surat_ket_lulus', 'ijazah_terakhir', 'foto'];
