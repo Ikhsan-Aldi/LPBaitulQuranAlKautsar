@@ -17,9 +17,9 @@
             <!-- Featured Image -->
             <?php if (!empty($berita['foto'])): ?>
                 <div class="relative">
-                    <img src="<?= base_url('uploads/berita/'.$berita['foto']) ?>" 
-                         alt="<?= esc($berita['judul']) ?>" 
-                         class="w-full h-96 object-cover">
+                    <img src="<?= base_url('file/berita/' . esc($berita['foto'])); ?>" 
+                        alt="<?= esc($berita['judul']); ?>" 
+                        class="w-full h-96 object-cover">
                     <div class="absolute inset-0 bg-black/10"></div>
                     <div class="absolute top-6 left-6">
                         <span class="bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
@@ -28,6 +28,7 @@
                     </div>
                 </div>
             <?php endif; ?>
+
 
             <!-- Article Content -->
             <div class="p-8 lg:p-10">
@@ -100,7 +101,7 @@
                 <?php foreach ($related_news as $related): ?>
                 <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                     <?php if (!empty($related['foto'])): ?>
-                    <img src="<?= base_url('uploads/berita/'.$related['foto']) ?>" 
+                    <img src="<?= base_url('file/berita/' . esc($related['foto'])); ?>" 
                          alt="<?= esc($related['judul']) ?>" 
                          class="w-full h-40 object-cover">
                     <?php endif; ?>

@@ -28,7 +28,7 @@
                     <article class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
                         <!-- Image Container -->
                         <div class="relative overflow-hidden">
-                            <img src="<?= base_url('uploads/berita/'.$item['foto']) ?>" 
+                            <img src="<?= base_url('file/berita/' . esc($item['foto'])); ?>" 
                                  alt="<?= esc($item['judul']) ?>" 
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
