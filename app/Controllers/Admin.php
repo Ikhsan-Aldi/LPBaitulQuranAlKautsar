@@ -328,7 +328,7 @@ class Admin extends BaseController
         }
     }
 
-    //Santri
+    // Santri
     public function santri()
     {
         $santriModel = new SantriModel();
@@ -563,7 +563,7 @@ class Admin extends BaseController
             foreach ($files['foto'] as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
                     $newName = $file->getRandomName();
-                    $file->move(FCPATH . 'uploads/kegiatan', $newName);
+                    $file->move(WRITEPATH . 'kegiatan', $newName);
 
                     $fotoModel->insert([
                         'id_kegiatan' => $id_kegiatan,
@@ -607,7 +607,7 @@ class Admin extends BaseController
             foreach ($hapusFoto as $id_foto) {
                 $foto = $fotoModel->find($id_foto);
                 if ($foto) {
-                    $path = FCPATH . 'uploads/kegiatan/' . $foto['file_name'];
+                    $path = WRITEPATH . 'kegiatan/' . $foto['file_name'];
                     if (is_file($path)) {
                         unlink($path);
                     }
@@ -617,12 +617,11 @@ class Admin extends BaseController
         }
 
         $files = $this->request->getFiles();
-
         if (!empty($files['foto'])) {
             foreach ($files['foto'] as $foto) {
                 if ($foto->isValid() && !$foto->hasMoved()) {
                     $namaFile = $foto->getRandomName();
-                    $foto->move(FCPATH . 'uploads/kegiatan', $namaFile);
+                    $foto->move(WRITEPATH . 'kegiatan', $namaFile);
 
                     $fotoModel->insert([
                         'id_kegiatan' => $id,
@@ -641,7 +640,6 @@ class Admin extends BaseController
         return redirect()->to('/admin/kegiatan')->with('success', 'Kegiatan berhasil diperbarui!');
     }
 
-
     public function store()
     {
         $kegiatanModel = new \App\Models\KegiatanModel();
@@ -655,7 +653,7 @@ class Admin extends BaseController
 
         if ($foto && $foto->isValid() && !$foto->hasMoved()) {
             $namaFile = $foto->getRandomName();
-            $foto->move(FCPATH . 'uploads/kegiatan', $namaFile);
+            $foto->move(WRITEPATH . 'kegiatan', $namaFile);
         }
 
         $kegiatanModel->insert([
@@ -686,14 +684,13 @@ class Admin extends BaseController
         return view('admin/kegiatan/detail', $data);
     }
 
-
     public function kegiatan_hapusFoto($id_kegiatan, $id_foto)
     {
         $fotoModel = new \App\Models\KegiatanFotoModel();
         $foto = $fotoModel->find($id_foto);
 
         if ($foto) {
-            $path = FCPATH . 'uploads/kegiatan/' . $foto['file_name'];
+            $path = WRITEPATH . 'kegiatan/' . $foto['file_name'];
             if (is_file($path)) {
                 unlink($path);
             }
@@ -711,18 +708,16 @@ class Admin extends BaseController
 
         $fotos = $fotoModel->where('id_kegiatan', $id)->findAll();
         foreach ($fotos as $f) {
-            $path = FCPATH . 'uploads/kegiatan/' . $f['file_name'];
-            if (is_file($path)) {
-                unlink($path);
-            }
+            $path = WRITEPATH . 'kegiatan/' . $f['file_name'];
+            if (is_file($path)) unlink($path);
         }
         $fotoModel->where('id_kegiatan', $id)->delete();
-
         $kegiatanModel->delete($id);
 
         return redirect()->to(base_url('admin/kegiatan'))
                         ->with('success', 'Kegiatan dan semua foto berhasil dihapus.');
     }
+
 
     // Gelombang Pendaftaran
     public function gelombang()
@@ -1309,61 +1304,7 @@ class Admin extends BaseController
         return view('admin/berita/tambah');
     }
 
-    public function berita_store()
-    {
-        $validation = \Config\Services::validation();
-        $validation->setRules([
-            'judul'   => 'required|min_length[5]|max_length[255]',
-            'penulis' => 'required|min_length[3]|max_length[100]',
-            'isi'     => 'required|min_length[10]',
-            'foto'    => 'max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]'
-        ]);
-
-        if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-        }
-
-        try {
-            $judul   = $this->request->getPost('judul');
-            $slug    = url_title($judul, '-', true);
-            $isi     = $this->request->getPost('isi');
-            $excerpt = $this->request->getPost('excerpt');
-            $penulis = $this->request->getPost('penulis');
-
-            $foto = $this->request->getFile('foto');
-            $namaFoto = null;
-
-            if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-                $namaFoto = $foto->getRandomName();
-                $foto->move(FCPATH . 'uploads/berita', $namaFoto);
-            }
-
-            $data = [
-                'judul'      => $judul,
-                'slug'       => $slug,
-                'isi'        => $isi,
-                'excerpt'    => $excerpt ?: $this->generateExcerpt($isi),
-                'penulis'    => $penulis,
-                'foto'       => $namaFoto,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s'),
-            ];
-
-            if (!empty($excerpt)) {
-                $excerpt = strip_tags($excerpt);
-                $excerpt = html_entity_decode($excerpt, ENT_QUOTES, 'UTF-8');
-                $excerpt = preg_replace('/\s+/', ' ', $excerpt);
-                $excerpt = trim($excerpt);
-            }
-
-            $this->beritaModel->save($data);
-
-            return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil ditambahkan!');
-        } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
-    }
-
+    public function berita_store() { $validation = \Config\Services::validation(); $validation->setRules([ 'judul' => 'required|min_length[5]|max_length[255]', 'penulis' => 'required|min_length[3]|max_length[100]', 'isi' => 'required|min_length[10]', 'foto' => 'max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]' ]); if (!$validation->withRequest($this->request)->run()) { return redirect()->back()->withInput()->with('errors', $validation->getErrors()); } try { $judul = $this->request->getPost('judul'); $slug = url_title($judul, '-', true); $isi = $this->request->getPost('isi'); $excerpt = $this->request->getPost('excerpt'); $penulis = $this->request->getPost('penulis'); $foto = $this->request->getFile('foto'); $namaFoto = null; if ($foto && $foto->isValid() && !$foto->hasMoved()) { $namaFoto = $foto->getRandomName(); $foto->move(FCPATH . 'uploads/berita', $namaFoto); } $data = [ 'judul' => $judul, 'slug' => $slug, 'isi' => $isi, 'excerpt' => $excerpt ?: $this->generateExcerpt($isi), 'penulis' => $penulis, 'foto' => $namaFoto, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'), ]; if (!empty($excerpt)) { $excerpt = strip_tags($excerpt); $excerpt = html_entity_decode($excerpt, ENT_QUOTES, 'UTF-8'); $excerpt = preg_replace('/\s+/', ' ', $excerpt); $excerpt = trim($excerpt); } $this->beritaModel->save($data); return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil ditambahkan!'); } catch (\Exception $e) { return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage()); } }
 
     public function berita_edit($id)
     {
@@ -1401,15 +1342,15 @@ class Admin extends BaseController
             // Handle file upload jika ada file baru
             if ($foto && $foto->isValid() && !$foto->hasMoved()) {
                 // Hapus foto lama jika ada
-                if ($namaFoto && file_exists(FCPATH . 'uploads/berita/' . $namaFoto)) {
-                    unlink(FCPATH . 'uploads/berita/' . $namaFoto);
+                if ($namaFoto && file_exists(WRITEPATH . 'berita', $namaFoto)) {
+                    unlink(WRITEPATH . 'berita', $namaFoto);
                 }
 
                 $namaFoto = $foto->getRandomName();
-                $foto->move(FCPATH . 'uploads/berita', $namaFoto);
+                $foto->move(WRITEPATH . 'berita', $namaFoto);
                 
                 // Compress image
-                $this->compressImage(FCPATH . 'uploads/berita/' . $namaFoto);
+                $this->compressImage(WRITEPATH . 'berita', $namaFoto);
             }
 
             $data = [

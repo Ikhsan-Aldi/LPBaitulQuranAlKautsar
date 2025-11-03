@@ -96,7 +96,7 @@
                             <!-- Gambar -->
                             <td class="px-6 py-4">
                                 <?php if (!empty($item['gambar'])): ?>
-                                    <img src="<?= base_url('file/galeri/' . esc($item['gambar'])); ?>" 
+                                    <img src="<?= base_url('writable/galeri/' . esc($item['gambar'])); ?>" 
                                         alt="<?= esc($item['judul']); ?>" 
                                         class="w-16 h-12 object-cover rounded-lg border border-gray-200 shadow-sm cursor-pointer">
                                 <?php else: ?>

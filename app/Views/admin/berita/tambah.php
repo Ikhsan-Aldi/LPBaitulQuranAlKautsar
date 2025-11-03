@@ -133,18 +133,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Handle form submission
     const form = document.querySelector('form');
-    form.addEventListener('submit', function(e) {
-        // Update textareas with Quill content
+        form.addEventListener('submit', function(e) {
         document.getElementById('excerpt').value = excerptQuill.root.innerHTML;
         document.getElementById('content').value = contentQuill.root.innerHTML;
+
+        console.log('Isi textarea:', document.getElementById('content').value);
         
         // Basic validation
         const content = contentQuill.getText().trim();
-        if (content.length === 0) {
+        if (contentQuill.root.innerHTML.trim() === '<p><br></p>') {
             e.preventDefault();
             alert('Isi berita tidak boleh kosong');
             return false;
         }
+
         console.log("Form submitted");
 
     });
