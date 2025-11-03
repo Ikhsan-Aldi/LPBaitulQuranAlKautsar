@@ -301,12 +301,33 @@
                                 <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
                             <?php endif; ?>
                         </a>
-                        <a href="<?= base_url('pendaftaran') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('pendaftaran')) ? 'text-teal-200' : '' ?>">
-                            Pendaftaran
-                            <?php if (current_url() == base_url('pendaftaran')): ?>
-                                <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
-                            <?php endif; ?>
-                        </a>
+                        <div class="relative dropdown-group">
+                            <a href="<?= base_url('pendaftaran') ?>" 
+                            class="text-white hover:text-teal-200 font-medium transition-colors duration-300 flex items-center py-2 nav-link <?= (strpos(current_url(), 'pendaftaran') !== false) ? 'text-teal-200' : '' ?>">
+                                Pendaftaran
+                                <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                                <?php if (strpos(current_url(), 'pendaftaran') !== false): ?>
+                                    <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-teal-200"></span>
+                                <?php endif; ?>
+                            </a>
+                            <!-- Subnav Menu -->
+                            <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-xl dropdown-menu z-50 border border-teal-100">
+                                <div class="py-2">
+                                    <a href="<?= base_url('pendaftaran') ?>" 
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200 flex items-center <?= (current_url() == base_url('pendaftaran')) ? 'bg-teal-50 text-teal-700' : '' ?>">
+                                        <i class="fas fa-user-plus mr-2 text-teal-600"></i>Daftar
+                                    </a>
+                                    <a href="<?= base_url('pendaftaran/pengumuman') ?>" 
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200 flex items-center <?= (current_url() == base_url('pendaftaran/pengumuman')) ? 'bg-teal-50 text-teal-700' : '' ?>">
+                                        <i class="fas fa-search mr-2 text-teal-600"></i>Pengumuman
+                                    </a>
+                                    <a href="<?= base_url('pendaftaran#gelombang-dibuka') ?>" 
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200 flex items-center">
+                                        <i class="fas fa-door-open mr-2 text-teal-600"></i>Gelombang
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <a href="<?= base_url('galeri') ?>" class="text-white hover:text-teal-200 font-medium transition-colors duration-300 relative py-2 nav-link <?= (current_url() == base_url('galeri')) ? 'text-teal-200' : '' ?>">
                             Galeri
                             <?php if (current_url() == base_url('galeri')): ?>
@@ -369,9 +390,25 @@
                     <a href="<?= base_url('kontak') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('kontak')) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-phone mr-3 text-teal-600"></i>Kontak
                     </a>
-                    <a href="<?= base_url('pendaftaran') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('pendaftaran')) ? 'text-teal-700 bg-teal-50' : '' ?>">
-                        <i class="fas fa-user-plus mr-3 text-teal-600"></i>Pendaftaran
-                    </a>
+                    <div class="space-y-2">
+                        <div class="text-teal-700 font-medium py-2 px-3 <?= (strpos(current_url(), 'pendaftaran') !== false) ? 'bg-teal-50 rounded-lg' : '' ?>">
+                            <i class="fas fa-edit mr-3 text-teal-600"></i>Pendaftaran
+                        </div>
+                        <div class="ml-6 space-y-2 border-l-2 border-teal-100 pl-4">
+                            <a href="<?= base_url('pendaftaran') ?>" 
+                            class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('pendaftaran')) ? 'text-teal-700 bg-teal-50' : '' ?>">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Daftar Santri Baru
+                            </a>
+                            <a href="<?= base_url('pendaftaran/pengumuman') ?>" 
+                            class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('pendaftaran/pengumuman')) ? 'text-teal-700 bg-teal-50' : '' ?>">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Cek Pengumuman
+                            </a>
+                            <a href="<?= base_url('pendaftaran#gelombang-dibuka') ?>" 
+                            class="block text-gray-600 hover:text-teal-700 text-sm py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200">
+                                <i class="fas fa-circle text-xs mr-2 text-teal-500"></i>Gelombang Dibuka
+                            </a>
+                        </div>
+                    </div>
                     <a href="<?= base_url('galeri') ?>" class="block text-gray-700 hover:text-teal-700 font-medium py-2 px-3 rounded-lg hover:bg-teal-50 transition-colors duration-200 <?= (current_url() == base_url('galeri')) ? 'text-teal-700 bg-teal-50' : '' ?>">
                         <i class="fas fa-images mr-3 text-teal-600"></i>Galeri
                     </a>
