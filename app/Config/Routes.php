@@ -23,6 +23,7 @@ $routes->get('berita', 'Home::berita');
 $routes->get('berita/(:segment)', 'Home::berita_detail/$1');
 $routes->get('pendaftaran/pengumuman', 'Home::pengumuman');
 $routes->post('pendaftaran/pengumuman', 'Home::cariPengumuman');
+$routes->get('pendaftaran/pengumuman-pdf/(:num)', 'Home::exportPendaftarPdf/$1');
 
 
 

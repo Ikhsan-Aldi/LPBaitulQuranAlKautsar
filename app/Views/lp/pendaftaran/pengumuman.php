@@ -17,15 +17,20 @@
             <p class="text-gray-600 mb-4">Jenjang: <strong><?= esc($pendaftar['jenjang']) ?></strong></p>
 
             <?php if ($pendaftar['status'] === 'Diterima'): ?>
-                <div class="bg-green-100 text-green-700 font-semibold py-3 px-4 rounded-lg">
+                <div class="bg-green-100 text-green-700 font-semibold py-3 px-4 rounded-lg mb-4">
                     🎉 Selamat! Anda diterima pada Gelombang <?= esc($pendaftar['nama_gelombang'] ?? '-') ?>.
                 </div>
+                <!-- Tombol download PDF -->
+                <a href="<?= base_url('pendaftaran/pengumuman-pdf/' . $pendaftar['id_pendaftaran']) ?>" 
+                   class="inline-block mt-2 bg-primary text-white py-2 px-4 rounded-lg hover:bg-primary-dark transition">
+                    📄 Download PDF Pengumuman
+                </a>
             <?php elseif ($pendaftar['status'] === 'Ditolak'): ?>
-                <div class="bg-red-100 text-red-700 font-semibold py-3 px-4 rounded-lg">
+                <div class="bg-red-100 text-red-700 font-semibold py-3 px-4 rounded-lg mb-4">
                     😔 Maaf, Anda belum diterima pada Gelombang <?= esc($pendaftar['nama_gelombang'] ?? '-') ?>.
                 </div>
             <?php else: ?>
-                <div class="bg-yellow-100 text-yellow-700 font-semibold py-3 px-4 rounded-lg">
+                <div class="bg-yellow-100 text-yellow-700 font-semibold py-3 px-4 rounded-lg mb-4">
                     ⏳ Status Anda masih dalam proses verifikasi. Silakan cek kembali nanti.
                 </div>
             <?php endif; ?>

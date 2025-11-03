@@ -369,7 +369,7 @@ class Home extends BaseController
                 ->first();
         }
 
-        return view('user/pendaftaran/pengumuman', [
+        return view('lp/pendaftaran/pengumuman', [
             'title' => 'Pengumuman Hasil Pendaftaran',
             'pendaftar' => $pendaftar,
             'keyword' => $keyword
@@ -398,5 +398,22 @@ class Home extends BaseController
     }
 
 
+    public function exportPendaftarPdf()
+    {
+        $pendaftar = $this->pendaftaranModel
+            ->select('pendaftaran.*, gelombang_pendaftaran.nama AS nama_gelombang')
+            ->join('gelombang_pendaftaran', 'gelombang_pendaftaran.id = pendaftaran.id_gelombang', 'left')
+            ->where('pendaftaran.status', 'Diterima')
+            ->orderBy('gelombang_pendaftaran.nama', 'ASC')
+            ->findAll();
 
+        $data = ['pendaftar' => $pendaftar];
+        $html = view('lp/pendaftaran/pengumuman_pdf', $data);
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream('daftar_santri_diterima.pdf', ["Attachment" => true]);
+    }
 }
