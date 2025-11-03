@@ -135,8 +135,7 @@
             <i class="fa fa-envelope w-6 text-center"></i>
             <span>Pesan</span>
         </a>
-        <a href="<?= base_url('admin/galeri') ?>" 
-            class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light hover:translate-x-2 transition-all duration-200 <?= service('uri')->getSegment(2) == 'galeri' ? 'bg-primary-light' : '' ?>">
+        <a href="<?= base_url('admin/galeri') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'galeri' ? 'bg-primary-light' : '' ?>">
             <i class="fa fa-images w-6 text-center"></i>
             <span>Galeri</span>
         </a>

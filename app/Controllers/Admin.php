@@ -227,8 +227,13 @@ class Admin extends BaseController
 
         $namaFile = null;
         if ($file && $file->isValid() && !$file->hasMoved()) {
+            $folder = WRITEPATH . 'pengajar';
+            if (!is_dir($folder)) {
+                mkdir($folder, 0777, true);
+            }
+
             $namaFile = $file->getRandomName();
-            $file->move('uploads/pengajar', $namaFile);
+            $file->move($folder, $namaFile);
         }
 
         $model->save([
@@ -261,12 +266,19 @@ class Admin extends BaseController
         $file = $this->request->getFile('foto');
         $namaFile = $pengajar['foto'];
 
+        $folder = WRITEPATH . 'pengajar';
+
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+
         if ($file && $file->isValid() && !$file->hasMoved()) {
-            if ($namaFile && file_exists('uploads/pengajar/' . $namaFile)) {
-                unlink('uploads/pengajar/' . $namaFile);
+            if ($namaFile && file_exists($folder . '/' . $namaFile)) {
+                unlink($folder . '/' . $namaFile);
             }
+
             $namaFile = $file->getRandomName();
-            $file->move('uploads/pengajar', $namaFile);
+            $file->move($folder, $namaFile);
         }
 
         $model->update($id, [
@@ -286,8 +298,10 @@ class Admin extends BaseController
         $model = new PengajarModel();
         $pengajar = $model->find($id);
 
-        if ($pengajar && $pengajar['foto'] && file_exists('uploads/pengajar/' . $pengajar['foto'])) {
-            unlink('uploads/pengajar/' . $pengajar['foto']);
+        $folder = WRITEPATH . 'pengajar';
+
+        if ($pengajar && $pengajar['foto'] && file_exists($folder . '/' . $pengajar['foto'])) {
+            unlink($folder . '/' . $pengajar['foto']);
         }
 
         $model->delete($id);
@@ -311,7 +325,6 @@ class Admin extends BaseController
             ]);
         }
     }
-
 
     //Santri
     public function santri()
@@ -1424,7 +1437,6 @@ class Admin extends BaseController
                 return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
             }
 
-            // Hapus foto jika ada
             if ($berita['foto'] && file_exists(FCPATH . 'uploads/berita/' . $berita['foto'])) {
                 unlink(FCPATH . 'uploads/berita/' . $berita['foto']);
             }
@@ -1454,8 +1466,6 @@ class Admin extends BaseController
         return view('admin/berita/detail', $data);
     }
 
-
-    // Method untuk public list berita
     public function list_berita()
     {
         $data['berita'] = $this->beritaModel
@@ -1464,7 +1474,6 @@ class Admin extends BaseController
         return view('berita/index', $data);
     }
 
-    // Helper method untuk compress image
     private function compressImage($path, $quality = 80)
     {
         try {
@@ -1474,24 +1483,20 @@ class Admin extends BaseController
                 imagejpeg($image, $path, $quality);
             } elseif ($info['mime'] == 'image/png') {
                 $image = imagecreatefrompng($path);
-                imagepng($image, $path, 9); // PNG quality 0-9
+                imagepng($image, $path, 9); 
             }
             if (isset($image)) {
                 imagedestroy($image);
             }
         } catch (\Exception $e) {
-            // Skip compression if fails
         }
     }
 
-    // Helper method untuk generate excerpt otomatis (bersih dari HTML)
     private function generateExcerpt($content, $length = 150)
     {
-        // Bersihkan HTML tags dan decode HTML entities
         $cleanContent = strip_tags($content);
         $cleanContent = html_entity_decode($cleanContent, ENT_QUOTES, 'UTF-8');
         
-        // Hapus karakter khusus dan multiple spaces
         $cleanContent = preg_replace('/\s+/', ' ', $cleanContent);
         $cleanContent = trim($cleanContent);
         
@@ -1499,7 +1504,6 @@ class Admin extends BaseController
             return $cleanContent;
         }
         
-        // Potong di kata terakhir yang utuh
         $excerpt = substr($cleanContent, 0, $length);
         $lastSpace = strrpos($excerpt, ' ');
         
@@ -1509,4 +1513,30 @@ class Admin extends BaseController
         
         return $excerpt . '...';
     }
+
+    public function tampilFile($folder, $filename)
+    {
+        $allowedFolders = ['pengajar', 'berita', 'galeri', 'kegiatan', 'pendaftaran', 'santri', 'berkas'];
+        if (!in_array($folder, $allowedFolders)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Folder tidak diizinkan.');
+        }
+
+        $path = WRITEPATH . $folder . '/' . $filename;
+
+        if (!file_exists($path)) {
+            $default = FCPATH . 'assets/img/no-image.png'; 
+            if (file_exists($default)) {
+                $path = $default;
+            } else {
+                throw new \CodeIgniter\Exceptions\PageNotFoundException('File tidak ditemukan.');
+            }
+        }
+
+        $mime = mime_content_type($path);
+
+        return $this->response
+            ->setHeader('Content-Type', $mime)
+            ->setBody(file_get_contents($path));
+    }
+
 }

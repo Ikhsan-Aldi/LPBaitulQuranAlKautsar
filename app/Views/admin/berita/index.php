@@ -100,12 +100,13 @@
                                 </div>
                             </td>
                             <td class="py-4 px-6">
-                                <?php if ($row['foto']): ?>
-                                    <img src="<?= base_url('uploads/berita/'.$row['foto']) ?>" 
-                                         class="w-16 h-16 object-cover rounded-lg shadow-md border border-gray-200">
+                                <?php if (!empty($row['foto'])): ?>
+                                    <img src="<?= base_url('file/berita/' . $row['foto']); ?>" 
+                                        alt="<?= esc($row['judul'] ?? 'Berita'); ?>"
+                                        class="w-16 h-16 object-cover rounded-lg shadow-md border border-gray-200">
                                 <?php else: ?>
                                     <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
-                                        <i class="fa fa-image text-gray-400"></i>
+                                        <i class="fa fa-image text-gray-400 text-lg"></i>
                                     </div>
                                 <?php endif; ?>
                             </td>

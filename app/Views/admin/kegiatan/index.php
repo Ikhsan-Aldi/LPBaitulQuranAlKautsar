@@ -102,13 +102,13 @@
                         <td class="py-4 px-6">
                             <?php if (!empty($row['foto_utama'])): ?>
                                 <div class="relative group">
-                                    <img src="<?= base_url('uploads/kegiatan/' . esc($row['foto_utama'])); ?>" 
+                                    <img src="<?= base_url('file/kegiatan/' . esc($row['foto_utama'])); ?>" 
                                         alt="<?= esc($row['judul']); ?>" 
-                                        class="w-16 h-16 rounded-lg object-cover shadow-sm border-2 border-white"
-                                        onclick="showImage('<?= base_url('uploads/kegiatan/' . esc($row['foto_utama'])); ?>', '<?= esc($row['judul']); ?>')">
+                                        class="w-16 h-16 rounded-lg object-cover shadow-sm border-2 border-white cursor-pointer"
+                                        onclick="showImage('<?= base_url('file/kegiatan/' . esc($row['foto_utama'])); ?>', '<?= esc($row['judul']); ?>')">
                                 </div>
                             <?php else: ?>
-                                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+                                <div class="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center border border-gray-300">
                                     <i class="fa fa-image text-gray-400"></i>
                                 </div>
                             <?php endif; ?>

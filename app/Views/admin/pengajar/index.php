@@ -84,8 +84,11 @@
                         <td class="py-4 px-6">
                             <span class="px-3 py-1 rounded-full text-xs font-medium 
                                 <?= strpos(strtolower($p['jabatan']), 'ustadz') !== false ? 'bg-blue-100 text-blue-800' : 
-                                   (strpos(strtolower($p['jabatan']), 'guru') !== false ? 'bg-green-100 text-green-800' : 
-                                   'bg-purple-100 text-purple-800') ?>">
+                                   (strpos(strtolower($p['jabatan']), 'guru') !== false ? 'bg-green-100 text-green-800' :
+                                      (strpos(strtolower($p['jabatan']), 'pengasuh') !== false ? 'bg-yellow-100 text-yellow-800' :
+                                         (strpos(strtolower($p['jabatan']), 'pembina') !== false ? 'bg-red-100 text-red-800' :
+                                          (strpos(strtolower($p['jabatan']), 'karyawan') !== false ? 'bg-grey-100 text-grey-800' :
+                                            'bg-purple-100 text-purple-800')))) ?>"> 
                                 <?= esc($p['jabatan']); ?>
                             </span>
                         </td>
@@ -98,8 +101,8 @@
                         <td class="py-4 px-6">
                             <?php if ($p['foto']): ?>
                                 <div class="relative group">
-                                    <img src="<?= base_url('uploads/pengajar/' . $p['foto']); ?>" 
-                                         alt="<?= esc($p['nama_lengkap']); ?>" 
+                                    <img src="<?= base_url('file/pengajar/' . $p['foto']); ?>" 
+                                        alt="<?= esc($p['nama_lengkap']); ?>"  
                                          class="w-12 h-12 rounded-full object-cover shadow-sm border-2 border-white group-hover:scale-110 transition-transform duration-200">
                                     <div class="absolute inset-0 bg-primary/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                                 </div>

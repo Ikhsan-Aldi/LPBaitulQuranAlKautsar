@@ -30,6 +30,9 @@ $routes->get('b0/login', 'Auth::index');
 $routes->post('b0/login/submit', 'Auth::submit');
 $routes->get('b0/logout', 'Auth::logout');
 
+$routes->get('file/(:segment)/(:any)', 'Admin::tampilFile/$1/$2');
+
+
 $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
     // Dashboard 
