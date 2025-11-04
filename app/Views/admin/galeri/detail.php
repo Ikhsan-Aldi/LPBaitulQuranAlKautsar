@@ -32,8 +32,8 @@
                     Gambar Galeri
                 </h3>
                 <?php 
-                $folder = 'writable/galeri/'; // public/galeri/
-                $gambarUrl = !empty($item['gambar']) ? base_url($folder . $item['gambar']) : null;
+                $folder = 'file/galeri/';
+                $gambarUrl = !empty($galeri['gambar']) ? base_url($folder . $galeri['gambar']) : null;
                 ?>
                 
                 <?php if ($gambarUrl): ?>
@@ -43,7 +43,7 @@
                              alt="<?= esc($galeri['judul']) ?>" 
                              class="w-full h-64 object-cover rounded-xl shadow-md border border-gray-200 group-hover:shadow-lg transition-all duration-300">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-xl transition-all duration-300 flex items-center justify-center">
-                            <a href="<?= base_url('file/galeri/' . esc($item['gambar'])); ?>" 
+                            <a href="<?= base_url('file/galeri/' . esc($galeri['gambar'])); ?>" 
                                target="_blank" 
                                class="bg-white/90 text-gray-800 px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center space-x-2">
                                 <i class="fa fa-expand"></i>

@@ -87,36 +87,30 @@
 
                     <!-- Daily Schedule Grid -->
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+
                         <!-- Morning Activities -->
                         <div class="space-y-3 sm:space-y-4">
                             <h3 class="text-sm sm:text-base md:text-lg font-bold text-[#017077] mb-3 sm:mb-4 flex items-center justify-center sm:justify-start">
                                 <i class="fas fa-sun mr-2 text-xs sm:text-sm md:text-base"></i>Pagi Hari
                             </h3>
                             <div class="space-y-2 sm:space-y-3">
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">03.00 - 03.30</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Bangun tidur & persiapan tahajjud</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">03.30 - 04.30</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Tahajjud, Sholat Shubuh berjama'ah</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">04.30 - 06.00</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Halaqah Tahfidz I</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">07.30 - 11.30</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Kegiatan Belajar Mengajar Formal</p>
-                                </div>
+                                <?php if (!empty($jadwal['pagi'])): ?>
+                                    <?php foreach ($jadwal['pagi'] as $item): ?>
+                                        <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                            <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                                <span class="text-xs sm:text-sm font-semibold text-[#017077]">
+                                                    <?= date('H.i', strtotime($item['waktu_mulai'])) ?> - <?= date('H.i', strtotime($item['waktu_selesai'])) ?>
+                                                </span>
+                                            </div>
+                                            <p class="text-gray-700 text-xs sm:text-sm">
+                                                <?= esc($item['nama_kegiatan']) ?><br>
+                                                <span class="text-gray-500 text-[11px]"><?= esc($item['deskripsi']) ?></span>
+                                            </p>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p class="text-gray-500 text-sm italic">Belum ada jadwal pagi</p>
+                                <?php endif; ?>
                             </div>
                         </div>
 
@@ -126,24 +120,30 @@
                                 <i class="fas fa-cloud-sun mr-2 text-xs sm:text-sm md:text-base"></i>Siang & Sore
                             </h3>
                             <div class="space-y-2 sm:space-y-3">
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">11.30 - 13.00</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Sholat Dhuhur, Muroja'ah Tahfidz</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">13.00 - 14.45</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Makan siang, Istirahat Siang</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">15.30 - 17.00</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Halaqoh Tahfidz II / Ekstrakurikuler</p>
-                                </div>
+                                <?php if (!empty($jadwal['siang']) || !empty($jadwal['sore'])): ?>
+                                    <?php 
+                                    $gabunganSiangSore = array_merge(
+                                        $jadwal['siang'] ?? [], 
+                                        $jadwal['sore'] ?? []
+                                    );
+                                    usort($gabunganSiangSore, fn($a, $b) => strtotime($a['waktu_mulai']) <=> strtotime($b['waktu_mulai']));
+                                    foreach ($gabunganSiangSore as $item): 
+                                    ?>
+                                        <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                            <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                                <span class="text-xs sm:text-sm font-semibold text-[#017077]">
+                                                    <?= date('H.i', strtotime($item['waktu_mulai'])) ?> - <?= date('H.i', strtotime($item['waktu_selesai'])) ?>
+                                                </span>
+                                            </div>
+                                            <p class="text-gray-700 text-xs sm:text-sm">
+                                                <?= esc($item['nama_kegiatan']) ?><br>
+                                                <span class="text-gray-500 text-[11px]"><?= esc($item['deskripsi']) ?></span>
+                                            </p>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p class="text-gray-500 text-sm italic">Belum ada jadwal siang atau sore</p>
+                                <?php endif; ?>
                             </div>
                         </div>
 
@@ -153,33 +153,28 @@
                                 <i class="fas fa-moon mr-2 text-xs sm:text-sm md:text-base"></i>Malam Hari
                             </h3>
                             <div class="space-y-2 sm:space-y-3">
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">17.30 - 18.45</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Sholat Maghrib, Kajian Kitab</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">18.45 - 20.00</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Sholat Isya', Makan malam</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">20.00 - 21.30</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Belajar malam / Halaqah Tahfidz</p>
-                                </div>
-                                <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
-                                    <div class="flex justify-between items-start mb-1 sm:mb-2">
-                                        <span class="text-xs sm:text-sm font-semibold text-[#017077]">21.30 - 03.00</span>
-                                    </div>
-                                    <p class="text-gray-700 text-xs sm:text-sm">Istirahat malam</p>
-                                </div>
+                                <?php if (!empty($jadwal['malam'])): ?>
+                                    <?php foreach ($jadwal['malam'] as $item): ?>
+                                        <div class="bg-white rounded-lg border border-gray-200 p-3 sm:p-4 hover:shadow-md transition-shadow duration-200">
+                                            <div class="flex justify-between items-start mb-1 sm:mb-2">
+                                                <span class="text-xs sm:text-sm font-semibold text-[#017077]">
+                                                    <?= date('H.i', strtotime($item['waktu_mulai'])) ?> - <?= date('H.i', strtotime($item['waktu_selesai'])) ?>
+                                                </span>
+                                            </div>
+                                            <p class="text-gray-700 text-xs sm:text-sm">
+                                                <?= esc($item['nama_kegiatan']) ?><br>
+                                                <span class="text-gray-500 text-[11px]"><?= esc($item['deskripsi']) ?></span>
+                                            </p>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <p class="text-gray-500 text-sm italic">Belum ada jadwal malam</p>
+                                <?php endif; ?>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
 

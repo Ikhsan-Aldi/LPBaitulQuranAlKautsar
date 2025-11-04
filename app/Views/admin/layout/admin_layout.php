@@ -116,7 +116,7 @@
             <span>Ekstrakurikuler</span>
         </a>
 
-        <a href="<?= base_url('admin/kegiatan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'kegiatan' ? 'bg-primary-light' : '' ?>">
+        <a href="<?= base_url('admin/jadwalkegiatan') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'jadwalkegiatan' ? 'bg-primary-light' : '' ?>">
             <i class="fa fa-calendar-alt w-6 text-center"></i>
             <span>Kegiatan</span>
         </a>

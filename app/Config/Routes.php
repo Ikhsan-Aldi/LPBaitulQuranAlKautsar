@@ -132,6 +132,13 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->get('berita/delete/(:num)', 'Admin::berita_delete/$1');
     $routes->get('berita/detail/(:num)', 'Admin::berita_detail/$1');
 
+    //Jadwal kegiatan
+    $routes->get('jadwalkegiatan', 'Admin::jadwalkegiatan');
+    $routes->get('jadwalkegiatan/create', 'Admin::createjk');
+    $routes->post('jadwalkegiatan/store', 'Admin::storejk');
+    $routes->get('jadwalkegiatan/edit/(:num)', 'Admin::editjk/$1');
+    $routes->post('jadwalkegiatan/update/(:num)', 'Admin::updatejk/$1');
+    $routes->get('jadwalkegiatan/delete/(:num)', 'Admin::deletejk/$1');
 });
 
 

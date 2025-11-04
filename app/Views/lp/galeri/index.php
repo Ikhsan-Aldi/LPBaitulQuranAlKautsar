@@ -44,11 +44,10 @@
             <?php if (!empty($galeri)): ?>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-4 sm:gap-6 md:gap-8" id="gallery-grid">
                     <?php foreach ($galeri as $item): ?>
-                        <div class="gallery-item group" data-category="<?= $item['kategori'] ?>">
+                        <div class="gallery-item group" data-category="<?= strtolower(trim($item['kategori'])) ?>">
                             <div class="relative overflow-hidden bg-gray-200 transition-all duration-500 group-hover:shadow-2xl rounded-lg">
-                                 <?php 
-                                    $folder = ($item['kategori'] === 'kegiatan') ? 'kegiatan' : 'galeri';
-                                    $imagePath = base_url('show/' . $folder . '/' . $item['gambar']);
+                                <?php 
+                                $imagePath = base_url('show/galeri/' . $item['gambar']);
                                 ?>
                                 <div class="relative aspect-[4/3] sm:aspect-[16/9] overflow-hidden cursor-zoom-in"
                                 onclick="openLightbox(this)"

@@ -11,6 +11,7 @@ use App\Models\GelombangModel;
 use App\Models\PesanModel;
 use App\Models\KontakModel;
 use App\Models\BeritaModel;
+use App\Models\JadwalKegiatanModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Dompdf\Dompdf;
@@ -22,6 +23,7 @@ class Admin extends BaseController
     protected $pesanModel;
     protected $kontakModel;
     protected $beritaModel;
+    protected $jadwalKegiatanModel;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class Admin extends BaseController
         $this->pesanModel = new PesanModel();
         $this->kontakModel = new KontakModel();
         $this->beritaModel = new BeritaModel();
+        $this->jadwalKegiatanModel = new JadwalKegiatanModel();
     }
 
     // Dashboard
@@ -520,205 +523,6 @@ class Admin extends BaseController
         }
     }
 
-    //Kegiatan
-    public function kegiatan()
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
-        $kegiatan = $kegiatanModel->findAll();
-
-        foreach ($kegiatan as &$row) {
-            $foto = $fotoModel->where('id_kegiatan', $row['id'])->first();
-            $row['foto_utama'] = $foto ? $foto['file_name'] : null;
-        }
-
-        $data['kegiatan'] = $kegiatan;
-
-        return view('admin/kegiatan/index', $data);
-    }
-
-    public function kegiatan_tambah()
-    {
-        $data['title'] = 'Tambah Kegiatan';
-        return view('admin/kegiatan/tambah', $data);
-    }
-
-    public function kegiatan_simpan()
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
-        $kegiatanData = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'tanggal' => $this->request->getPost('tanggal'),
-            'lokasi' => $this->request->getPost('lokasi'),
-        ];
-        $kegiatanModel->insert($kegiatanData);
-        $id_kegiatan = $kegiatanModel->getInsertID();
-
-        $files = $this->request->getFiles();
-        if (isset($files['foto'])) {
-            foreach ($files['foto'] as $file) {
-                if ($file->isValid() && !$file->hasMoved()) {
-                    $newName = $file->getRandomName();
-                    $file->move(WRITEPATH . 'kegiatan', $newName);
-
-                    $fotoModel->insert([
-                        'id_kegiatan' => $id_kegiatan,
-                        'file_name' => $newName
-                    ]);
-                }
-            }
-        }
-
-        return redirect()->to(base_url('admin/kegiatan'))
-                        ->with('success', 'Data kegiatan dan foto berhasil disimpan');
-    }
-
-    public function kegiatan_edit($id)
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
-        $data['kegiatan'] = $kegiatanModel->find($id);
-        $data['foto'] = $fotoModel->where('id_kegiatan', $id)->findAll();
-        $data['title'] = 'Edit Kegiatan';
-        return view('admin/kegiatan/edit', $data);
-    }
-
-    public function kegiatan_update($id)
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
-        $kegiatan = $kegiatanModel->find($id);
-        if (!$kegiatan) {
-            return redirect()->back()->with('error', 'Kegiatan tidak ditemukan.');
-        }
-
-        $judul = $this->request->getPost('judul');
-        $deskripsi = $this->request->getPost('deskripsi');
-        $ekstrakurikuler = $this->request->getPost('ekstrakurikuler');
-        $hapusFoto = $this->request->getPost('hapus_foto'); 
-
-        if (!empty($hapusFoto)) {
-            foreach ($hapusFoto as $id_foto) {
-                $foto = $fotoModel->find($id_foto);
-                if ($foto) {
-                    $path = WRITEPATH . 'kegiatan/' . $foto['file_name'];
-                    if (is_file($path)) {
-                        unlink($path);
-                    }
-                    $fotoModel->delete($id_foto);
-                }
-            }
-        }
-
-        $files = $this->request->getFiles();
-        if (!empty($files['foto'])) {
-            foreach ($files['foto'] as $foto) {
-                if ($foto->isValid() && !$foto->hasMoved()) {
-                    $namaFile = $foto->getRandomName();
-                    $foto->move(WRITEPATH . 'kegiatan', $namaFile);
-
-                    $fotoModel->insert([
-                        'id_kegiatan' => $id,
-                        'file_name' => $namaFile,
-                    ]);
-                }
-            }
-        }
-
-        $kegiatanModel->update($id, [
-            'judul' => $judul,
-            'deskripsi' => $deskripsi,
-            'ekstrakurikuler' => $ekstrakurikuler,
-        ]);
-
-        return redirect()->to('/admin/kegiatan')->with('success', 'Kegiatan berhasil diperbarui!');
-    }
-
-    public function store()
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-
-        $judul       = $this->request->getPost('judul');
-        $deskripsi   = $this->request->getPost('deskripsi');
-        $ekstrakurikuler = $this->request->getPost('ekstrakurikuler');
-
-        $foto = $this->request->getFile('foto');
-        $namaFile = null;
-
-        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-            $namaFile = $foto->getRandomName();
-            $foto->move(WRITEPATH . 'kegiatan', $namaFile);
-        }
-
-        $kegiatanModel->insert([
-            'judul' => $judul,
-            'deskripsi' => $deskripsi,
-            'ekstrakurikuler' => $ekstrakurikuler,
-            'foto' => $namaFile,
-        ]);
-
-        return redirect()->to('/admin/kegiatan')->with('success', 'Kegiatan berhasil ditambahkan!');
-    }
-
-    public function kegiatan_detail($id)
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
-        $data['kegiatan'] = $kegiatanModel->find($id);
-
-        if (!$data['kegiatan']) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("Kegiatan dengan ID $id tidak ditemukan");
-        }
-
-        $data['kegiatan']['foto_list'] = $fotoModel->where('id_kegiatan', $id)->findAll();
-
-        $data['title'] = 'Detail Kegiatan';
-
-        return view('admin/kegiatan/detail', $data);
-    }
-
-    public function kegiatan_hapusFoto($id_kegiatan, $id_foto)
-    {
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-        $foto = $fotoModel->find($id_foto);
-
-        if ($foto) {
-            $path = WRITEPATH . 'kegiatan/' . $foto['file_name'];
-            if (is_file($path)) {
-                unlink($path);
-            }
-            $fotoModel->delete($id_foto);
-        }
-
-        return redirect()->to(base_url("admin/kegiatan/detail/$id_kegiatan"))
-                        ->with('success', 'Foto berhasil dihapus.');
-    }
-
-    public function kegiatan_hapus($id)
-    {
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
-        $fotos = $fotoModel->where('id_kegiatan', $id)->findAll();
-        foreach ($fotos as $f) {
-            $path = WRITEPATH . 'kegiatan/' . $f['file_name'];
-            if (is_file($path)) unlink($path);
-        }
-        $fotoModel->where('id_kegiatan', $id)->delete();
-        $kegiatanModel->delete($id);
-
-        return redirect()->to(base_url('admin/kegiatan'))
-                        ->with('success', 'Kegiatan dan semua foto berhasil dihapus.');
-    }
-
-
     // Gelombang Pendaftaran
     public function gelombang()
     {
@@ -1039,188 +843,191 @@ class Admin extends BaseController
     }
 
     
-    // Galeri
-    public function galeri()
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->orderBy('created_at', 'DESC')->findAll();
-        
-        $data = [
-            'title' => 'Galeri',
-            'galeri' => $galeri
-        ];
-        
-        return view('admin/galeri/index', $data);
+// ============================
+// Galeri Controller (Revisi)
+// ============================
+public function galeri()
+{
+    $galeriModel = new \App\Models\GaleriModel();
+    $galeri = $galeriModel->orderBy('created_at', 'DESC')->findAll();
+    
+    $data = [
+        'title'  => 'Galeri',
+        'galeri' => $galeri
+    ];
+    
+    return view('admin/galeri/index', $data);
+}
+
+public function galeri_tambah()
+{
+    $data = [
+        'title' => 'Tambah Galeri'
+    ];
+    
+    return view('admin/galeri/tambah', $data);
+}
+
+public function galeri_simpan()
+{
+    $galeriModel = new \App\Models\GaleriModel();
+    
+    $rules = [
+        'judul'    => 'required|min_length[3]|max_length[255]',
+        'kategori' => 'required|in_list[kegiatan,fasilitas,prestasi]',
+        'tanggal'  => 'permit_empty|valid_date',
+        'gambar'   => 'permit_empty|uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,jpg,jpeg,png,gif]'
+    ];
+    
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
     
-    public function galeri_tambah()
-    {
-        $data = [
-            'title' => 'Tambah Galeri'
-        ];
-        
-        return view('admin/galeri/tambah', $data);
+    $fileData = [];
+    $uploadPath = WRITEPATH . 'galeri/';
+
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
     }
     
-    public function galeri_simpan()
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        
-        $rules = [
-            'judul' => 'required|min_length[3]|max_length[255]',
-            'kategori' => 'required|in_list[kegiatan,fasilitas,prestasi]',
-            'tanggal' => 'permit_empty|valid_date',
-            'gambar' => 'permit_empty|uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,jpg,jpeg,png,gif]'
-        ];
-        
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-        
-        $fileData = [];
-        $uploadPath = FCPATH . 'uploads/galeri/';
-        
-        if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0777, true);
-        }
-        
-        $uploadedFile = $this->request->getFile('gambar');
-        if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
-            $newName = $uploadedFile->getRandomName();
-            $uploadedFile->move($uploadPath, $newName);
-            $fileData['gambar'] = $newName;
-        } else {
-            $fileData['gambar'] = null;
-        }
-        
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'kategori' => $this->request->getPost('kategori'),
-            'gambar' => $fileData['gambar'],
-            'tanggal' => $this->request->getPost('tanggal') ?: date('Y-m-d'),
-            'status' => $this->request->getPost('status') ?: 'aktif'
-        ];
-        
-        if ($galeriModel->save($data)) {
-            return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil ditambahkan');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan galeri');
-        }
+    $uploadedFile = $this->request->getFile('gambar');
+    if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
+        $newName = $uploadedFile->getRandomName();
+        $uploadedFile->move($uploadPath, $newName);
+        $fileData['gambar'] = $newName;
+    } else {
+        $fileData['gambar'] = null;
     }
     
-    public function galeri_edit($id)
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->find($id);
-        
-        if (!$galeri) {
-            return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
-        }
-        
-        $data = [
-            'title' => 'Edit Galeri',
-            'galeri' => $galeri
-        ];
-        
-        return view('admin/galeri/edit', $data);
+    $data = [
+        'judul'      => $this->request->getPost('judul'),
+        'deskripsi'  => $this->request->getPost('deskripsi'),
+        'kategori'   => $this->request->getPost('kategori'),
+        'gambar'     => $fileData['gambar'],
+        'tanggal'    => $this->request->getPost('tanggal') ?: date('Y-m-d'),
+        'status'     => $this->request->getPost('status') ?: 'aktif'
+    ];
+    
+    if ($galeriModel->save($data)) {
+        return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil ditambahkan');
+    } else {
+        return redirect()->back()->withInput()->with('error', 'Gagal menambahkan galeri');
+    }
+}
+
+public function galeri_edit($id)
+{
+    $galeriModel = new \App\Models\GaleriModel();
+    $galeri = $galeriModel->find($id);
+    
+    if (!$galeri) {
+        return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
     }
     
-    public function galeri_update($id)
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->find($id);
-        
-        if (!$galeri) {
-            return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
-        }
-        
-        $rules = [
-            'judul' => 'required|min_length[3]|max_length[255]',
-            'kategori' => 'required|in_list[kegiatan,fasilitas,prestasi]',
-            'tanggal' => 'permit_empty|valid_date',
-            'gambar' => 'permit_empty|uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,jpg,jpeg,png,gif]'
-        ];
-        
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-        
-        $fileData = [];
-        $uploadPath = FCPATH . 'uploads/galeri/';
-        
-        if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0777, true);
-        }
-        
-        $uploadedFile = $this->request->getFile('gambar');
-        if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
-            if ($galeri['gambar'] && file_exists($uploadPath . $galeri['gambar'])) {
-                unlink($uploadPath . $galeri['gambar']);
-            }
-            
-            $newName = $uploadedFile->getRandomName();
-            $uploadedFile->move($uploadPath, $newName);
-            $fileData['gambar'] = $newName;
-        } else {
-            $fileData['gambar'] = $galeri['gambar']; 
-        }
-        
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'kategori' => $this->request->getPost('kategori'),
-            'gambar' => $fileData['gambar'],
-            'tanggal' => $this->request->getPost('tanggal') ?: date('Y-m-d'),
-            'status' => $this->request->getPost('status') ?: 'aktif'
-        ];
-        
-        if ($galeriModel->update($id, $data)) {
-            return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil diperbarui');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui galeri');
-        }
+    $data = [
+        'title'  => 'Edit Galeri',
+        'galeri' => $galeri
+    ];
+    
+    return view('admin/galeri/edit', $data);
+}
+
+public function galeri_update($id)
+{
+    $galeriModel = new \App\Models\GaleriModel();
+    $galeri = $galeriModel->find($id);
+    
+    if (!$galeri) {
+        return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
     }
     
-    public function galeri_hapus($id)
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->find($id);
-        
-        if (!$galeri) {
-            return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
-        }
-        
-        if ($galeri['gambar']) {
-            $uploadPath = FCPATH . 'uploads/galeri/';
-            if (file_exists($uploadPath . $galeri['gambar'])) {
-                unlink($uploadPath . $galeri['gambar']);
-            }
-        }
-        
-        if ($galeriModel->delete($id)) {
-            return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil dihapus');
-        } else {
-            return redirect()->to('/admin/galeri')->with('error', 'Gagal menghapus galeri');
-        }
+    $rules = [
+        'judul'    => 'required|min_length[3]|max_length[255]',
+        'kategori' => 'required|in_list[kegiatan,fasilitas,prestasi]',
+        'tanggal'  => 'permit_empty|valid_date',
+        'gambar'   => 'permit_empty|uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,jpg,jpeg,png,gif]'
+    ];
+    
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
     
-    public function galeri_detail($id)
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->find($id);
-        
-        if (!$galeri) {
-            return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
-        }
-        
-        $data = [
-            'title' => 'Detail Galeri',
-            'galeri' => $galeri
-        ];
-        
-        return view('admin/galeri/detail', $data);
+    $fileData = [];
+    $uploadPath = WRITEPATH . 'galeri/'; // ✅ Gunakan writable/galeri
+
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0777, true);
     }
+    
+    $uploadedFile = $this->request->getFile('gambar');
+    if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
+        // Hapus file lama jika ada
+        if (!empty($galeri['gambar']) && file_exists($uploadPath . $galeri['gambar'])) {
+            unlink($uploadPath . $galeri['gambar']);
+        }
+
+        $newName = $uploadedFile->getRandomName();
+        $uploadedFile->move($uploadPath, $newName);
+        $fileData['gambar'] = $newName;
+    } else {
+        $fileData['gambar'] = $galeri['gambar'];
+    }
+    
+    $data = [
+        'judul'      => $this->request->getPost('judul'),
+        'deskripsi'  => $this->request->getPost('deskripsi'),
+        'kategori'   => $this->request->getPost('kategori'),
+        'gambar'     => $fileData['gambar'],
+        'tanggal'    => $this->request->getPost('tanggal') ?: date('Y-m-d'),
+        'status'     => $this->request->getPost('status') ?: 'aktif'
+    ];
+    
+    if ($galeriModel->update($id, $data)) {
+        return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil diperbarui');
+    } else {
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui galeri');
+    }
+}
+
+public function galeri_hapus($id)
+{
+    $galeriModel = new \App\Models\GaleriModel();
+    $galeri = $galeriModel->find($id);
+    
+    if (!$galeri) {
+        return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
+    }
+    
+    $uploadPath = WRITEPATH . 'galeri/'; // ✅ Ganti ke writable
+    
+    if (!empty($galeri['gambar']) && file_exists($uploadPath . $galeri['gambar'])) {
+        unlink($uploadPath . $galeri['gambar']);
+    }
+    
+    if ($galeriModel->delete($id)) {
+        return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil dihapus');
+    } else {
+        return redirect()->to('/admin/galeri')->with('error', 'Gagal menghapus galeri');
+    }
+}
+
+public function galeri_detail($id)
+{
+    $galeriModel = new \App\Models\GaleriModel();
+    $galeri = $galeriModel->find($id);
+    
+    if (!$galeri) {
+        return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
+    }
+    
+    $data = [
+        'title'  => 'Detail Galeri',
+        'galeri' => $galeri
+    ];
+    
+    return view('admin/galeri/detail', $data);
+}
+
 
     //PENGATURAN KONTAK
     public function pengaturan()
@@ -1542,4 +1349,134 @@ class Admin extends BaseController
         exit;
     }
 
+
+    /////////////////////////////
+    //==Jadwal Kegiatan==//
+    /////////////////////////////
+    public function jadwalkegiatan()
+    {
+        $data = [
+            'title' => 'Jadwal Kegiatan Harian',
+            'jadwal' => $this->jadwalKegiatanModel->orderBy('waktu_mulai', 'ASC')->findAll(),
+        ];
+        return view('admin/jadwalkegiatan/index', $data);
+    }
+
+    // Jadwal Kegiatan - Create Form
+    public function createjk()
+    {
+        $data = [
+            'title' => 'Tambah Jadwal Kegiatan',
+            'validation' => \Config\Services::validation(),
+        ];
+        return view('admin/jadwalkegiatan/form', $data);
+    }
+
+    // Jadwal Kegiatan - Store
+    public function storejk()
+    {
+        $validation = \Config\Services::validation();
+        
+        $validation->setRules([
+            'nama_kegiatan' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
+        ], [
+            'nama_kegiatan' => [
+                'required' => 'Nama kegiatan harus diisi'
+            ],
+            'waktu_mulai' => [
+                'required' => 'Waktu mulai harus diisi'
+            ],
+            'waktu_selesai' => [
+                'required' => 'Waktu selesai harus diisi'
+            ],
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        $this->jadwalKegiatanModel->save([
+            'nama_kegiatan' => $this->request->getPost('nama_kegiatan'),
+            'waktu_mulai' => $this->request->getPost('waktu_mulai'),
+            'waktu_selesai' => $this->request->getPost('waktu_selesai'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'klasifikasi' => $this->request->getPost('klasifikasi'), // Bisa dikosongkan, akan diisi otomatis
+        ]);
+
+        return redirect()->to('/admin/jadwalkegiatan')->with('success', 'Jadwal kegiatan berhasil ditambahkan');
+    }
+
+    // Jadwal Kegiatan - Edit Form
+    public function editjk($id)
+    {
+        $jadwal = $this->jadwalKegiatanModel->find($id);
+        
+        if (!$jadwal) {
+            return redirect()->to('/admin/jadwalkegiatan')->with('error', 'Jadwal kegiatan tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Edit Jadwal Kegiatan',
+            'jadwal' => $jadwal,
+            'validation' => \Config\Services::validation(),
+        ];
+        return view('admin/jadwalkegiatan/form', $data);
+    }
+
+    // Jadwal Kegiatan - Update
+    public function updatejk($id)
+    {
+        $jadwal = $this->jadwalKegiatanModel->find($id);
+        
+        if (!$jadwal) {
+            return redirect()->to('/admin/jadwalkegiatan')->with('error', 'Jadwal kegiatan tidak ditemukan');
+        }
+
+        $validation = \Config\Services::validation();
+        
+        $validation->setRules([
+            'nama_kegiatan' => 'required',
+            'waktu_mulai' => 'required',
+            'waktu_selesai' => 'required',
+        ], [
+            'nama_kegiatan' => [
+                'required' => 'Nama kegiatan harus diisi'
+            ],
+            'waktu_mulai' => [
+                'required' => 'Waktu mulai harus diisi'
+            ],
+            'waktu_selesai' => [
+                'required' => 'Waktu selesai harus diisi'
+            ],
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        $this->jadwalKegiatanModel->update($id, [
+            'nama_kegiatan' => $this->request->getPost('nama_kegiatan'),
+            'waktu_mulai' => $this->request->getPost('waktu_mulai'),
+            'waktu_selesai' => $this->request->getPost('waktu_selesai'),
+            'deskripsi' => $this->request->getPost('deskripsi'),
+            'klasifikasi' => $this->request->getPost('klasifikasi'),
+        ]);
+
+        return redirect()->to('/admin/jadwalkegiatan')->with('success', 'Jadwal kegiatan berhasil diperbarui');
+    }
+
+    // Jadwal Kegiatan - Delete
+    public function deletejk($id)
+    {
+        $jadwal = $this->jadwalKegiatanModel->find($id);
+        
+        if (!$jadwal) {
+            return redirect()->to('/admin/jadwalkegiatan')->with('error', 'Jadwal kegiatan tidak ditemukan');
+        }
+
+        $this->jadwalKegiatanModel->delete($id);
+        return redirect()->to('/admin/jadwalkegiatan')->with('success', 'Jadwal kegiatan berhasil dihapus');
+    }
 }
