@@ -354,7 +354,6 @@ class Home extends BaseController
         ]);
     }
 
-
     public function cariPengumuman()
     {
         $keyword = $this->request->getPost('keyword');
