@@ -1085,8 +1085,8 @@ class Admin extends BaseController
         }
         
         $fileData = [];
-        $uploadPath = FCPATH . 'uploads/galeri/';
-        
+        $uploadPath = WRITEPATH . 'galeri/';
+
         if (!is_dir($uploadPath)) {
             mkdir($uploadPath, 0777, true);
         }
@@ -1115,6 +1115,7 @@ class Admin extends BaseController
             return redirect()->back()->withInput()->with('error', 'Gagal menambahkan galeri');
         }
     }
+
     
     public function galeri_edit($id)
     {
@@ -1154,7 +1155,7 @@ class Admin extends BaseController
         }
         
         $fileData = [];
-        $uploadPath = FCPATH . 'uploads/galeri/';
+        $uploadPath = WRITEPATH . 'galeri/';
         
         if (!is_dir($uploadPath)) {
             mkdir($uploadPath, 0777, true);
@@ -1199,7 +1200,7 @@ class Admin extends BaseController
         }
         
         if ($galeri['gambar']) {
-            $uploadPath = FCPATH . 'uploads/galeri/';
+            $uploadPath = WRITEPATH . 'galeri/';
             if (file_exists($uploadPath . $galeri['gambar'])) {
                 unlink($uploadPath . $galeri['gambar']);
             }
@@ -1228,6 +1229,21 @@ class Admin extends BaseController
         
         return view('admin/galeri/detail', $data);
     }
+
+    public function view_galeri($filename)
+    {
+        $path = WRITEPATH . 'galeri/' . $filename;
+
+        if (!file_exists($path)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException("File tidak ditemukan: " . esc($filename));
+        }
+
+        $mime = mime_content_type($path);
+        header("Content-Type: $mime");
+        readfile($path);
+        exit;
+    }
+
 
     //PENGATURAN KONTAK
     public function pengaturan()

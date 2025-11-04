@@ -32,20 +32,20 @@
                     Gambar Galeri
                 </h3>
                 <?php 
-                $folder = 'writable/galeri/'; // public/galeri/
-                $gambarUrl = !empty($item['gambar']) ? base_url($folder . $item['gambar']) : null;
+                $folder = 'file/galeri/';
+                $gambarUrl = !empty($galeri['foto']) ? base_url($folder . $galeri['foto']) : null;
+
                 ?>
-                
+
                 <?php if ($gambarUrl): ?>
                 <div class="text-center">
                     <div class="relative group mb-4">
-                        <img src="<?= $gambarUrl ?>" 
-                             alt="<?= esc($galeri['judul']) ?>" 
-                             class="w-full h-64 object-cover rounded-xl shadow-md border border-gray-200 group-hover:shadow-lg transition-all duration-300">
+                        <img src="<?= $gambarUrl ?>" alt="<?= esc($galeri['judul']) ?>" 
+                            class="w-full h-64 object-cover rounded-xl shadow-md border border-gray-200 group-hover:shadow-lg transition-all duration-300">
                         <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-xl transition-all duration-300 flex items-center justify-center">
-                            <a href="<?= base_url('file/galeri/' . esc($item['gambar'])); ?>" 
-                               target="_blank" 
-                               class="bg-white/90 text-gray-800 px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center space-x-2">
+                            <a href="<?= $gambarUrl ?>" 
+                            target="_blank" 
+                            class="bg-white/90 text-gray-800 px-4 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center space-x-2">
                                 <i class="fa fa-expand"></i>
                                 <span class="text-sm font-medium">Lihat Full Size</span>
                             </a>
@@ -54,13 +54,8 @@
                     <p class="text-sm text-gray-600">Klik gambar untuk melihat ukuran penuh</p>
                 </div>
                 <?php else: ?>
-                <div class="text-center py-8">
-                    <div class="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa fa-image text-gray-400 text-4xl"></i>
-                    </div>
+                
                     <h4 class="text-lg font-medium text-gray-700 mb-2">Tidak Ada Gambar</h4>
-                    <p class="text-gray-500 text-sm">Galeri ini belum memiliki gambar</p>
-                </div>
                 <?php endif; ?>
             </div>
         </div>

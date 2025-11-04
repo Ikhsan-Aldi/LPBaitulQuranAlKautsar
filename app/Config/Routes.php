@@ -36,6 +36,7 @@ $routes->get('b0/logout', 'Auth::logout');
 $routes->get('file/(:segment)/(:any)', 'Admin::tampilFile/$1/$2');
 $routes->get('show/(:any)/(:any)', 'FileController::show/$1/$2');
 $routes->get('admin/berita/image/(:any)', 'Admin::image/$1');
+$routes->get('file/galeri/(:any)', 'Admin::view_galeri/$1');
 
 $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
