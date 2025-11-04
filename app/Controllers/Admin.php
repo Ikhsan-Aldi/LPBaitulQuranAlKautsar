@@ -22,6 +22,7 @@ class Admin extends BaseController
     protected $pesanModel;
     protected $kontakModel;
     protected $beritaModel;
+    protected $uploadPath;
 
     public function __construct()
     {
@@ -30,6 +31,12 @@ class Admin extends BaseController
         $this->pesanModel = new PesanModel();
         $this->kontakModel = new KontakModel();
         $this->beritaModel = new BeritaModel();
+        $this->uploadPath = WRITEPATH . 'berita/';
+        
+        // Buat direktori jika belum ada
+        if (!is_dir($this->uploadPath)) {
+            mkdir($this->uploadPath, 0755, true);
+        }
     }
 
     // Dashboard
@@ -1293,128 +1300,228 @@ class Admin extends BaseController
     }
     
     // Berita
+
     public function berita()
     {
-        $data['berita'] = $this->beritaModel->orderBy('created_at', 'DESC')->findAll();
+        $data = [
+            'title' => 'Manajemen Berita',
+            'berita' => $this->beritaModel->orderBy('created_at', 'DESC')->findAll(),
+            'active' => 'berita'
+        ];
+
         return view('admin/berita/index', $data);
     }
 
-    public function berita_create()
+    public function tambahBerita()
     {
-        return view('admin/berita/tambah');
+        $data = [
+            'title' => 'Tambah Berita',
+            'active' => 'berita'
+        ];
+
+        return view('admin/berita/tambah', $data);
     }
 
-    public function berita_store() { $validation = \Config\Services::validation(); $validation->setRules([ 'judul' => 'required|min_length[5]|max_length[255]', 'penulis' => 'required|min_length[3]|max_length[100]', 'isi' => 'required|min_length[10]', 'foto' => 'max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]' ]); if (!$validation->withRequest($this->request)->run()) { return redirect()->back()->withInput()->with('errors', $validation->getErrors()); } try { $judul = $this->request->getPost('judul'); $slug = url_title($judul, '-', true); $isi = $this->request->getPost('isi'); $excerpt = $this->request->getPost('excerpt'); $penulis = $this->request->getPost('penulis'); $foto = $this->request->getFile('foto'); $namaFoto = null; if ($foto && $foto->isValid() && !$foto->hasMoved()) { $namaFoto = $foto->getRandomName(); $foto->move(FCPATH . 'uploads/berita', $namaFoto); } $data = [ 'judul' => $judul, 'slug' => $slug, 'isi' => $isi, 'excerpt' => $excerpt ?: $this->generateExcerpt($isi), 'penulis' => $penulis, 'foto' => $namaFoto, 'created_at' => date('Y-m-d H:i:s'), 'updated_at' => date('Y-m-d H:i:s'), ]; if (!empty($excerpt)) { $excerpt = strip_tags($excerpt); $excerpt = html_entity_decode($excerpt, ENT_QUOTES, 'UTF-8'); $excerpt = preg_replace('/\s+/', ' ', $excerpt); $excerpt = trim($excerpt); } $this->beritaModel->save($data); return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil ditambahkan!'); } catch (\Exception $e) { return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage()); } }
-
-    public function berita_edit($id)
-    {
-        $data['berita'] = $this->beritaModel->find($id);
-        if (!$data['berita']) {
-            return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
-        }
-        return view('admin/berita/edit', $data);
-    }
-
-    public function berita_update($id)
+    // Method untuk menyimpan berita baru
+    public function storeBerita()
     {
         // Validasi input
         $validation = \Config\Services::validation();
         $validation->setRules([
             'judul' => 'required|min_length[5]|max_length[255]',
             'penulis' => 'required|min_length[3]|max_length[100]',
+            'excerpt' => 'required|min_length[10]',
             'isi' => 'required|min_length[10]',
-            'foto' => 'max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]'
+            'foto' => 'uploaded[foto]|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]'
         ]);
 
         if (!$validation->withRequest($this->request)->run()) {
-            return redirect()->back()->withInput()->with('error', $validation->getErrors());
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
+        // Handle file upload
+        $foto = $this->request->getFile('foto');
+        $namaFoto = null;
+
+        if ($foto->isValid() && !$foto->hasMoved()) {
+            $namaFoto = $foto->getRandomName();
+            $foto->move($this->uploadPath, $namaFoto);
+        }
+
+        // Generate slug
+        $slug = url_title($this->request->getPost('judul'), '-', true);
+
+        // Simpan data ke database
+        $data = [
+            'judul' => $this->request->getPost('judul'),
+            'slug' => $slug,
+            'penulis' => $this->request->getPost('penulis'),
+            'excerpt' => $this->request->getPost('excerpt'),
+            'isi' => $this->request->getPost('isi'),
+            'foto' => $namaFoto,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
         try {
-            $berita = $this->beritaModel->find($id);
-            if (!$berita) {
-                return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
-            }
-
-            $foto = $this->request->getFile('foto');
-            $namaFoto = $berita['foto'];
-
-            // Handle file upload jika ada file baru
-            if ($foto && $foto->isValid() && !$foto->hasMoved()) {
-                // Hapus foto lama jika ada
-                if ($namaFoto && file_exists(WRITEPATH . 'berita', $namaFoto)) {
-                    unlink(WRITEPATH . 'berita', $namaFoto);
-                }
-
-                $namaFoto = $foto->getRandomName();
-                $foto->move(WRITEPATH . 'berita', $namaFoto);
-                
-                // Compress image
-                $this->compressImage(WRITEPATH . 'berita', $namaFoto);
-            }
-
-            $data = [
-                'judul' => $this->request->getPost('judul'),
-                'slug' => url_title($this->request->getPost('judul'), '-', true),
-                'isi' => $this->request->getPost('isi'),
-                'excerpt' => $this->request->getPost('excerpt') ?: $this->generateExcerpt($this->request->getPost('isi')),
-                'penulis' => $this->request->getPost('penulis'),
-                'foto' => $namaFoto,
-                'updated_at' => date('Y-m-d H:i:s')
-            ];
-
-            $this->beritaModel->update($id, $data);
-
-            return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil diperbarui!');
-
+            $this->beritaModel->insert($data);
+            return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil ditambahkan!');
         } catch (\Exception $e) {
-            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            // Hapus file yang sudah diupload jika gagal menyimpan ke database
+            if ($namaFoto && file_exists($this->uploadPath . $namaFoto)) {
+                unlink($this->uploadPath . $namaFoto);
+            }
+            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan berita: ' . $e->getMessage());
         }
     }
 
-    public function berita_delete($id)
+    // Method untuk menampilkan form edit berita
+    public function editBerita($id)
     {
-        try {
-            $berita = $this->beritaModel->find($id);
-            if (!$berita) {
-                return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
-            }
-
-            if ($berita['foto'] && file_exists(FCPATH . 'uploads/berita/' . $berita['foto'])) {
-                unlink(FCPATH . 'uploads/berita/' . $berita['foto']);
-            }
-
-            $this->beritaModel->delete($id);
-
-            return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil dihapus!');
-
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
-    }
-
-   public function berita_detail($id)
-    {
-        $data['berita'] = $this->beritaModel->find($id);
-        if (!$data['berita']) {
+        $berita = $this->beritaModel->find($id);
+        
+        if (!$berita) {
             return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
         }
 
-        $data['related_news'] = $this->beritaModel
-            ->where('id_berita !=', $id)
-            ->orderBy('created_at', 'DESC')
-            ->limit(3)
-            ->findAll();
+        $data = [
+            'title' => 'Edit Berita',
+            'berita' => $berita,
+            'active' => 'berita'
+        ];
+
+        return view('admin/berita/edit', $data);
+    }
+
+    // Method untuk update berita
+    public function updateBerita($id)
+    {
+        // Ambil data berita lama
+        $berita = $this->beritaModel->find($id);
+        if (!$berita) {
+            return redirect()->to(base_url('admin/berita'))->with('error', 'Data berita tidak ditemukan.');
+        }
+
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'judul'   => 'required|min_length[5]|max_length[255]',
+            'penulis' => 'required|min_length[3]|max_length[100]',
+            'excerpt' => 'required|min_length[10]',
+            'isi'     => 'required|min_length[10]',
+            'foto'    => 'if_exist|max_size[foto,2048]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]'
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+        }
+
+        // Handle file upload (jika ada foto baru)
+        $foto = $this->request->getFile('foto');
+        $namaFoto = $berita['foto']; // default: gunakan foto lama
+
+        if ($foto && $foto->isValid() && !$foto->hasMoved()) {
+            // Hapus foto lama jika ada
+            if (!empty($berita['foto']) && file_exists($this->uploadPath . $berita['foto'])) {
+                unlink($this->uploadPath . $berita['foto']);
+            }
+
+            // Simpan foto baru
+            $namaFoto = $foto->getRandomName();
+            $foto->move($this->uploadPath, $namaFoto);
+        }
+
+        // Generate slug baru (bisa juga tetap lama jika tidak berubah)
+        $slug = url_title($this->request->getPost('judul'), '-', true);
+
+        // Siapkan data untuk update
+        $data = [
+            'judul'      => $this->request->getPost('judul'),
+            'slug'       => $slug,
+            'penulis'    => $this->request->getPost('penulis'),
+            'excerpt'    => $this->request->getPost('excerpt'),
+            'isi'        => $this->request->getPost('isi'),
+            'foto'       => $namaFoto,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+
+        try {
+            $this->beritaModel->update($id, $data);
+            return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil diperbarui!');
+        } catch (\Exception $e) {
+            // Jika gagal, hapus foto baru agar tidak nyangkut di folder
+            if ($foto && $foto->isValid() && file_exists($this->uploadPath . $namaFoto)) {
+                unlink($this->uploadPath . $namaFoto);
+            }
+
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui berita: ' . $e->getMessage());
+        }
+    }
+
+
+    // Method untuk menghapus berita
+    public function deleteBerita($id)
+    {
+        $berita = $this->beritaModel->find($id);
+        
+        if (!$berita) {
+            return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
+        }
+
+        try {
+            // Hapus file foto jika ada
+            if ($berita['foto'] && file_exists(ROOTPATH . 'public/uploads/berita/' . $berita['foto'])) {
+                unlink(ROOTPATH . 'public/uploads/berita/' . $berita['foto']);
+            }
+
+            $this->beritaModel->delete($id);
+            return redirect()->to(base_url('admin/berita'))->with('success', 'Berita berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->to(base_url('admin/berita'))->with('error', 'Gagal menghapus berita: ' . $e->getMessage());
+        }
+    }
+
+    // Method untuk preview berita
+    public function previewBerita($id)
+    {
+        $berita = $this->beritaModel->find($id);
+        
+        if (!$berita) {
+            return redirect()->to(base_url('admin/berita'))->with('error', 'Berita tidak ditemukan!');
+        }
+
+        $data = [
+            'title' => $berita['judul'],
+            'berita' => $berita
+        ];
 
         return view('admin/berita/detail', $data);
     }
 
-    public function list_berita()
+    // Method untuk menampilkan gambar
+// Method untuk menampilkan gambar berita
+    public function image($filename)
     {
-        $data['berita'] = $this->beritaModel
-            ->orderBy('created_at', 'DESC')
-            ->findAll();
-        return view('berita/index', $data);
+        $filePath = WRITEPATH . 'berita/' . $filename;
+        
+        // Cek apakah file exists
+        if (!file_exists($filePath)) {
+            // Return default image jika file tidak ditemukan
+            $filePath = FCPATH . 'assets/images/default-news.jpg';
+            
+            if (!file_exists($filePath)) {
+                throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+            }
+        }
+
+        // Get file mime type
+        $mime = mime_content_type($filePath);
+        
+        // Set header dan output file
+        header('Content-Type: ' . $mime);
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+        exit();
     }
 
     private function compressImage($path, $quality = 80)

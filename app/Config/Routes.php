@@ -36,7 +36,7 @@ $routes->get('b0/logout', 'Auth::logout');
 
 $routes->get('file/(:segment)/(:any)', 'Admin::tampilFile/$1/$2');
 $routes->get('show/(:any)/(:any)', 'FileController::show/$1/$2');
-
+$routes->get('admin/berita/image/(:any)', 'Admin::image/$1');
 
 $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
@@ -125,12 +125,12 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
     // Berita
     $routes->get('berita', 'Admin::berita');
-    $routes->get('berita/create', 'Admin::berita_create');
-    $routes->post('berita/store', 'Admin::berita_store');
-    $routes->get('berita/edit/(:num)', 'Admin::berita_edit/$1');
-    $routes->post('berita/update/(:num)', 'Admin::berita_update/$1');
-    $routes->get('berita/delete/(:num)', 'Admin::berita_delete/$1');
-    $routes->get('berita/detail/(:num)', 'Admin::berita_detail/$1');
+    $routes->get('berita/tambah', 'Admin::tambahBerita');
+    $routes->post('berita/store', 'Admin::storeBerita');
+    $routes->get('berita/edit/(:num)', 'Admin::editBerita/$1');
+    $routes->post('berita/update/(:num)', 'Admin::updateBerita/$1');
+    $routes->get('berita/delete/(:num)', 'Admin::deleteBerita/$1');
+    $routes->get('berita/preview/(:num)', 'Admin::previewBerita/$1');
 
 });
 

@@ -19,6 +19,10 @@
 <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
     <style>
         /* Custom styles */
+
+        .prymary-color {
+            color: #017077;
+        }
         .navbar-transition {
             transition: all 0.3s ease;
         }

@@ -21,7 +21,17 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <i class="fa fa-exclamation-circle text-red-500"></i>
-                <span class="font-medium"><?= session()->getFlashdata('error') ?></span>
+                <div>
+                    <?php 
+                    $errors = session()->getFlashdata('error');
+                    if (is_array($errors)): 
+                        foreach ($errors as $error): ?>
+                            <span class="font-medium block"><?= $error ?></span>
+                        <?php endforeach; 
+                    else: ?>
+                        <span class="font-medium"><?= $errors ?></span>
+                    <?php endif; ?>
+                </div>
             </div>
             <button type="button" class="text-red-500 hover:text-red-700 transition-colors duration-200" onclick="this.parentElement.parentElement.remove()">
                 <i class="fa fa-times"></i>
@@ -38,31 +48,43 @@
             <!-- Judul -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Berita</label>
-                <input type="text" name="judul"
+                <input type="text" name="judul" value="<?= old('judul') ?>"
                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
                        placeholder="Masukkan judul berita">
+                <?php if (session()->getFlashdata('errors') && array_key_exists('judul', session()->getFlashdata('errors'))): ?>
+                    <p class="text-red-500 text-sm mt-1"><?= session()->getFlashdata('errors')['judul'] ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Penulis -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Penulis</label>
-                <input type="text" name="penulis"
+                <input type="text" name="penulis" value="<?= old('penulis') ?>"
                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-200"
                        placeholder="Nama penulis berita">
+                <?php if (session()->getFlashdata('errors') && array_key_exists('penulis', session()->getFlashdata('errors'))): ?>
+                    <p class="text-red-500 text-sm mt-1"><?= session()->getFlashdata('errors')['penulis'] ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Excerpt/ Ringkasan -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Ringkasan Berita</label>
-                <div id="excerpt-editor" style="height: 150px;" class="mb-4 rounded-xl border border-gray-300"></div>
-                <textarea name="excerpt" id="excerpt" class="hidden"></textarea>
+                <div id="excerpt-editor" style="height: 150px;" class="mb-4 rounded-xl border border-gray-300"><?= old('excerpt') ?></div>
+                <textarea name="excerpt" id="excerpt" class="hidden"><?= old('excerpt') ?></textarea>
+                <?php if (session()->getFlashdata('errors') && array_key_exists('excerpt', session()->getFlashdata('errors'))): ?>
+                    <p class="text-red-500 text-sm mt-1"><?= session()->getFlashdata('errors')['excerpt'] ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Isi Berita -->
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Isi Berita Lengkap</label>
-                <div id="content-editor" style="height: 400px;" class="mb-4 rounded-xl border border-gray-300"></div>
-                <textarea name="isi" id="content" class="hidden"></textarea>
+                <div id="content-editor" style="height: 400px;" class="mb-4 rounded-xl border border-gray-300"><?= old('isi') ?></div>
+                <textarea name="isi" id="content" class="hidden"><?= old('isi') ?></textarea>
+                <?php if (session()->getFlashdata('errors') && array_key_exists('isi', session()->getFlashdata('errors'))): ?>
+                    <p class="text-red-500 text-sm mt-1"><?= session()->getFlashdata('errors')['isi'] ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Upload Foto -->
@@ -79,6 +101,9 @@
                     </label>
                 </div>
                 <div id="image-preview" class="mt-4 text-center hidden"></div>
+                <?php if (session()->getFlashdata('errors') && array_key_exists('foto', session()->getFlashdata('errors'))): ?>
+                    <p class="text-red-500 text-sm mt-1"><?= session()->getFlashdata('errors')['foto'] ?></p>
+                <?php endif; ?>
             </div>
 
             <!-- Tombol -->
@@ -131,14 +156,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize content editor
     const contentQuill = new Quill('#content-editor', quillOptions);
 
+    // Set existing content if any
+    const existingExcerpt = document.getElementById('excerpt').value;
+    const existingContent = document.getElementById('content').value;
+    
+    if (existingExcerpt) {
+        excerptQuill.root.innerHTML = existingExcerpt;
+    }
+    
+    if (existingContent) {
+        contentQuill.root.innerHTML = existingContent;
+    }
+
     // Handle form submission
     const form = document.querySelector('form');
-        form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
         document.getElementById('excerpt').value = excerptQuill.root.innerHTML;
         document.getElementById('content').value = contentQuill.root.innerHTML;
 
-        console.log('Isi textarea:', document.getElementById('content').value);
-        
         // Basic validation
         const content = contentQuill.getText().trim();
         if (contentQuill.root.innerHTML.trim() === '<p><br></p>') {
@@ -146,9 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Isi berita tidak boleh kosong');
             return false;
         }
-
-        console.log("Form submitted");
-
     });
 
     // Image preview for file upload
@@ -169,8 +201,6 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.readAsDataURL(file);
         }
     });
-
-    
 });
 </script>
 

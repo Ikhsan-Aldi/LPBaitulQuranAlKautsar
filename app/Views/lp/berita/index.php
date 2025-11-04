@@ -33,7 +33,7 @@
                                  class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             <div class="absolute top-4 left-4">
-                                <span class="bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
+                                <span class="bg-[#017077] text-white px-3 py-1 rounded-full text-xs font-semibold">
                                     Berita
                                 </span>
                             </div>

@@ -21,7 +21,17 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <i class="fa fa-exclamation-circle text-red-500"></i>
-                <span class="font-medium"><?= session()->getFlashdata('error') ?></span>
+                <div>
+                    <?php 
+                    $errors = session()->getFlashdata('error');
+                    if (is_array($errors)): 
+                        foreach ($errors as $error): ?>
+                            <span class="font-medium block"><?= $error ?></span>
+                        <?php endforeach; 
+                    else: ?>
+                        <span class="font-medium"><?= $errors ?></span>
+                    <?php endif; ?>
+                </div>
             </div>
             <button type="button" class="text-red-500 hover:text-red-700 transition-colors duration-200" onclick="this.parentElement.parentElement.remove()">
                 <i class="fa fa-times"></i>
@@ -64,18 +74,11 @@
             </div>
 
             <!-- Foto Lama -->
-            <?php if (!empty($berita['foto'])): ?>
-            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                <p class="block text-sm font-semibold text-gray-700 mb-3">Foto Saat Ini:</p>
-                <div class="flex items-center space-x-4">
-                    <img src="<?= base_url('uploads/berita/'.$berita['foto']) ?>" 
-                         alt="<?= esc($berita['judul']) ?>" 
-                         class="w-32 h-32 object-cover rounded-lg shadow-md border-2 border-primary/20">
-                    <div class="text-sm text-gray-600">
-                        <p class="font-medium">Foto berita saat ini</p>
-                        <p class="text-xs mt-1">Kosongkan form upload jika tidak ingin mengganti foto</p>
-                    </div>
-                </div>
+            <?php if ($berita['foto']): ?>
+            <div class="mb-4">
+                <p class="text-sm font-medium text-gray-700 mb-2">Foto Saat Ini:</p>
+                <img src="<?= base_url('uploads/berita/' . $berita['foto']) ?>" 
+                    class="w-32 h-32 object-cover rounded-lg shadow-md border-2 border-primary/20">
             </div>
             <?php endif; ?>
 
