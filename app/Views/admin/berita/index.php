@@ -146,6 +146,8 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
 function confirmDelete(id, judul) {
     Swal.fire({
@@ -164,6 +166,7 @@ function confirmDelete(id, judul) {
     });
 }
 </script>
+
 
 <style>
 .line-clamp-1 {
