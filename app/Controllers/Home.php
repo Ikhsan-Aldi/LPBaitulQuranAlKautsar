@@ -110,9 +110,6 @@ class Home extends BaseController
         return view('lp/galeri/index', $data);
     }
     
-    
-
-
         // Method untuk form pendaftaran
         public function formPendaftaran()
         {
@@ -353,6 +350,7 @@ class Home extends BaseController
             'keyword' => $keyword
         ]);
     }
+
 
     public function cariPengumuman()
     {

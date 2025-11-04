@@ -6,7 +6,6 @@ use App\Models\PendaftaranModel;
 use App\Models\EkstrakurikulerModel;
 use App\Models\PengajarModel;
 use App\Models\SantriModel;
-use App\Models\KegiatanModel;
 use App\Models\GelombangModel;
 use App\Models\PesanModel;
 use App\Models\KontakModel;
@@ -23,11 +22,8 @@ class Admin extends BaseController
     protected $pesanModel;
     protected $kontakModel;
     protected $beritaModel;
-<<<<<<< HEAD
-    protected $jadwalKegiatanModel;
-=======
     protected $uploadPath;
->>>>>>> deca1e1517b0c50e46667a046794235612222986
+    protected $jadwalKegiatanModel;
 
     public function __construct()
     {
@@ -36,16 +32,13 @@ class Admin extends BaseController
         $this->pesanModel = new PesanModel();
         $this->kontakModel = new KontakModel();
         $this->beritaModel = new BeritaModel();
-<<<<<<< HEAD
-        $this->jadwalKegiatanModel = new JadwalKegiatanModel();
-=======
         $this->uploadPath = WRITEPATH . 'berita/';
         
         // Buat direktori jika belum ada
         if (!is_dir($this->uploadPath)) {
             mkdir($this->uploadPath, 0755, true);
         }
->>>>>>> deca1e1517b0c50e46667a046794235612222986
+        $this->jadwalKegiatanModel = new JadwalKegiatanModel();
     }
 
     // Dashboard
@@ -903,7 +896,6 @@ public function galeri_simpan()
         mkdir($uploadPath, 0777, true);
     }
     
-<<<<<<< HEAD
     $uploadedFile = $this->request->getFile('gambar');
     if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
         $newName = $uploadedFile->getRandomName();
@@ -911,55 +903,7 @@ public function galeri_simpan()
         $fileData['gambar'] = $newName;
     } else {
         $fileData['gambar'] = null;
-=======
-    public function galeri_simpan()
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        
-        $rules = [
-            'judul' => 'required|min_length[3]|max_length[255]',
-            'kategori' => 'required|in_list[kegiatan,fasilitas,prestasi]',
-            'tanggal' => 'permit_empty|valid_date',
-            'gambar' => 'permit_empty|uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,jpg,jpeg,png,gif]'
-        ];
-        
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-        
-        $fileData = [];
-        $uploadPath = WRITEPATH . 'galeri/';
-
-        if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0777, true);
-        }
-        
-        $uploadedFile = $this->request->getFile('gambar');
-        if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
-            $newName = $uploadedFile->getRandomName();
-            $uploadedFile->move($uploadPath, $newName);
-            $fileData['gambar'] = $newName;
-        } else {
-            $fileData['gambar'] = null;
-        }
-        
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'kategori' => $this->request->getPost('kategori'),
-            'gambar' => $fileData['gambar'],
-            'tanggal' => $this->request->getPost('tanggal') ?: date('Y-m-d'),
-            'status' => $this->request->getPost('status') ?: 'aktif'
-        ];
-        
-        if ($galeriModel->save($data)) {
-            return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil ditambahkan');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Gagal menambahkan galeri');
-        }
->>>>>>> deca1e1517b0c50e46667a046794235612222986
     }
-
     
     $data = [
         'judul'      => $this->request->getPost('judul'),
@@ -986,7 +930,6 @@ public function galeri_edit($id)
         return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
     }
     
-<<<<<<< HEAD
     $data = [
         'title'  => 'Edit Galeri',
         'galeri' => $galeri
@@ -1013,85 +956,6 @@ public function galeri_update($id)
     
     if (!$this->validate($rules)) {
         return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-=======
-    public function galeri_update($id)
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->find($id);
-        
-        if (!$galeri) {
-            return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
-        }
-        
-        $rules = [
-            'judul' => 'required|min_length[3]|max_length[255]',
-            'kategori' => 'required|in_list[kegiatan,fasilitas,prestasi]',
-            'tanggal' => 'permit_empty|valid_date',
-            'gambar' => 'permit_empty|uploaded[gambar]|max_size[gambar,2048]|ext_in[gambar,jpg,jpeg,png,gif]'
-        ];
-        
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
-        }
-        
-        $fileData = [];
-        $uploadPath = WRITEPATH . 'galeri/';
-        
-        if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0777, true);
-        }
-        
-        $uploadedFile = $this->request->getFile('gambar');
-        if ($uploadedFile && $uploadedFile->isValid() && !$uploadedFile->hasMoved()) {
-            if ($galeri['gambar'] && file_exists($uploadPath . $galeri['gambar'])) {
-                unlink($uploadPath . $galeri['gambar']);
-            }
-            
-            $newName = $uploadedFile->getRandomName();
-            $uploadedFile->move($uploadPath, $newName);
-            $fileData['gambar'] = $newName;
-        } else {
-            $fileData['gambar'] = $galeri['gambar']; 
-        }
-        
-        $data = [
-            'judul' => $this->request->getPost('judul'),
-            'deskripsi' => $this->request->getPost('deskripsi'),
-            'kategori' => $this->request->getPost('kategori'),
-            'gambar' => $fileData['gambar'],
-            'tanggal' => $this->request->getPost('tanggal') ?: date('Y-m-d'),
-            'status' => $this->request->getPost('status') ?: 'aktif'
-        ];
-        
-        if ($galeriModel->update($id, $data)) {
-            return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil diperbarui');
-        } else {
-            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui galeri');
-        }
-    }
-    
-    public function galeri_hapus($id)
-    {
-        $galeriModel = new \App\Models\GaleriModel();
-        $galeri = $galeriModel->find($id);
-        
-        if (!$galeri) {
-            return redirect()->to('/admin/galeri')->with('error', 'Galeri tidak ditemukan');
-        }
-        
-        if ($galeri['gambar']) {
-            $uploadPath = WRITEPATH . 'galeri/';
-            if (file_exists($uploadPath . $galeri['gambar'])) {
-                unlink($uploadPath . $galeri['gambar']);
-            }
-        }
-        
-        if ($galeriModel->delete($id)) {
-            return redirect()->to('/admin/galeri')->with('success', 'Galeri berhasil dihapus');
-        } else {
-            return redirect()->to('/admin/galeri')->with('error', 'Gagal menghapus galeri');
-        }
->>>>>>> deca1e1517b0c50e46667a046794235612222986
     }
     
     $fileData = [];
@@ -1169,21 +1033,6 @@ public function galeri_detail($id)
     
     return view('admin/galeri/detail', $data);
 }
-
-
-    public function view_galeri($filename)
-    {
-        $path = WRITEPATH . 'galeri/' . $filename;
-
-        if (!file_exists($path)) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException("File tidak ditemukan: " . esc($filename));
-        }
-
-        $mime = mime_content_type($path);
-        header("Content-Type: $mime");
-        readfile($path);
-        exit;
-    }
 
 
     //PENGATURAN KONTAK
