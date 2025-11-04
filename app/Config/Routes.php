@@ -33,7 +33,6 @@ $routes->get('pendaftaran/pengumuman-pdf/(:num)', 'Home::exportPendaftarPdf/$1')
 $routes->get('b0/login', 'Auth::index');
 $routes->post('b0/login/submit', 'Auth::submit');
 $routes->get('b0/logout', 'Auth::logout');
-
 $routes->get('file/(:segment)/(:any)', 'Admin::tampilFile/$1/$2');
 $routes->get('show/(:any)/(:any)', 'FileController::show/$1/$2');
 $routes->get('admin/berita/image/(:any)', 'Admin::image/$1');
