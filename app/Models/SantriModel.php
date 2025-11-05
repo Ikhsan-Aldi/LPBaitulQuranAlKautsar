@@ -13,7 +13,6 @@ class SantriModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'id',
         'id_pendaftaran',
         'nama_lengkap',
         'jenis_kelamin',
@@ -21,6 +20,7 @@ class SantriModel extends Model
         'tanggal_lahir',
         'nis',
         'nisn',
+        'nama',
         'jenjang',
         'asal_sekolah',
         'alamat',
@@ -63,7 +63,6 @@ class SantriModel extends Model
 
     protected $validationMessages = [
         'nis' => [
-            'required' => 'NIS harus diisi',
             'is_unique' => 'NIS sudah digunakan oleh santri lain.'
         ],
         'nama_lengkap' => [
@@ -82,10 +81,54 @@ class SantriModel extends Model
 
     protected $skipValidation = false;
 
-    // Callbacks - Simplified
+    // Callbacks
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
-    protected $beforeUpdate   = [];
+    protected $beforeInsert   = ['generateNIS', 'setTanggalDaftar'];
+    protected $beforeUpdate   = ['updateTimestamp'];
+
+    /**
+     * Generate NIS otomatis jika tidak diisi
+     */
+    protected function generateNIS(array $data)
+    {
+        if (empty($data['data']['nis'])) {
+            $tahun = date('Y');
+            $lastSantri = $this->orderBy('id', 'DESC')->first();
+            
+            if ($lastSantri && !empty($lastSantri['nis'])) {
+                $lastNIS = $lastSantri['nis'];
+                $lastNumber = (int) substr($lastNIS, -4);
+                $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+            } else {
+                $newNumber = '0001';
+            }
+            
+            $data['data']['nis'] = 'S' . $tahun . $newNumber;
+        }
+        
+        return $data;
+    }
+
+    /**
+     * Set tanggal daftar otomatis
+     */
+    protected function setTanggalDaftar(array $data)
+    {
+        if (empty($data['data']['tanggal_daftar'])) {
+            $data['data']['tanggal_daftar'] = date('Y-m-d H:i:s');
+        }
+        
+        return $data;
+    }
+
+    /**
+     * Update timestamp sebelum update
+     */
+    protected function updateTimestamp(array $data)
+    {
+        $data['data']['updated_at'] = date('Y-m-d H:i:s');
+        return $data;
+    }
 
     /**
      * Get santri by NIS
@@ -109,6 +152,16 @@ class SantriModel extends Model
     public function getAktif()
     {
         return $this->where('status', 'Aktif')->findAll();
+    }
+
+    /**
+     * Get santri dengan data pendaftaran (jika ada)
+     */
+    public function getWithPendaftaran()
+    {
+        return $this->select('santri.*, pendaftaran.nama_lengkap as nama_pendaftaran, pendaftaran.jenjang as jenjang_pendaftaran')
+                    ->join('pendaftaran', 'pendaftaran.id_pendaftaran = santri.id_pendaftaran', 'left')
+                    ->findAll();
     }
 
     /**
@@ -157,6 +210,25 @@ class SantriModel extends Model
     }
 
     /**
+     * Get santri with pagination
+     */
+    public function getPaginated($perPage = 10)
+    {
+        return $this->orderBy('created_at', 'DESC')
+                    ->paginate($perPage);
+    }
+
+    /**
+     * Get recent santri
+     */
+    public function getRecent($limit = 5)
+    {
+        return $this->orderBy('created_at', 'DESC')
+                    ->limit($limit)
+                    ->findAll();
+    }
+
+    /**
      * Import data santri dari pendaftaran
      */
     public function importFromPendaftaran($idPendaftaran)
@@ -171,7 +243,7 @@ class SantriModel extends Model
         // Cek apakah sudah ada santri dengan id_pendaftaran ini
         $existingSantri = $this->where('id_pendaftaran', $idPendaftaran)->first();
         if ($existingSantri) {
-            return false;
+            return $existingSantri;
         }
 
         $data = [
@@ -201,12 +273,8 @@ class SantriModel extends Model
         
         if ($lastSantri && !empty($lastSantri['nis'])) {
             $lastNIS = $lastSantri['nis'];
-            if (preg_match('/\d+/', $lastNIS, $matches)) {
-                $lastNumber = (int) end($matches);
-                $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
-            } else {
-                $newNumber = '0001';
-            }
+            $lastNumber = (int) substr($lastNIS, -4);
+            $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
         } else {
             $newNumber = '0001';
         }

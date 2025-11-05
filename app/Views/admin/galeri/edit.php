@@ -144,7 +144,7 @@
                                     Gambar Saat Ini
                                 </label>
                                 <div class="relative group">
-                                    <img src="<?= base_url('uploads/galeri/' . $galeri['gambar']) ?>" 
+                                    <img src="<?= base_url('file/galeri/' . $galeri['gambar']) ?>" 
                                          alt="<?= esc($galeri['judul']) ?>" 
                                          class="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm">
                                     <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200 rounded-lg flex items-center justify-center">

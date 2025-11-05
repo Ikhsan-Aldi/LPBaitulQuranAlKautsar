@@ -43,10 +43,18 @@ class Home extends BaseController
     public function program()
     {
         $ekstrakurikulerModel = new \App\Models\EkstrakurikulerModel();
+        $jadwalModel = new \App\Models\JadwalKegiatanModel();
     
+        // Ambil dan kelompokkan jadwal berdasarkan klasifikasi
         $data = [
             'title' => 'Program - Baitul Quran Al-Kautsar',
-            'ekstrakurikuler' => $ekstrakurikulerModel->getWithIconMapping()
+            'ekstrakurikuler' => $ekstrakurikulerModel->getWithIconMapping(),
+            'jadwal' => [
+                'pagi'  => $jadwalModel->where('klasifikasi', 'pagi')->orderBy('waktu_mulai', 'ASC')->findAll(),
+                'siang' => $jadwalModel->where('klasifikasi', 'siang')->orderBy('waktu_mulai', 'ASC')->findAll(),
+                'sore'  => $jadwalModel->where('klasifikasi', 'sore')->orderBy('waktu_mulai', 'ASC')->findAll(),
+                'malam' => $jadwalModel->where('klasifikasi', 'malam')->orderBy('waktu_mulai', 'ASC')->findAll(),
+            ]
         ];
     
         return view('lp/program/index', $data);
@@ -81,64 +89,31 @@ class Home extends BaseController
     public function galeri()
     {
         $galeriModel = new \App\Models\GaleriModel();
-        $kegiatanModel = new \App\Models\KegiatanModel();
-        $fotoModel = new \App\Models\KegiatanFotoModel();
-
+    
         // Ambil semua data galeri aktif
         $galeri = $galeriModel->getAktif();
-
-        // Perbaiki path untuk galeri
+    
+        // Siapkan data galeri dengan path gambar yang benar
         $galeriItems = [];
         foreach ($galeri as $g) {
             $path = WRITEPATH . 'galeri/' . $g['gambar'];
             $galeriItems[] = [
-                'kategori'   => 'galeri',
+                'kategori'   => strtolower(trim($g['kategori'] ?? 'lainnya')), // ✅ ambil dari database
                 'judul'      => $g['judul'],
                 'deskripsi'  => $g['deskripsi'] ?? null,
                 'tanggal'    => $g['tanggal'] ?? null,
                 'gambar'     => (!empty($g['gambar']) && file_exists($path)) ? $g['gambar'] : null,
             ];
         }
-
-        // Ambil semua kegiatan
-        $kegiatan = $kegiatanModel->findAll();
-        $kegiatanItems = [];
-
-        foreach ($kegiatan as $row) {
-            // Ambil semua foto untuk setiap kegiatan
-            $fotos = $fotoModel->where('id_kegiatan', $row['id'])->findAll();
-
-            if (!empty($fotos)) {
-                foreach ($fotos as $foto) {
-                    $path = WRITEPATH . 'kegiatan/' . $foto['file_name'];
-                    $kegiatanItems[] = [
-                        'kategori'   => 'kegiatan',
-                        'judul'      => $row['judul'],
-                        'deskripsi'  => $row['deskripsi'] ?? null,
-                        'tanggal'    => $row['tanggal'] ?? null,
-                        'gambar'     => (!empty($foto['file_name']) && file_exists($path)) ? $foto['file_name'] : null,
-                    ];
-                }
-            } else {
-                // Kalau tidak ada foto, tetap tampilkan placeholder
-                $kegiatanItems[] = [
-                    'kategori'   => 'kegiatan',
-                    'judul'      => $row['judul'],
-                    'deskripsi'  => $row['deskripsi'] ?? null,
-                    'tanggal'    => $row['tanggal'] ?? null,
-                    'gambar'     => null,
-                ];
-            }
-        }
-
-        // Gabungkan galeri + kegiatan
-        $data['galeri'] = array_merge($galeriItems, $kegiatanItems);
-        $data['title'] = 'Galeri - Baitul Quran Al-Kautsar';
-
+    
+        $data = [
+            'title'  => 'Galeri - Baitul Quran Al-Kautsar',
+            'galeri' => $galeriItems,
+        ];
+    
         return view('lp/galeri/index', $data);
     }
-
-
+    
         // Method untuk form pendaftaran
         public function formPendaftaran()
         {
@@ -379,6 +354,7 @@ class Home extends BaseController
             'keyword' => $keyword
         ]);
     }
+
 
     public function cariPengumuman()
     {
