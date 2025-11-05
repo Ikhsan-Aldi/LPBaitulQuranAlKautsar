@@ -432,11 +432,12 @@ class Home extends BaseController
 
         $donasiModel = new \App\Models\DonasiModel();
         $donasiModel->insert([
-            'nama_donatur' => $this->request->getPost('nama_donatur'),
+            'nama' => $this->request->getPost('nama'),
             'email' => $this->request->getPost('email'),
             'nominal' => $this->request->getPost('nominal'),
             'pesan' => $this->request->getPost('pesan'),
-            'bukti' => $newName,
+            'bukti_transfer' => $newName,
+            'bank_tujuan' => $this->request->getPost('bank_tujuan'),
             'status' => 'Menunggu Konfirmasi'
         ]);
 

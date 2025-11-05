@@ -63,7 +63,8 @@
                                     <img src="<?= base_url('file/rekening/' . $r['gambar']) ?>" 
                                          alt="QRIS <?= esc($r['bank']) ?>" 
                                          class="mx-auto w-32 h-32 sm:w-40 sm:h-40 object-contain rounded-lg border-2 border-gray-200 shadow-sm">
-                                    <p class="text-xs sm:text-sm text-gray-500 mt-2">Scan QRIS untuk donasi</p>
+                                    <p class="text-xs sm:text-sm text-gray-500 mt-2 mb-2">Scan QRIS untuk donasi</p>
+                                    <h3 class="text-lg sm:text-xl font-bold text-[#017077]">QRIS</h3>
                                 </div>
                             <?php else: ?>
                                 <div class="bg-[#017077]/10 w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
@@ -83,7 +84,7 @@
                             <?php endif; ?>
                             
                             <div class="space-y-1">
-                                <p class="text-gray-700 text-sm sm:text-base">
+                                <p class="text-gray-700 text-sm sm:text-base ">
                                     <span class="font-semibold">a.n.</span> <?= esc($r['atas_nama']) ?>
                                 </p>
                                 <span class="inline-block px-3 py-1 rounded-full text-xs font-medium 
@@ -131,7 +132,7 @@
                         <label class="block text-gray-700 font-semibold mb-3 text-sm sm:text-base">
                             Nama Donatur <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" name="nama_donatur" required
+                        <input type="text" name="nama" required
                                class="w-full border border-gray-300 rounded-xl p-3 sm:p-4 focus:ring-2 focus:ring-[#017077] focus:border-[#017077] transition-all duration-200 text-sm sm:text-base"
                                placeholder="Masukkan nama lengkap donatur">
                     </div>
@@ -155,6 +156,24 @@
                                class="w-full border border-gray-300 rounded-xl p-3 sm:p-4 focus:ring-2 focus:ring-[#017077] focus:border-[#017077] transition-all duration-200 text-sm sm:text-base"
                                placeholder="Contoh: 100000">
                         <p class="text-gray-500 text-xs sm:text-sm mt-2">Minimal donasi: Rp 1.000</p>
+                    </div>
+
+                    <!-- Bank Tujuan -->
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-3 text-sm sm:text-base">
+                            Bank Tujuan Donasi <span class="text-red-500">*</span>
+                        </label>
+                        <select name="bank_tujuan" required
+                                class="w-full border border-gray-300 rounded-xl p-3 sm:p-4 focus:ring-2 focus:ring-[#017077] focus:border-[#017077] transition-all duration-200 text-sm sm:text-base">
+                            <option value="" disabled selected>-- Pilih Bank Tujuan --</option>
+                            <?php foreach ($rekening_donasi as $r): ?>
+                                <?php if ($r['status'] === 'Aktif'): ?>
+                                    <option value="<?= esc($r['id']) ?>">
+                                        <?= esc($r['bank']) ?> - a.n. <?= esc($r['atas_nama']) ?>
+                                    </option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <!-- Pesan atau Doa -->

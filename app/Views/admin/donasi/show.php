@@ -103,11 +103,10 @@
                 
                 <?php if ($donasi['bukti_transfer']): ?>
                     <div class="relative group">
-                        <img src="<?= base_url('uploads/donasi/'.$donasi['bukti_transfer']) ?>" 
-                             alt="Bukti Transfer" 
+                        <img src="<?= base_url('donasi/bukti/' . $donasi['bukti_transfer']) ?>" alt="Bukti Transfer" 
                              class="w-full rounded-lg border-2 border-gray-200 shadow-sm group-hover:shadow-md transition-all duration-200">
                         <div class="absolute inset-0 bg-primary/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-                            <a href="<?= base_url('uploads/donasi/'.$donasi['bukti_transfer']) ?>" 
+                            <a href="<?= base_url('donasi/bukti/'.$donasi['bukti_transfer']) ?>" 
                                target="_blank" 
                                class="bg-white/90 p-3 rounded-full shadow-lg transform hover:scale-110 transition-transform duration-200">
                                 <i class="fa fa-expand text-primary-dark"></i>

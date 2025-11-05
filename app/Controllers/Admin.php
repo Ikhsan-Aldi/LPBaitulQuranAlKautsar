@@ -1584,26 +1584,62 @@ public function galeri_detail($id)
 
     public function donasi()
     {
+        $donasiModel = new DonasiModel();
+
+        $donasi = $donasiModel
+            ->select('donasi.*, rekening_donasi.bank AS bank_tujuan')
+            ->join('rekening_donasi', 'rekening_donasi.id = donasi.bank_tujuan', 'left')
+            ->orderBy('donasi.created_at', 'DESC')
+            ->findAll();
+
         $data = [
             'title' => 'Data Donasi',
-            'donasi' => $this->donasiModel->orderBy('created_at', 'DESC')->findAll()
+            'donasi' => $donasi
         ];
+
         return view('admin/donasi/index', $data);
     }
+
+    public function viewBukti($filename)
+    {
+        $path = WRITEPATH . 'donasi/' . $filename;
+        if (!file_exists($path)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('File tidak ditemukan.');
+        }
+
+        $mime = mime_content_type($path);
+        header("Content-Type: $mime");
+        readfile($path);
+        exit;
+    }
+
 
     public function donasi_show($id)
     {
         $donasi = $this->donasiModel->find($id);
+
         if (!$donasi) {
-            return redirect()->to('/admin/donasi')->with('error', 'Data donasi tidak ditemukan');
+            return redirect()->to('/admin/donasi')->with('error', 'Data donasi tidak ditemukan.');
+        }
+
+        // Jika kamu punya model rekening (bank tujuan)
+        $rekeningModel = new \App\Models\RekeningDonasiModel();
+        $rekening = null;
+        if (!empty($donasi['bank_tujuan'])) {
+            $rekening = $rekeningModel
+                ->where('bank', $donasi['bank_tujuan'])
+                ->first();
         }
 
         $data = [
             'title' => 'Detail Donasi',
-            'donasi' => $donasi
+            'donasi' => $donasi,
+            'rekening' => $rekening
         ];
+
         return view('admin/donasi/show', $data);
     }
+
 
     public function donasi_updateStatus($id)
     {
@@ -1620,9 +1656,7 @@ public function galeri_detail($id)
     }
 
 
-    /////////////////////////////
-    //==Jadwal Kegiatan==//
-    /////////////////////////////
+    // Jadwal Kegiatan
     public function jadwalkegiatan()
     {
         $data = [

@@ -87,7 +87,8 @@
                         </td>
                         <td class="py-4 px-6">
                             <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                <?= $d['status'] == 'Terverifikasi' ? 'bg-green-100 text-green-800' : 
+                                <?= 
+                                    $d['status'] == 'Terverifikasi' ? 'bg-green-100 text-green-800' : 
                                    ($d['status'] == 'Ditolak' ? 'bg-red-100 text-red-800' : 
                                    'bg-yellow-100 text-yellow-800') ?>">
                                 <?= esc($d['status']) ?>
