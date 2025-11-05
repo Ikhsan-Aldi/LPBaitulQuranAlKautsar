@@ -30,6 +30,7 @@ class Admin extends BaseController
     protected $rekeningModel;
 
     public function __construct()
+    {
         $this->pendaftaranModel = new PendaftaranModel();
         $this->gelombangModel = new GelombangModel();
         $this->pesanModel = new PesanModel();
@@ -56,7 +57,7 @@ class Admin extends BaseController
         $ditolak = $this->pendaftaranModel->where('status', 'Ditolak')->countAllResults();
         $data[] = $santriModel->findAll();
         $totalPengajar = (new PengajarModel())->countAllResults();
-        $totalKegiatan = (new KegiatanModel())->countAllResults();
+        $totalKegiatan = (new JadwalKegiatanModel())->countAllResults();
         $recentRegistrations = $this->pendaftaranModel
             ->orderBy('tanggal_daftar', 'DESC')
             ->limit(5)
