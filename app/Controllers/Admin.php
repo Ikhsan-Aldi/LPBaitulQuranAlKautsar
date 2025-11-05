@@ -11,6 +11,8 @@ use App\Models\GelombangModel;
 use App\Models\PesanModel;
 use App\Models\KontakModel;
 use App\Models\BeritaModel;
+use App\Models\DonasiModel;
+use App\Models\RekeningDonasiModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Dompdf\Dompdf;
@@ -23,6 +25,9 @@ class Admin extends BaseController
     protected $kontakModel;
     protected $beritaModel;
     protected $uploadPath;
+    protected $donasiModel;
+    protected $rekeningModel;
+    
 
     public function __construct()
     {
@@ -31,6 +36,8 @@ class Admin extends BaseController
         $this->pesanModel = new PesanModel();
         $this->kontakModel = new KontakModel();
         $this->beritaModel = new BeritaModel();
+        $this->donasiModel = new DonasiModel();
+        $this->rekeningModel = new RekeningDonasiModel();
         $this->uploadPath = WRITEPATH . 'berita/';
         
         // Buat direktori jika belum ada
@@ -1474,8 +1481,6 @@ class Admin extends BaseController
         }
     }
 
-
-    // Method untuk menghapus berita
     public function deleteBerita($id)
     {
         $berita = $this->beritaModel->find($id);
@@ -1485,7 +1490,6 @@ class Admin extends BaseController
         }
 
         try {
-            // Hapus file foto jika ada
             if ($berita['foto'] && file_exists(ROOTPATH . 'public/uploads/berita/' . $berita['foto'])) {
                 unlink(ROOTPATH . 'public/uploads/berita/' . $berita['foto']);
             }
@@ -1497,7 +1501,6 @@ class Admin extends BaseController
         }
     }
 
-    // Method untuk preview berita
     public function previewBerita($id)
     {
         $berita = $this->beritaModel->find($id);
@@ -1514,8 +1517,6 @@ class Admin extends BaseController
         return view('admin/berita/detail', $data);
     }
 
-    // Method untuk menampilkan gambar
-// Method untuk menampilkan gambar berita
     public function image($filename)
     {
         $filePath = WRITEPATH . 'berita/' . $filename;
@@ -1582,15 +1583,20 @@ class Admin extends BaseController
 
     public function tampilFile($folder, $filename)
     {
-        $allowedFolders = ['pengajar', 'berita', 'galeri', 'kegiatan', 'pendaftaran', 'santri', 'berkas'];
+        // Daftar folder yang diizinkan di dalam writable/
+        $allowedFolders = ['pengajar', 'berita', 'galeri', 'kegiatan', 'pendaftaran', 'santri', 'berkas', 'donasi', 'rekening'];
+
+        // Cegah akses folder yang tidak diizinkan
         if (!in_array($folder, $allowedFolders)) {
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Folder tidak diizinkan.');
         }
 
+        // Path ke file di dalam writable/
         $path = WRITEPATH . $folder . '/' . $filename;
 
+        // Jika file tidak ditemukan, arahkan ke gambar default
         if (!file_exists($path)) {
-            $default = FCPATH . 'assets/img/no-image.png'; 
+            $default = FCPATH . 'assets/img/no-image.png';
             if (file_exists($default)) {
                 $path = $default;
             } else {
@@ -1598,12 +1604,15 @@ class Admin extends BaseController
             }
         }
 
+        // Ambil MIME type untuk response
         $mime = mime_content_type($path);
 
+        // Kirim file ke browser
         return $this->response
             ->setHeader('Content-Type', $mime)
             ->setBody(file_get_contents($path));
     }
+
 
     public function exportPendaftarPdf()
     {
@@ -1663,6 +1672,162 @@ class Admin extends BaseController
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
         exit;
+    }
+
+    // Rekening Donasi
+    public function rekening()
+    {
+        $model = new \App\Models\RekeningDonasiModel();
+        $data = [
+            'title' => 'Daftar Rekening Donasi',
+            'rekening' => $model->findAll()
+        ];
+
+        return view('admin/rekening/index', $data);
+    }
+
+    public function rekeningStore()
+    {
+        $model = new \App\Models\RekeningDonasiModel();
+
+        $jenis = $this->request->getPost('jenis');
+        $file = $this->request->getFile('gambar');
+        $gambarName = null;
+
+        // Buat folder simpan gambar
+        $targetPath = WRITEPATH . 'rekening/';
+        if (!is_dir($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+
+        // Upload gambar hanya untuk QRIS
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $gambarName = $file->getRandomName();
+            $file->move($targetPath, $gambarName);
+        }
+
+        $data = [
+            'jenis' => $jenis,
+            'bank' => $this->request->getPost('bank') ?? null,
+            'nomor_rekening' => $this->request->getPost('nomor_rekening') ?? null,
+            'atas_nama' => $this->request->getPost('atas_nama') ?? null,
+            'gambar' => $gambarName,
+            'status' => $this->request->getPost('status')
+        ];
+
+        $model->insert($data);
+
+        return redirect()->to(base_url('admin/rekening'))
+            ->with('success', 'Data donasi berhasil ditambahkan.');
+    }
+
+
+    public function rekening_create()
+    {
+        $data['title'] = 'Tambah Rekening Donasi';
+        return view('admin/rekening/create', $data);
+    }
+
+    public function rekening_edit($id)
+    {
+        $data = [
+            'title' => 'Edit Rekening Donasi',
+            'rekening' => $this->rekeningModel->find($id)
+        ];
+        return view('admin/rekening/edit', $data);
+    }
+
+    public function rekening_update($id)
+    {
+        $this->rekeningModel->update($id, [
+            'bank' => $this->request->getPost('bank'),
+            'nomor_rekening' => $this->request->getPost('nomor_rekening'),
+            'atas_nama' => $this->request->getPost('atas_nama'),
+            'status' => $this->request->getPost('status')
+        ]);
+
+        return redirect()->to('/admin/rekening')->with('success', 'Rekening donasi berhasil diperbarui.');
+    }
+
+    public function rekening_delete($id)
+    {
+        $this->rekeningModel->delete($id);
+        return redirect()->to('/admin/rekening')->with('success', 'Rekening donasi berhasil dihapus.');
+    }
+
+    public function uploadRekening()
+    {
+        $file = $this->request->getFile('gambar');
+
+        if (!$file || !$file->isValid()) {
+            return redirect()->back()->with('error', 'File tidak valid atau belum dipilih.');
+        }
+
+        // Validasi tipe file (opsional tapi disarankan)
+        $validExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+        if (!in_array($file->getExtension(), $validExtensions)) {
+            return redirect()->back()->with('error', 'Hanya file gambar yang diperbolehkan (JPG, PNG, WEBP).');
+        }
+
+        // Pastikan folder tujuan ada
+        $targetPath = WRITEPATH . 'rekening/';
+        if (!is_dir($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+
+        // Simpan dengan nama acak agar unik
+        $newName = $file->getRandomName();
+        $file->move($targetPath, $newName);
+
+        // Simpan ke database rekening (contoh)
+        $rekeningModel = new RekeningDonasiModel();
+        $rekeningModel->insert([
+            'nama_bank' => $this->request->getPost('nama_bank'),
+            'no_rekening' => $this->request->getPost('no_rekening'),
+            'atas_nama' => $this->request->getPost('atas_nama'),
+            'gambar' => $newName
+        ]);
+
+        return redirect()->back()->with('success', 'Data rekening berhasil disimpan.');
+    }
+
+    // Donasi
+
+    public function donasi()
+    {
+        $data = [
+            'title' => 'Data Donasi',
+            'donasi' => $this->donasiModel->orderBy('created_at', 'DESC')->findAll()
+        ];
+        return view('admin/donasi/index', $data);
+    }
+
+    public function donasi_show($id)
+    {
+        $donasi = $this->donasiModel->find($id);
+        if (!$donasi) {
+            return redirect()->to('/admin/donasi')->with('error', 'Data donasi tidak ditemukan');
+        }
+
+        $data = [
+            'title' => 'Detail Donasi',
+            'donasi' => $donasi
+        ];
+        return view('admin/donasi/show', $data);
+    }
+
+    public function donasi_updateStatus($id)
+    {
+        $status = $this->request->getPost('status');
+        $this->donasiModel->update($id, ['status' => $status]);
+
+        return redirect()->to('/admin/donasi')->with('success', 'Status donasi berhasil diperbarui.');
+    }
+
+    public function donasi_delete($id)
+    {
+        $this->donasiModel->delete($id);
+        return redirect()->to('/admin/donasi')->with('success', 'Data donasi berhasil dihapus.');
     }
 
 }

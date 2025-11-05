@@ -143,6 +143,14 @@
             <i class="fa fa-newspaper w-6 text-center"></i>
             <span>Berita</span>
         </a>
+        <a href="<?= base_url('admin/donasi') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'donasi' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-donate w-6 text-center"></i>
+            <span>Donasi</span>
+        </a>
+        <a href="<?= base_url('admin/rekening') ?>" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-primary-light <?= service('uri')->getSegment(2) == 'rekening' ? 'bg-primary-light' : '' ?>">
+            <i class="fa fa-university w-6 text-center"></i>
+            <span>Rekening Donasi</span>
+        </a>
     </div>
 
     <!-- Footer Tetap di Bawah -->
