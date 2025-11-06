@@ -51,7 +51,6 @@ class Admin extends BaseController
         $ditolak = $this->pendaftaranModel->where('status', 'Ditolak')->countAllResults();
         $data[] = $santriModel->findAll();
         $totalPengajar = (new PengajarModel())->countAllResults();
-        $totalKegiatan = (new KegiatanModel())->countAllResults();
         $recentRegistrations = $this->pendaftaranModel
             ->orderBy('tanggal_daftar', 'DESC')
             ->limit(5)
@@ -64,7 +63,6 @@ class Admin extends BaseController
             'ditolak' => $ditolak,
             'santri' => $data,
             'totalPengajar' => $totalPengajar,
-            'totalKegiatan' => $totalKegiatan,
             'recentRegistrations' => $recentRegistrations
         ];
 
