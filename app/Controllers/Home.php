@@ -4,18 +4,22 @@ namespace App\Controllers;
 use App\Models\GelombangModel;
 use App\Models\EkstrakurikulerModel;
 use App\Models\BeritaModel;
+use App\Models\RekeningDonasiModel;
 
 class Home extends BaseController
 {
     protected $gelombangModel;
     protected $pendaftaranModel;
     protected $beritaModel;
+    protected $rekeningModel;
+
 
     public function __construct()
     {
         $this->gelombangModel = new \App\Models\GelombangModel();
         $this->pendaftaranModel = new \App\Models\PendaftaranModel();
         $this->beritaModel = new \App\Models\BeritaModel(); 
+        $this->rekeningModel = new \App\Models\RekeningDonasiModel();
     }
 
     public function index()
@@ -391,4 +395,53 @@ class Home extends BaseController
         $dompdf->render();
         $dompdf->stream('daftar_santri_diterima.pdf', ["Attachment" => true]);
     }
+
+    public function donasi()
+    {
+        $rekeningModel = new \App\Models\RekeningDonasiModel();
+
+        $data = [
+            'title' => 'Donasi',
+            'rekening_donasi' => $rekeningModel->findAll()
+        ];
+
+        return view('lp/donasi/index', $data);
+    }
+
+
+    public function uploadBuktiDonasi()
+    {
+        $file = $this->request->getFile('bukti');
+
+        if (!$file || !$file->isValid()) {
+            return redirect()->back()->with('error', 'File tidak valid atau belum dipilih.');
+        }
+
+        $validExtensions = ['jpg', 'jpeg', 'png', 'pdf'];
+        if (!in_array($file->getExtension(), $validExtensions)) {
+            return redirect()->back()->with('error', 'Hanya file gambar atau PDF yang diperbolehkan.');
+        }
+
+        $targetPath = WRITEPATH . 'donasi/';
+        if (!is_dir($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+
+        $newName = $file->getRandomName();
+        $file->move($targetPath, $newName);
+
+        $donasiModel = new \App\Models\DonasiModel();
+        $donasiModel->insert([
+            'nama' => $this->request->getPost('nama'),
+            'email' => $this->request->getPost('email'),
+            'nominal' => $this->request->getPost('nominal'),
+            'pesan' => $this->request->getPost('pesan'),
+            'bukti_transfer' => $newName,
+            'bank_tujuan' => $this->request->getPost('bank_tujuan'),
+            'status' => 'Menunggu Konfirmasi'
+        ]);
+
+        return redirect()->to('/donasi')->with('success', 'Bukti donasi berhasil dikirim. Terima kasih atas donasinya!');
+    }
+
 }

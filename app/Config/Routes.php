@@ -24,6 +24,9 @@ $routes->get('berita/(:segment)', 'Home::berita_detail/$1');
 $routes->get('pendaftaran/pengumuman', 'Home::pengumuman');
 $routes->post('pendaftaran/pengumuman', 'Home::cariPengumuman');
 $routes->get('pendaftaran/pengumuman-pdf/(:num)', 'Home::exportPendaftarPdf/$1');
+$routes->get('donasi', 'Home::donasi');
+$routes->post('donasi/upload', 'Home::uploadBuktiDonasi');
+
 
 
 
@@ -37,6 +40,8 @@ $routes->get('file/(:segment)/(:any)', 'Admin::tampilFile/$1/$2');
 $routes->get('show/(:any)/(:any)', 'FileController::show/$1/$2');
 $routes->get('admin/berita/image/(:any)', 'Admin::image/$1');
 $routes->get('file/galeri/(:any)', 'Admin::view_galeri/$1');
+$routes->get('donasi/bukti/(:any)', 'Admin::viewBukti/$1');
+
 
 $routes->group('admin', ['filter' => 'auth'], function($routes) {
 
@@ -131,6 +136,23 @@ $routes->group('admin', ['filter' => 'auth'], function($routes) {
     $routes->post('berita/update/(:num)', 'Admin::updateBerita/$1');
     $routes->get('berita/delete/(:num)', 'Admin::deleteBerita/$1');
     $routes->get('berita/preview/(:num)', 'Admin::previewBerita/$1');
+
+    // Rekening Donasi
+    $routes->get('rekening', 'Admin::rekening');
+    $routes->get('rekening/create', 'Admin::rekening_create');
+    $routes->post('rekening/store', 'Admin::rekeningStore');
+    $routes->get('rekening/edit/(:num)', 'Admin::rekening_edit/$1');
+    $routes->post('rekening/update/(:num)', 'Admin::rekening_update/$1');
+    $routes->get('rekening/delete/(:num)', 'Admin::rekening_delete/$1');
+    $routes->post('/upload-rekening', 'Admin::uploadRekening');
+
+
+    // Donasi
+    $routes->get('donasi', 'Admin::donasi');
+    $routes->get('donasi/show/(:num)', 'Admin::donasi_show/$1');
+    $routes->post('donasi/updateStatus/(:num)', 'Admin::donasi_updateStatus/$1');
+    $routes->get('donasi/delete/(:num)', 'Admin::donasi_delete/$1');
+
 
     //Jadwal kegiatan
     $routes->get('jadwalkegiatan', 'Admin::jadwalkegiatan');
